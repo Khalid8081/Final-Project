@@ -5,7 +5,7 @@ public class Customer {
 	private String lastName;
 	private String phoneNumber;
 	private ArrayList<Ticket> customerTickets;
-
+ 
 	public Customer(String firstName, String lastName, String phoneNumber) {
 		setFirstName(firstName);
 		setLastName(lastName);

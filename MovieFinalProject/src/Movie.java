@@ -4,7 +4,7 @@ public class Movie {
 	String genre;
 	String mpaaRating;
 	String[] showTimes;
-	
+	 
 	public Movie(String title, String genre, String mpaaRating, String[] times) {
 		this.title=title;
 		this.genre=genre;
