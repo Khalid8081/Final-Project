@@ -3,7 +3,7 @@ public class Ticket {
 	private	String seat;
 	private Movie movie;
 	private double price;
-	  
+	   
 	Ticket(String seat, Movie movie, double price){
 		setSeat(seat);
 		setMovie(movie);
