@@ -1,15 +1,16 @@
-import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class Customer {
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
-	private ArrayList<Ticket> customerTickets;
+	private PriorityQueue<Ticket> customerTickets;
    
 	public Customer(String firstName, String lastName, String phoneNumber) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhoneNumber(phoneNumber);
+		customerTickets = new PriorityQueue<Ticket>();
 	}
 	//sorting methods will go here
 
@@ -40,11 +41,11 @@ public class Customer {
 		}
 	}
 
-	public ArrayList<Ticket> getCustomerTickets() {
+	public PriorityQueue<Ticket> getCustomerTickets() {
 		return customerTickets;
 	}
 
-	public void setCustomerTickets(ArrayList<Ticket> customerTickets) {
+	public void setCustomerTickets(PriorityQueue<Ticket> customerTickets) {
 		this.customerTickets = customerTickets;
 	}
 
