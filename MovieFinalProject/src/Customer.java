@@ -5,14 +5,13 @@ public class Customer {
 	private String lastName;
 	private String phoneNumber;
 	private PriorityQueue<Ticket> customerTickets;
-   
+     
 	public Customer(String firstName, String lastName, String phoneNumber) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhoneNumber(phoneNumber);
 		customerTickets = new PriorityQueue<Ticket>();
 	}
-	//sorting methods will go here
 
 	public String getFirstName() {
 		return firstName;

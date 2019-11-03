@@ -4,14 +4,11 @@ public class Ticket implements Comparable<Ticket> {
 	private	String seat;
 	private Movie movie;
 	private double price;
-	
-	private Date showtime;
-	   
-	Ticket(String seat, Movie movie, double price, Date showtime){
+
+	Ticket(String seat, Movie movie, double price){
 		setSeat(seat);
 		setMovie(movie);
 		setPrice(price);
-		setShowtime(showtime);
 	}
 
 	public String getSeat() {
@@ -37,18 +34,10 @@ public class Ticket implements Comparable<Ticket> {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	public Date getShowtime() {
-		return showtime;
-	}
-	
-	public void setShowtime(Date showtime) {
-		this.showtime = showtime;
-	}
 
 	@Override
 	public int compareTo(Ticket o) {
-		return showtime.compareTo(o.showtime);
+		return movie.showTime.compareTo(o.movie.showTime);
 	}
 
 }
