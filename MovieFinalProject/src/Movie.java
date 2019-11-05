@@ -44,8 +44,7 @@ public class Movie {
 		this.showTimes = showTimes;
 	}
 
-
-
+	
 	/*Create a collection of movies with only the given genres
 	 * Parameters:
 	 * 	Collection<Movie> movies	- the collection of movies to be searched
@@ -56,7 +55,7 @@ public class Movie {
 	 * 
 	 * NOTE: the genres can be chosen in the gui using check boxes
 	 */
-	public static Collection<Movie> getGenres(Collection<Movie> movies, String...genres) {
+	public static Collection<Movie> filterGenres(Collection<Movie> movies, String...genres) {
 		Iterator<Movie> list = movies.iterator();
 		Collection<Movie> selectedMovies = new LinkedList<Movie>();
 		while (list.hasNext()) {
@@ -78,7 +77,7 @@ public class Movie {
 	 * 
 	 * NOTE: the ratings can be chosen from the gui using check boxes
 	 */
-	public static Collection<Movie> getRatings(Collection<Movie> movies, String...ratings) {
+	public static Collection<Movie> filterRatings(Collection<Movie> movies, String...ratings) {
 		Iterator<Movie> list = movies.iterator();
 		Collection<Movie> selectedMovies = new LinkedList<Movie>();
 		while (list.hasNext()) {
