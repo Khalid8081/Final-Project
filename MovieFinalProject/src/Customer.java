@@ -12,8 +12,6 @@ public class Customer {
 		setPhoneNumber(phoneNumber);
 		customerTickets = new PriorityQueue<Ticket>();
 	}
-	//sorting methods will go here
-
 	public String getFirstName() {
 		return firstName;
 	}

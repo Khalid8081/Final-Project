@@ -1,5 +1,6 @@
 
 public class Movie {
+	
 	String title;
 	String genre;
 	String mpaaRating;

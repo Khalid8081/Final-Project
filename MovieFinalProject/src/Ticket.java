@@ -1,6 +1,7 @@
 import java.util.Date;
 
 public class Ticket implements Comparable<Ticket> {
+	
 	private	String seat;
 	private Movie movie;
 	private double price;
