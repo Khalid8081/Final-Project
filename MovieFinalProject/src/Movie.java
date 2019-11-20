@@ -2,20 +2,29 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 public class Movie {
 	private String title;
 	private String genre;
 	private String mpaaRating;
+	private int runtime;
+	
+	private GregorianCalendar premiere;
+	private GregorianCalendar finale;
 	private String[] showTimes;
 	   
-	public Movie(String title, String genre, String mpaaRating, String[] times) {
-		this.title=title;
-		this.genre=genre;
-		this.mpaaRating=mpaaRating;
-		this.showTimes=times;
+	public Movie(String title, String genre, String mpaaRating, int runtime, 
+			GregorianCalendar premiere, GregorianCalendar finale, String[] times) {
+		this.title = title;
+		this.genre = genre;
+		this.mpaaRating = mpaaRating;
+		this.runtime = runtime;
+		
+		this.premiere = premiere;
+		this.finale = finale;
+		this.showTimes = times;
 	}
 	
 	
@@ -39,6 +48,27 @@ public class Movie {
 	public void setMpaaRating(String mpaaRating) {
 		this.mpaaRating = mpaaRating;
 	}
+	
+	public int getRuntime() {
+		return runtime;
+	}
+	public void setRuntime(int runtime) {
+		this.runtime = runtime;
+	}
+	
+	public GregorianCalendar getPremiere() {
+		return premiere;
+	}
+	public void setPremiere(GregorianCalendar premiere) {
+		this.premiere = premiere;
+	}
+	
+	public GregorianCalendar getFinale() {
+		return finale;
+	}
+	public void setFinale(GregorianCalendar finale) {
+		this.finale = finale;
+	}
 
 	public String[] getShowTimes() {
 		return showTimes;
@@ -48,7 +78,33 @@ public class Movie {
 	}
 	
 	
+	/*
+	 * 
+	 */
+	public static Collection<Movie> onScreen(Collection<Movie> movies) {
+		Collection<Movie> onScreen = new LinkedList<Movie>();
+		
+		GregorianCalendar now = new GregorianCalendar();
+		for (Movie movie : movies)
+			if (movie.premiere.compareTo(now) <= 0 && movie.finale.compareTo(now) > 0)
+				onScreen.add(movie);
+		
+		return onScreen;
+	}
 	
+	/*
+	 * 
+	 */
+	public static Collection<Movie> comingSoon(Collection<Movie> movies) {
+		Collection<Movie> comingSoon = new LinkedList<Movie>();
+		
+		GregorianCalendar now = new GregorianCalendar();
+		for (Movie movie : movies)
+			if (movie.premiere.compareTo(now) > 0)
+				comingSoon.add(movie);
+		
+		return comingSoon;
+	}
 	
 	/*Sort collection of movies alphabetically
 	 * Parameters:
@@ -71,6 +127,26 @@ public class Movie {
 		return movieList;
 	}
 	
+	/*Search through a collection of movies by title
+	 * Parameters:
+	 * 	Collection<Movie> movies
+	 * 		- a collection of movies to be searched
+	 * 	String target
+	 * 		- the sequence to be found
+	 * 
+	 * Returns a collection of movies. Each movie contains an instance of the 
+	 * 	target string
+	 */
+	public static Collection<Movie> searchTitles(Collection<Movie> movies, String target) {
+		Collection<Movie> targets = new LinkedList<Movie>();
+
+		for (Movie movie : movies) 
+			if (movie.title.contains(target))
+				targets.add(movie);
+		
+		return targets;
+	}
+	
 	/*Create a collection of movies with only the given genres
 	 * Parameters:
 	 * 	Collection<Movie> movies	- the collection of movies to be searched
@@ -82,17 +158,12 @@ public class Movie {
 	 * NOTE: the genres can be chosen in the gui using check boxes
 	 */
 	public static Collection<Movie> filterGenres(Collection<Movie> movies, String...genres) {
-		Iterator<Movie> list;
 		Collection<Movie> selectedMovies = new LinkedList<Movie>();
 		
-		for (String acceptableGenre : genres) {
-			list = movies.iterator();
-			while (list.hasNext()) {
-				Movie movie = list.next();
+		for (String acceptableGenre : genres)
+			for (Movie movie : movies) 
 				if (movie.genre.equals(acceptableGenre))
 					selectedMovies.add(movie);
-			}
-		}
 		
 		return selectedMovies;
 	}
@@ -109,17 +180,12 @@ public class Movie {
 	 * NOTE: the ratings can be chosen from the gui using check boxes
 	 */
 	public static Collection<Movie> filterRatings(Collection<Movie> movies, String...ratings) {
-		Iterator<Movie> list;
 		Collection<Movie> selectedMovies = new LinkedList<Movie>();
 		
-		for (String acceptableRating : ratings) {
-			list = movies.iterator();
-			while (list.hasNext()) {
-				Movie movie = list.next();
+		for (String acceptableRating : ratings)
+			for (Movie movie : movies) 
 				if (movie.mpaaRating.equals(acceptableRating))
 					selectedMovies.add(movie);
-			}
-		}
 		
 		return selectedMovies;	
 	}
