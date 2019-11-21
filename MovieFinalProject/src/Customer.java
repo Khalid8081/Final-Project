@@ -14,6 +14,9 @@ public class Customer {
 		setBalance(balance);
 		customerTickets = new PriorityQueue<Ticket>();
 	}
+	
+	//Need total, tax, and subtotal methods for Customer's tickets
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -32,6 +35,15 @@ public class Customer {
 		}
 	}
 
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		if(phoneNumber!=null || phoneNumber!="") {
+			this.phoneNumber = phoneNumber;
+		}
+	}
+	
 	public double getBalance() {
 		return balance;
 	}
@@ -39,15 +51,6 @@ public class Customer {
 	public void setBalance(double balance) {
 		if(balance >= 0) {
 			this.balance = balance;
-		}
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	public void setPhoneNumber(String phoneNumber) {
-		if(phoneNumber!=null || phoneNumber!="") {
-			this.phoneNumber = phoneNumber;
 		}
 	}
 

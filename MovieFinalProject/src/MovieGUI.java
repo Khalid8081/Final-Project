@@ -213,7 +213,6 @@ public class MovieGUI {
 		frame.getContentPane().add(homeButton, gbc_homeButton);
 		
 		JButton cartButton = new JButton("Add to Cart");
-		
 		cartButton.setBackground(Color.WHITE);
 		cartButton.setForeground(Color.BLACK);
 		cartButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));

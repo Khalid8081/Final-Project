@@ -38,11 +38,9 @@ public class TheaterAppGUI {
 	Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie3_OnceUpon.jpg")));
 	Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon(getClass().getResource("Movie4_LionKing.jpg")));
 	Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon(getClass().getResource("Movie5_Avengers.jpg")));
-	
 	Movie[] movies = {movie1, movie2, movie3, movie4, movie5};
 	
 	public Collection<Movie> movieCollection = new LinkedList<Movie>();// We want to use a Collection so we can use the sorting methods
-	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -58,13 +56,11 @@ public class TheaterAppGUI {
 	}
 	
 	public TheaterAppGUI()  {
-		//adding movies to the collection
 		movieCollection.add(movie1);
 		movieCollection.add(movie2);
 		movieCollection.add(movie3);
 		movieCollection.add(movie4);
 		movieCollection.add(movie4);
-		
 		initialize(); 
 	}
 		
@@ -91,7 +87,7 @@ public class TheaterAppGUI {
 		gbc_movieTheaterLabel.gridy = 1;
 		frame.getContentPane().add(movieTheaterLabel, gbc_movieTheaterLabel);
 		
-		JLabel searchLabel = new JLabel("Search: "); //L
+		JLabel searchLabel = new JLabel("Search: ");
 		searchLabel.setBackground(Color.WHITE);
 		searchLabel.setFont(new Font("HelveticaNeue", Font.BOLD, 18));
 		searchLabel.setForeground(Color.BLACK);
@@ -111,7 +107,7 @@ public class TheaterAppGUI {
 		frame.getContentPane().add(searchTextField, gbc_searchTextField);
 		searchTextField.setColumns(10);
 		
-		JButton enterButton = new JButton("Enter");//B
+		JButton enterButton = new JButton("Enter");
 		enterButton.setBackground(Color.WHITE);
 		enterButton.setForeground(Color.BLACK);
 		enterButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
@@ -122,7 +118,6 @@ public class TheaterAppGUI {
 		gbc_enterButton.gridy = 2;
 		enterButton.addActionListener(new SearchListener()); 	//SearchListener() not implemented
 		frame.getContentPane().add(enterButton, gbc_enterButton);
-		
 		
 		JLabel nowShowingLabel = new JLabel("Now Showing:");
 		nowShowingLabel.setBackground(Color.WHITE);
