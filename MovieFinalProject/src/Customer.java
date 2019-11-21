@@ -4,12 +4,14 @@ public class Customer {
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
+	private double balance;
 	private PriorityQueue<Ticket> customerTickets;
    
-	public Customer(String firstName, String lastName, String phoneNumber) {
+	public Customer(String firstName, String lastName, String phoneNumber, double balance) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhoneNumber(phoneNumber);
+		setBalance(balance);
 		customerTickets = new PriorityQueue<Ticket>();
 	}
 	public String getFirstName() {
@@ -27,6 +29,16 @@ public class Customer {
 	public void setLastName(String lastName) {
 		if(lastName!=null || lastName!="") {
 			this.lastName = lastName;
+		}
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+	
+	public void setBalance(double balance) {
+		if(balance >= 0) {
+			this.balance = balance;
 		}
 	}
 
