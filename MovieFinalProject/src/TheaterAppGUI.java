@@ -29,6 +29,7 @@ public class TheaterAppGUI {
 
 	private JFrame frame;
 	public String sortOption;
+	public String chooseOption;
 	public JComboBox comboBox;
 	public JComboBox comboBox_1;
 	private static final int WIDTH = 1600;
@@ -196,11 +197,13 @@ public class TheaterAppGUI {
 		gbc_btnChoose.insets = new Insets(0, 0, 0, 5);
 		gbc_btnChoose.gridx = 3;
 		gbc_btnChoose.gridy = 6;
+		btnChoose.addActionListener(new MovieListener());
 		frame.getContentPane().add(btnChoose, gbc_btnChoose);
 		GridBagConstraints gbc_movie1Button = new GridBagConstraints();
 		gbc_movie1Button.insets = new Insets(20, 120, 20, 20);
 		gbc_movie1Button.gridx = 1;
 		gbc_movie1Button.gridy = 6;
+		
 //		frame.getContentPane().add(movie1Button, gbc_movie1Button);
 //		JButton movie2Button = new JButton("2");
 //		movie2Button.setBackground(Color.WHITE);
@@ -344,33 +347,37 @@ public class TheaterAppGUI {
 		}
 	}
 	
-//	private class MovieListener implements ActionListener //Send object of Movie as parameter so we can build the correct movie window
-//	{
-//		public void actionPerformed(ActionEvent e) 
-//		{
-//			if(e.getActionCommand() == "1") {
-//				MovieGUI newMovieWindow = new MovieGUI(movies[0]);
-//				newMovieWindow.NewScreen(movies[0]);
-//			}
-//			else if(e.getActionCommand() == "2") {
-//				MovieGUI newMovieWindow = new MovieGUI(movies[1]);
-//				newMovieWindow.NewScreen(movies[1]);
-//			}
-//			else if(e.getActionCommand() == "3") {
-//				MovieGUI newMovieWindow = new MovieGUI(movies[2]);
-//				newMovieWindow.NewScreen(movies[2]);
-//			}
-//			else if(e.getActionCommand() == "4") {
-//				MovieGUI newMovieWindow = new MovieGUI(movies[3]);
-//				newMovieWindow.NewScreen(movies[3]);
-//			}
-//			else if(e.getActionCommand() == "5") {
-//				MovieGUI newMovieWindow = new MovieGUI(movies[4]);
-//				newMovieWindow.NewScreen(movies[4]);
-//			}
-//		}
-//	}
-//	
+	private class MovieListener implements ActionListener //Send object of Movie as parameter so we can build the correct movie window
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			
+			
+			chooseOption= (String)comboBox_1.getSelectedItem();
+			
+			if(chooseOption.equals(movie1.getTitle())){
+				MovieGUI newMovieWindow = new MovieGUI(movies[0]);
+				newMovieWindow.NewScreen(movies[0]);
+			}
+			else if(chooseOption.equals(movie2.getTitle())) {
+				MovieGUI newMovieWindow = new MovieGUI(movies[1]);
+				newMovieWindow.NewScreen(movies[1]);
+			}
+			else if(chooseOption.equals(movie3.getTitle())) {
+				MovieGUI newMovieWindow = new MovieGUI(movies[2]);
+				newMovieWindow.NewScreen(movies[2]);
+			}
+			else if(chooseOption.equals(movie4.getTitle())) {
+				MovieGUI newMovieWindow = new MovieGUI(movies[3]);
+				newMovieWindow.NewScreen(movies[3]);
+			}
+			else if(chooseOption.equals(movie5.getTitle())) {
+				MovieGUI newMovieWindow = new MovieGUI(movies[4]);
+				newMovieWindow.NewScreen(movies[4]);
+			}
+		}
+	}
+	
 	private class CheckoutListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
