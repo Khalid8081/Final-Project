@@ -5,7 +5,7 @@ public class Ticket implements Comparable<Ticket> {
 	private	String seat;
 	private Movie movie;
 	private double price;
-	
+	 
 	private Date showtime;
 	   
 	Ticket(String seat, Movie movie, double price, Date showtime){

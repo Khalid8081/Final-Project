@@ -22,16 +22,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 
 public class TheaterAppGUI {
 
-	private JFrame frame;
+	public JFrame frame;
 	public String sortOption;
 	public String chooseOption;
 	public JComboBox comboBox;
 	public JComboBox comboBox_1;
+	
+	public static Customer customer;
+	
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 1050;
 	private static final String CARD1 = "A-Z";
@@ -46,11 +50,11 @@ public class TheaterAppGUI {
 	private JTextField searchTextField;
 	
 	private String[] showtimes = {"6:00", "6:30", "7:00", "7:30"};					 //Can adjust showtimes, just have it like this for now
-	Movie movie1 = new Movie("JOKER", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie1_Joker.jpg")));
-	Movie movie2 = new Movie("Midsommar", "Thriller", "R", showtimes, new ImageIcon(getClass().getResource("Movie2_Midsommar.jpg")));
-	Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie3_OnceUpon.jpg")));
-	Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon(getClass().getResource("Movie4_LionKing.jpg")));
-	Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon(getClass().getResource("Movie5_Avengers.jpg")));
+	Movie movie1 = new Movie("JOKER", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie1_Joker.jpg")),13.09);
+	Movie movie2 = new Movie("Midsommar", "Thriller", "R", showtimes, new ImageIcon(getClass().getResource("Movie2_Midsommar.jpg")),10.02);
+	Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie3_OnceUpon.jpg")),9.15);
+	Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon(getClass().getResource("Movie4_LionKing.jpg")),13.03);
+	Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon(getClass().getResource("Movie5_Avengers.jpg")),12.03);
 	Movie[] movies = {movie1, movie2, movie3, movie4, movie5};
 	
 	public Collection<Movie> movieCollection = new LinkedList<Movie>();// We want to use a Collection so we can use the sorting methods
@@ -257,16 +261,16 @@ public class TheaterAppGUI {
 //		gbc_movie5Button.gridy = 6;
 //		frame.getContentPane().add(movie5Button, gbc_movie5Button);
 		
-//		JButton checkoutButton = new JButton("Checkout");
-//		checkoutButton.setBackground(Color.WHITE);
-//		checkoutButton.setForeground(Color.BLACK);
-//		checkoutButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
-//		checkoutButton.addActionListener(new CheckoutListener());
-//		GridBagConstraints gbc_checkoutButton = new GridBagConstraints();
-//		gbc_checkoutButton.insets = new Insets(5, 20, 10, 5);
-//		gbc_checkoutButton.gridx = 5;
-//		gbc_checkoutButton.gridy = 8;
-//		frame.getContentPane().add(checkoutButton, gbc_checkoutButton);
+		JButton checkoutButton = new JButton("Checkout");
+		checkoutButton.setBackground(Color.WHITE);
+		checkoutButton.setForeground(Color.BLACK);
+		checkoutButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		checkoutButton.addActionListener(new CheckoutListener());
+		GridBagConstraints gbc_checkoutButton = new GridBagConstraints();
+		gbc_checkoutButton.insets = new Insets(5, 20, 10, 5);
+		gbc_checkoutButton.gridx = 5;
+		gbc_checkoutButton.gridy = 8;
+		frame.getContentPane().add(checkoutButton, gbc_checkoutButton);
 
 	}
 
@@ -352,7 +356,7 @@ public class TheaterAppGUI {
 		public void actionPerformed(ActionEvent e) 
 		{
 			
-			
+			 
 			chooseOption= (String)comboBox_1.getSelectedItem();
 			
 			if(chooseOption.equals(movie1.getTitle())){
@@ -375,6 +379,9 @@ public class TheaterAppGUI {
 				MovieGUI newMovieWindow = new MovieGUI(movies[4]);
 				newMovieWindow.NewScreen(movies[4]);
 			}
+			else {
+				JOptionPane.showMessageDialog(frame, "Please choose a movie first!");
+			}
 		}
 	}
 	
@@ -384,8 +391,13 @@ public class TheaterAppGUI {
 		{
 			CheckoutGUI newCheckoutWindow = new CheckoutGUI();
 			newCheckoutWindow.NewScreen();
-		}
+			
+			Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
+			while(iterator.hasNext()){
+				newCheckoutWindow.ticketString=newCheckoutWindow.ticketString+iterator.next().getMovie().getTitle()+"\n";
+			}
 	}
 	
 
+}
 }

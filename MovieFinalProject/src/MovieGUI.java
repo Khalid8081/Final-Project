@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -15,6 +16,11 @@ import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +31,12 @@ import javax.swing.JPanel;
 
 public class MovieGUI {
 
+	public static boolean accountCreated=false;
+	public ButtonGroup showtimesButtons = new ButtonGroup();
+	public JComboBox seatsComboBox;
+	public Movie selectedMovie;
+	
+	
 	private JFrame frame;
 	private String seats [] = {"1A", "1B", "1C","1D", "2A", "2B", "2C", "2D", "3A",
 								"3B", "3C",	"3D", "4A",	"4B", "4C", "4D", "5A", "5B", "5C", "5D", "6A",			//Possibly store in Movie class? making seats another attribute to a Movie
@@ -44,6 +56,7 @@ public class MovieGUI {
 	}
 
 	public MovieGUI(Movie movie) {
+		selectedMovie=movie;
 		initialize(movie);
 	}
 
@@ -90,7 +103,6 @@ public class MovieGUI {
 		gbl_infoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		infoPanel.setLayout(gbl_infoPanel);
 		
-		ButtonGroup showtimesButtons = new ButtonGroup();
 		
 		JLabel movieTitleLabel = new JLabel(movie.getTitle());
 		GridBagConstraints gbc_movieTitleLabel = new GridBagConstraints();
@@ -138,7 +150,7 @@ public class MovieGUI {
 		showtimesLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
 		showtimesLabel.setForeground(Color.BLACK);
 		
-		JRadioButton showtimes1Button = new JRadioButton("6:00");    //Showtime radio buttons would then need an action listener
+		JRadioButton showtimes1Button = new JRadioButton("6:00 PM");    //Showtime radio buttons would then need an action listener
 		GridBagConstraints gbc_showtimes1Button = new GridBagConstraints();
 		gbc_showtimes1Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes1Button.insets = new Insets(0, 0, 5, 5);
@@ -148,7 +160,7 @@ public class MovieGUI {
 		showtimes1Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes1Button);
 		
-		JRadioButton showtimes2Button = new JRadioButton("6:30");
+		JRadioButton showtimes2Button = new JRadioButton("6:30 PM");
 		GridBagConstraints gbc_showtimes2Button = new GridBagConstraints();
 		gbc_showtimes2Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes2Button.insets = new Insets(0, 0, 5, 5);
@@ -158,7 +170,7 @@ public class MovieGUI {
 		showtimes2Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes2Button);
 		
-		JRadioButton showtimes3Button = new JRadioButton("7:00");
+		JRadioButton showtimes3Button = new JRadioButton("7:00 PM");
 		GridBagConstraints gbc_showtimes3Button = new GridBagConstraints();
 		gbc_showtimes3Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes3Button.insets = new Insets(0, 0, 5, 5);
@@ -168,7 +180,7 @@ public class MovieGUI {
 		showtimes3Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes3Button);
 		
-		JRadioButton showtimes4Button = new JRadioButton("7:30");
+		JRadioButton showtimes4Button = new JRadioButton("7:30 PM");
 		GridBagConstraints gbc_showtimes4Button = new GridBagConstraints();
 		gbc_showtimes4Button.anchor = GridBagConstraints.NORTHWEST;
 		gbc_showtimes4Button.insets = new Insets(0, 0, 5, 5);
@@ -189,7 +201,7 @@ public class MovieGUI {
 		seatsLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
 		seatsLabel.setForeground(Color.BLACK);
 		
-		JComboBox seatsComboBox = new JComboBox(seats);
+		seatsComboBox = new JComboBox(seats);
 		GridBagConstraints gbc_seatsComboBox = new GridBagConstraints();
 		gbc_seatsComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_seatsComboBox.insets = new Insets(0, 0, 0, 5);
@@ -232,16 +244,56 @@ public class MovieGUI {
 			frame.dispose();
 		}
 	}
-	
+	 
 	private class CartListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
+			Date movieTime=null;
+			DateFormat dateformat;
+			String selectedShowTime;
+			String seat= (String)seatsComboBox.getSelectedItem();
+			Double price= selectedMovie.getPrice();
+			
+	        for (Enumeration<AbstractButton> buttons = showtimesButtons.getElements(); buttons.hasMoreElements();) {
+	            AbstractButton button = buttons.nextElement();
+
+	            if (button.isSelected()) {
+	            	
+	            	selectedShowTime = button.getText();
+	            	dateformat = new SimpleDateFormat("hh:mm a");
+	            	
+	            	try {
+						movieTime= dateformat.parse(selectedShowTime);
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+	            	
+	            }
+	        }
+	        
+			if(accountCreated==false) {
+				SignInGUI newSignUpWindow = new SignInGUI();
+				newSignUpWindow.NewScreen();
+			}
 			//Add ticket to user's cart
 			//Update the total, tax, and subtotal text areas on CheckoutGUI window (not visible but being updated as user interacts with program)
 			
 			//Need dialog if there is an error
-			JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!"); //Dialog saying it was added successfully
+			
+			
+			//To do: make sure that the user cannot add a seat to a ticket that was chosen before.
+			else{
+				if(TheaterAppGUI.customer.getBalance()>price) {
+					TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
+					Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
+					TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
+					JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!");
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "Low balance!");
+				}
+			}
 		}
 	}
 

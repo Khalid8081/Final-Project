@@ -6,7 +6,7 @@ public class Customer {
 	private String phoneNumber;
 	private double balance;
 	private PriorityQueue<Ticket> customerTickets;
-   
+    
 	public Customer(String firstName, String lastName, String phoneNumber, double balance) {
 		setFirstName(firstName);
 		setLastName(lastName);

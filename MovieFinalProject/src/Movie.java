@@ -11,18 +11,28 @@ public class Movie {
 	private String title;
 	private String genre;
 	private String mpaaRating;
+	private Double price;
 	private String[] showTimes;
 	private ImageIcon poster;
 	//seats
-	   
-	public Movie(String title, String genre, String mpaaRating, String[] times, ImageIcon poster) {
-		this.title = title;
-		this.genre = genre;
-		this.mpaaRating = mpaaRating;
-		this.showTimes = times;
-		this.poster = poster;
-	}
+	 
 	
+	public Movie(String title, String genre, String mpaaRating, String[] times, ImageIcon poster, double price) {
+		setTitle(title);
+		setGenre(genre);
+		setMpaaRating(mpaaRating);
+		setShowTimes(times);
+		setPoster(poster);
+		setPrice(price);
+	}
+	public double getPrice() {
+		return price;
+	}
+ 
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public String getTitle() {
 		return title;
 	}
