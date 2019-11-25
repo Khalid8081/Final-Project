@@ -25,7 +25,7 @@ public class CheckoutGUI {
 	public JTextArea totalTextArea;
 	public JTextArea taxTextArea;
 	public JTextArea subtotalTextArea;
-	public static JTextArea ticketTextArea;
+	public JTextArea ticketTextArea;
 	public static String ticketString=""; //Will be used for the ticket textArea //Look at TheaterAppGUI's checkout listener for more
 	
 
