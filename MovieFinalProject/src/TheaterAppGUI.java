@@ -26,8 +26,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-
+ 
+ 
 public class TheaterAppGUI {
 
 	public JFrame frame;
@@ -36,6 +36,7 @@ public class TheaterAppGUI {
 	public JComboBox sortComboBox;
 	public JComboBox movieComboBox;
 	public CheckoutGUI newCheckoutWindow;
+	public String movieTitleSearch;
 	
 	public static Customer customer;
 	
@@ -54,11 +55,11 @@ public class TheaterAppGUI {
 	
 	private String[] showtimes = {"6:00", "6:30", "7:00", "7:30"};	//Can adjust showtimes, just have it like this for now
 	
-	Movie movie1 = new Movie("JOKER", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie1_Joker.jpg")),13.09);
-	Movie movie2 = new Movie("Midsommar", "Thriller", "R", showtimes, new ImageIcon(getClass().getResource("Movie2_Midsommar.jpg")),10.02);
-	Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie3_OnceUpon.jpg")),9.15);
-	Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon(getClass().getResource("Movie4_LionKing.jpg")),13.03);
-	Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon(getClass().getResource("Movie5_Avengers.jpg")),12.03);
+	public Movie movie1 = new Movie("JOKER", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie1_Joker.jpg")),13.09);
+	public Movie movie2 = new Movie("Midsommar", "Thriller", "R", showtimes, new ImageIcon(getClass().getResource("Movie2_Midsommar.jpg")),10.02);
+	public Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie3_OnceUpon.jpg")),9.15);
+	public Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon(getClass().getResource("Movie4_LionKing.jpg")),13.03);
+	public Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon(getClass().getResource("Movie5_Avengers.jpg")),12.03);
 	
 	Movie[] movies = {movie1, movie2, movie3, movie4, movie5};
 	public Collection<Movie> movieCollection = new LinkedList<Movie>(); // We want to use a Collection so we can use the sorting methods
@@ -268,11 +269,19 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			//Will be worked on soon
-				//Needs to be case-insensitive
-				//If movie is found, do we want the GUI to then immediate create and display the MovieGUI for that movie?
-				//and if movie is not found, display a pop up dialog saying Movie Not Found or whatever?
-			String movieTitleSearch = searchTextField.getText();
+			movieTitleSearch = searchTextField.getText();
+			for(int i=0;i<movies.length;i++) {
+				if(movieTitleSearch.equals(movies[i].getTitle())) {
+					MovieGUI newMovieWindow = new MovieGUI(movies[i]);
+					newMovieWindow.NewScreen(movies[i]);
+					break;
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "Movie not found!");
+					break;
+				}
+
+			}
 
 		}
 	}
@@ -346,7 +355,7 @@ public class TheaterAppGUI {
 		public void actionPerformed(ActionEvent e) 
 		{
 			chooseOption= (String)movieComboBox.getSelectedItem();
-			
+			try {
 			if(chooseOption.equals(movie1.getTitle())){
 				MovieGUI newMovieWindow = new MovieGUI(movies[0]);
 				newMovieWindow.NewScreen(movies[0]);
@@ -370,6 +379,10 @@ public class TheaterAppGUI {
 			else {
 				JOptionPane.showMessageDialog(frame, "Please choose a movie first!");
 			}
+			}
+			catch(NullPointerException e2) {
+				JOptionPane.showMessageDialog(frame, "Select a movie first!");
+			}
 		}
 	}
 	
@@ -377,12 +390,18 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
+			newCheckoutWindow.ticketString=""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
+			
+			try {
 			newCheckoutWindow = new CheckoutGUI();
 			newCheckoutWindow.NewScreen();
-			
 			Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
 			while(iterator.hasNext()){
 				newCheckoutWindow.ticketString=newCheckoutWindow.ticketString+iterator.next().getMovie().getTitle()+"\n";
+			}
+			}
+			catch(NullPointerException e1) {
+				JOptionPane.showMessageDialog(frame, "Cannot checkout with empty cart!");
 			}
 		}
 	}
