@@ -33,6 +33,7 @@ public class TheaterAppGUI {
 	public String chooseOption;
 	public JComboBox comboBox;
 	public JComboBox comboBox_1;
+	public CheckoutGUI newCheckoutWindow;
 	
 	public static Customer customer;
 	
@@ -389,13 +390,14 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			CheckoutGUI newCheckoutWindow = new CheckoutGUI();
+			newCheckoutWindow = new CheckoutGUI();
 			newCheckoutWindow.NewScreen();
 			
 			Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
 			while(iterator.hasNext()){
 				newCheckoutWindow.ticketString=newCheckoutWindow.ticketString+iterator.next().getMovie().getTitle()+"\n";
 			}
+			
 	}
 	
 

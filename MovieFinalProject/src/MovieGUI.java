@@ -272,27 +272,18 @@ public class MovieGUI {
 	            }
 	        }
 	        
-			if(accountCreated==false) {
+			if(accountCreated==false)
+			{
 				SignInGUI newSignUpWindow = new SignInGUI();
 				newSignUpWindow.NewScreen();
 			}
-			//Add ticket to user's cart
-			//Update the total, tax, and subtotal text areas on CheckoutGUI window (not visible but being updated as user interacts with program)
-			
-			//Need dialog if there is an error
-			
-			
-			//To do: make sure that the user cannot add a seat to a ticket that was chosen before.
-			else{
-				if(TheaterAppGUI.customer.getBalance()>price) {
-					TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
-					Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
-					TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
-					JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!");
-				}
-				else {
-					JOptionPane.showMessageDialog(frame, "Low balance!");
-				}
+			else
+			{
+				TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
+				Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
+				TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
+				JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!");
+
 			}
 		}
 	}
