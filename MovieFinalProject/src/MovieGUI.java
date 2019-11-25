@@ -35,6 +35,8 @@ public class MovieGUI {
 	public ButtonGroup showtimesButtons = new ButtonGroup();
 	public JComboBox seatsComboBox;
 	public Movie selectedMovie;
+	public AbstractButton button;
+	public boolean selected;
 	
 	
 	private JFrame frame;
@@ -256,10 +258,11 @@ public class MovieGUI {
 			Double price= selectedMovie.getPrice();
 			
 	        for (Enumeration<AbstractButton> buttons = showtimesButtons.getElements(); buttons.hasMoreElements();) {
-	            AbstractButton button = buttons.nextElement();
+	        	button = buttons.nextElement();
 
 	            if (button.isSelected()) {
-	            	
+	            	 
+	            	selected=true;
 	            	selectedShowTime = button.getText();
 	            	dateformat = new SimpleDateFormat("hh:mm a");
 	            	
@@ -276,6 +279,9 @@ public class MovieGUI {
 			{
 				SignInGUI newSignUpWindow = new SignInGUI();
 				newSignUpWindow.NewScreen();
+			}
+			else if(selected!=true) {
+				JOptionPane.showMessageDialog(frame, "Choose a time and try again.");
 			}
 			else
 			{
