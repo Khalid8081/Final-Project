@@ -36,7 +36,7 @@ public class TheaterAppGUI {
 	public JComboBox sortComboBox;
 	public JComboBox movieComboBox;
 	public CheckoutGUI newCheckoutWindow;
-	public String movieTitleSearch;
+	
 	
 	public static Customer customer;
 	
@@ -269,18 +269,21 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			movieTitleSearch = searchTextField.getText();
+			boolean found=false;
+			String movieTitleSearch = searchTextField.getText();
+			
 			for(int i=0;i<movies.length;i++) {
+				
 				if(movieTitleSearch.equals(movies[i].getTitle())) {
 					MovieGUI newMovieWindow = new MovieGUI(movies[i]);
 					newMovieWindow.NewScreen(movies[i]);
-					break;
-				}
-				else {
-					JOptionPane.showMessageDialog(frame, "Movie not found!");
+					found=true;
 					break;
 				}
 
+			}
+			if(found==false) {
+				JOptionPane.showMessageDialog(frame, "No results for <"+ movieTitleSearch +">- Please try again");
 			}
 
 		}
