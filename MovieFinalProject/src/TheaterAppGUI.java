@@ -29,7 +29,6 @@ import javax.swing.JTextField;
  
  
 public class TheaterAppGUI {
-
 	public JFrame frame;
 	public String sortOption;
 	public String chooseOption;
