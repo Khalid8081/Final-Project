@@ -273,7 +273,7 @@ public class TheaterAppGUI {
 			
 			for(int i=0;i<movies.length;i++) {
 				
-				if(movieTitleSearch.equals(movies[i].getTitle())) {
+				if(movieTitleSearch.equalsIgnoreCase(movies[i].getTitle())) {
 					MovieGUI newMovieWindow = new MovieGUI(movies[i]);
 					newMovieWindow.NewScreen(movies[i]);
 					found=true;
