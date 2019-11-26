@@ -185,7 +185,7 @@ public class CheckoutGUI {
 			else {
 				Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
 				while(iterator.hasNext()){
-					subtotal=total+iterator.next().getPrice();
+					subtotal=subtotal+iterator.next().getPrice();
 				}
 				
 				taxes=subtotal*TAX_RATE;
