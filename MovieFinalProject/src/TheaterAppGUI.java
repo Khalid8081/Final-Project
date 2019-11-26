@@ -394,14 +394,14 @@ public class TheaterAppGUI {
 		public void actionPerformed(ActionEvent e) 
 		{
 			newCheckoutWindow.ticketString=""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
-			
-			try {
 			newCheckoutWindow = new CheckoutGUI();
-			newCheckoutWindow.NewScreen();
+			try {
+			
 			Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
 			while(iterator.hasNext()){
 				newCheckoutWindow.ticketString=newCheckoutWindow.ticketString+iterator.next().getMovie().getTitle()+"\n";
 			}
+			newCheckoutWindow.NewScreen();
 			}
 			catch(NullPointerException e1) {
 				JOptionPane.showMessageDialog(frame, "Cannot checkout with empty cart!");
