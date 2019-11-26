@@ -275,13 +275,14 @@ public class MovieGUI {
 	            }
 	        }
 	        
-			if(accountCreated==false)
+
+			if(selected!=true) {
+				JOptionPane.showMessageDialog(frame, "Choose a time and try again.");
+			}
+			else if(accountCreated==false)
 			{
 				SignInGUI newSignUpWindow = new SignInGUI();
 				newSignUpWindow.NewScreen();
-			}
-			else if(selected!=true) {
-				JOptionPane.showMessageDialog(frame, "Choose a time and try again.");
 			}
 			else
 			{
