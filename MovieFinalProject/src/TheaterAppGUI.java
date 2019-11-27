@@ -6,25 +6,21 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
  
  
@@ -35,7 +31,6 @@ public class TheaterAppGUI {
 	public JComboBox sortComboBox;
 	public JComboBox movieComboBox;
 	public CheckoutGUI newCheckoutWindow;
-	
 	
 	public static Customer customer;
 	
@@ -59,8 +54,9 @@ public class TheaterAppGUI {
 	public Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie3_OnceUpon.jpg")),9.15);
 	public Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon(getClass().getResource("Movie4_LionKing.jpg")),13.03);
 	public Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon(getClass().getResource("Movie5_Avengers.jpg")),12.03);
+	public Movie movie6 = new Movie("Frozen 2", "Fantasy", "PG", showtimes, new ImageIcon(getClass().getResource("Movie6_Frozen2.jpg")), 13.03);
 	
-	Movie[] movies = {movie1, movie2, movie3, movie4, movie5};
+	Movie[] movies = {movie1, movie2, movie3, movie4, movie5, movie6};
 	public Collection<Movie> movieCollection = new LinkedList<Movie>(); // We want to use a Collection so we can use the sorting methods
 	
 	public static void main(String[] args) {
@@ -82,6 +78,7 @@ public class TheaterAppGUI {
 		movieCollection.add(movie3);
 		movieCollection.add(movie4);
 		movieCollection.add(movie5);
+		movieCollection.add(movie6);
 		initialize(); 
 	}
 		
@@ -116,7 +113,6 @@ public class TheaterAppGUI {
 		GridBagConstraints gbc_searchLabel = new GridBagConstraints();
 		gbc_searchLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_searchLabel.anchor = GridBagConstraints.CENTER;
-		//gbc_searchLabel.insets = new Insets(5, 20, 10, 5);
 		gbc_searchLabel.gridx = 1;
 		gbc_searchLabel.gridy = 2;
 		frame.getContentPane().add(searchLabel, gbc_searchLabel);
@@ -139,7 +135,7 @@ public class TheaterAppGUI {
 		gbc_enterButton.insets = new Insets(10, 10, 10, 10);
 		gbc_enterButton.gridx = 3;
 		gbc_enterButton.gridy = 2;
-		enterButton.addActionListener(new SearchListener()); 	//SearchListener() not implemented
+		enterButton.addActionListener(new SearchListener()); 	
 		frame.getContentPane().add(enterButton, gbc_enterButton);
 		
 		JLabel nowShowingLabel = new JLabel("Sort by:");
@@ -149,7 +145,6 @@ public class TheaterAppGUI {
 		GridBagConstraints gbc_nowShowingLabel = new GridBagConstraints();
 		gbc_nowShowingLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_nowShowingLabel.anchor = GridBagConstraints.CENTER;
-		//gbc_nowShowingLabel.insets = new Insets(5, 20, 10, 5);
 		gbc_nowShowingLabel.gridx = 1;
 		gbc_nowShowingLabel.gridy = 3;
 		frame.getContentPane().add(nowShowingLabel, gbc_nowShowingLabel); 
@@ -185,7 +180,6 @@ public class TheaterAppGUI {
 		GridBagConstraints gbc_moviesLabel = new GridBagConstraints();
 		gbc_moviesLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_moviesLabel.anchor = GridBagConstraints.CENTER;
-		//gbc_moviesLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_moviesLabel.gridx = 1;
 		gbc_moviesLabel.gridy = 6;
 		frame.getContentPane().add(moviesLabel, gbc_moviesLabel);
@@ -216,13 +210,14 @@ public class TheaterAppGUI {
 		
 		JPanel moviePanel = new JPanel();
 		moviePanel.setLayout(new GridBagLayout());
-		GridBagConstraints gbc_moviePanel = new GridBagConstraints();
-		gbc_moviePanel.gridwidth = 7;
-		gbc_moviePanel.insets = new Insets(0, 0, 5, 5);
-		gbc_moviePanel.fill = GridBagConstraints.BOTH;
-		gbc_moviePanel.gridx = 1;
-		gbc_moviePanel.gridy = 7;
-		frame.getContentPane().add(moviePanel, gbc_moviePanel);
+//		GridBagConstraints gbc_moviePanel = new GridBagConstraints();
+//		gbc_moviePanel.gridwidth = 7;
+//		gbc_moviePanel.insets = new Insets(0, 0, 5, 5);
+//		gbc_moviePanel.fill = GridBagConstraints.BOTH;
+//		gbc_moviePanel.gridx = 1;
+//		gbc_moviePanel.gridy = 7;
+//		frame.getContentPane().add(moviePanel, gbc_moviePanel);
+		
 		
 		JLabel movie1 = new JLabel();
 		ImageIcon movie1Icon = new ImageIcon(new ImageIcon(getClass().getResource("Movie1_Joker.jpg")).getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH));
@@ -249,6 +244,23 @@ public class TheaterAppGUI {
 		movie5.setIcon(movie5Icon);
 		moviePanel.add(movie5);
 		
+		JLabel movie6 = new JLabel();
+		ImageIcon movie6Icon = new ImageIcon(new ImageIcon(getClass().getResource("Movie6_Frozen2.jpg")).getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH));
+		movie6.setIcon(movie6Icon);
+		moviePanel.add(movie6);
+		
+		JScrollPane movieScrollPane = new JScrollPane(moviePanel);
+		movieScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+		GridBagConstraints gbc_movieScrollPane = new GridBagConstraints();
+		gbc_movieScrollPane.gridwidth = 7;
+		gbc_movieScrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_movieScrollPane.fill = GridBagConstraints.BOTH;
+		gbc_movieScrollPane.gridx = 1;
+		gbc_movieScrollPane.gridy = 7;
+		frame.getContentPane().add(movieScrollPane, gbc_movieScrollPane);
+		
+		
 		//Another movie panel containing posters for movies coming soon
 		
 		JButton checkoutButton = new JButton("Checkout");
@@ -272,19 +284,16 @@ public class TheaterAppGUI {
 			String movieTitleSearch = searchTextField.getText();
 			
 			for(int i=0;i<movies.length;i++) {
-				
 				if(movieTitleSearch.equalsIgnoreCase(movies[i].getTitle())) {
 					MovieGUI newMovieWindow = new MovieGUI(movies[i]);
 					newMovieWindow.NewScreen(movies[i]);
 					found=true;
 					break;
 				}
-
 			}
-			if(found==false) {
+			if(found == false) {
 				JOptionPane.showMessageDialog(frame, "No results for <"+ movieTitleSearch +">- Please try again");
 			}
-
 		}
 	}
 	
@@ -292,9 +301,8 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-		
 			sortOption=(String)sortComboBox.getSelectedItem();
-			movieComboBox.removeAllItems(); //clears the jcombobox when the sort button is clicked
+			movieComboBox.removeAllItems(); //clears the JComboBox when the sort button is clicked
 			if(sortOption.equals(CARD1)) {
 				Collection<Movie> sortCollection = movie1.sortByTitle(movieCollection);	
 				for (Movie s : sortCollection) {
@@ -378,12 +386,16 @@ public class TheaterAppGUI {
 				MovieGUI newMovieWindow = new MovieGUI(movies[4]);
 				newMovieWindow.NewScreen(movies[4]);
 			}
+			else if(chooseOption.equals(movie6.getTitle())) {
+				MovieGUI newMovieWindow = new MovieGUI(movies[5]);
+				newMovieWindow.NewScreen(movies[5]);
+			}
 			else {
-				JOptionPane.showMessageDialog(frame, "Please choose a movie first!");
+				JOptionPane.showMessageDialog(frame, "Please select a movie first!");
 			}
 			}
 			catch(NullPointerException e2) {
-				JOptionPane.showMessageDialog(frame, "Select a movie first!");
+				JOptionPane.showMessageDialog(frame, "Please select a movie first!");
 			}
 		}
 	}
@@ -395,7 +407,6 @@ public class TheaterAppGUI {
 			newCheckoutWindow.ticketString=""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
 			newCheckoutWindow = new CheckoutGUI();
 			try {
-			
 			Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
 			while(iterator.hasNext()){
 				newCheckoutWindow.ticketString=newCheckoutWindow.ticketString+iterator.next().getMovie().getTitle()+"\n";
@@ -403,7 +414,7 @@ public class TheaterAppGUI {
 			newCheckoutWindow.NewScreen();
 			}
 			catch(NullPointerException e1) {
-				JOptionPane.showMessageDialog(frame, "Cannot checkout with empty cart!");
+				JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.");
 			}
 		}
 	}
