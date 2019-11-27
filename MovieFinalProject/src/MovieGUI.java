@@ -124,7 +124,7 @@ public class MovieGUI {
 		gbc_movieGenreLabel.anchor = GridBagConstraints.WEST;
 		gbc_movieGenreLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_movieGenreLabel.gridx = 0;
-		gbc_movieGenreLabel.gridy = 4;
+		gbc_movieGenreLabel.gridy = 5;
 		infoPanel.add(movieGenreLabel, gbc_movieGenreLabel);
 		movieGenreLabel.setBackground(Color.WHITE);
 		movieGenreLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
@@ -135,7 +135,7 @@ public class MovieGUI {
 		gbc_movieMPAALabel.anchor = GridBagConstraints.WEST;
 		gbc_movieMPAALabel.insets = new Insets(0, 0, 5, 5);
 		gbc_movieMPAALabel.gridx = 0;
-		gbc_movieMPAALabel.gridy = 5;
+		gbc_movieMPAALabel.gridy = 6;
 		infoPanel.add(movieMPAALabel, gbc_movieMPAALabel);
 		movieMPAALabel.setBackground(Color.WHITE);
 		movieMPAALabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
@@ -146,7 +146,7 @@ public class MovieGUI {
 		gbc_showtimesLabel.anchor = GridBagConstraints.WEST;
 		gbc_showtimesLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimesLabel.gridx = 0;
-		gbc_showtimesLabel.gridy = 6;
+		gbc_showtimesLabel.gridy = 7;
 		infoPanel.add(showtimesLabel, gbc_showtimesLabel);
 		showtimesLabel.setBackground(Color.WHITE);
 		showtimesLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
@@ -157,7 +157,7 @@ public class MovieGUI {
 		gbc_showtimes1Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes1Button.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimes1Button.gridx = 1;
-		gbc_showtimes1Button.gridy = 6;
+		gbc_showtimes1Button.gridy = 7;
 		infoPanel.add(showtimes1Button, gbc_showtimes1Button);
 		showtimes1Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes1Button);
@@ -167,7 +167,7 @@ public class MovieGUI {
 		gbc_showtimes2Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes2Button.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimes2Button.gridx = 2;
-		gbc_showtimes2Button.gridy = 6;
+		gbc_showtimes2Button.gridy = 7;
 		infoPanel.add(showtimes2Button, gbc_showtimes2Button);
 		showtimes2Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes2Button);
@@ -177,17 +177,17 @@ public class MovieGUI {
 		gbc_showtimes3Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes3Button.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimes3Button.gridx = 3;
-		gbc_showtimes3Button.gridy = 6;
+		gbc_showtimes3Button.gridy = 7;
 		infoPanel.add(showtimes3Button, gbc_showtimes3Button);
 		showtimes3Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes3Button);
 		
 		JRadioButton showtimes4Button = new JRadioButton("7:30 PM");
 		GridBagConstraints gbc_showtimes4Button = new GridBagConstraints();
-		gbc_showtimes4Button.anchor = GridBagConstraints.NORTHWEST;
+		gbc_showtimes4Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes4Button.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimes4Button.gridx = 4;
-		gbc_showtimes4Button.gridy = 6;
+		gbc_showtimes4Button.gridy = 7;
 		infoPanel.add(showtimes4Button, gbc_showtimes4Button);
 		showtimes4Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes4Button);
@@ -197,7 +197,7 @@ public class MovieGUI {
 		gbc_seatsLabel.anchor = GridBagConstraints.WEST;
 		gbc_seatsLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_seatsLabel.gridx = 0;
-		gbc_seatsLabel.gridy = 7;
+		gbc_seatsLabel.gridy = 8;
 		infoPanel.add(seatsLabel, gbc_seatsLabel);
 		seatsLabel.setBackground(Color.WHITE);
 		seatsLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
@@ -206,13 +206,23 @@ public class MovieGUI {
 		seatsComboBox = new JComboBox(seats);
 		GridBagConstraints gbc_seatsComboBox = new GridBagConstraints();
 		gbc_seatsComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_seatsComboBox.insets = new Insets(0, 0, 0, 5);
-		gbc_seatsComboBox.gridx = 0;
+		gbc_seatsComboBox.anchor = GridBagConstraints.WEST;
+		gbc_seatsComboBox.gridx = 1;
 		gbc_seatsComboBox.gridy = 8;
 		infoPanel.add(seatsComboBox, gbc_seatsComboBox);
 		seatsComboBox.setBackground(Color.WHITE);
 		seatsComboBox.setFont(new Font("Helvetica", Font.ITALIC + Font.BOLD, 15));
 		seatsComboBox.setEditable(false);
+		
+		JLabel priceLabel = new JLabel("Price: $" + movie.getPrice());
+		GridBagConstraints gbc_priceLabel = new GridBagConstraints();
+		gbc_priceLabel.anchor = GridBagConstraints.WEST;
+		gbc_priceLabel.gridx = 0;
+		gbc_priceLabel.gridy = 4;
+		infoPanel.add(priceLabel, gbc_priceLabel);
+		priceLabel.setBackground(Color.WHITE);
+		priceLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
+		priceLabel.setForeground(Color.BLACK);
 		
 		JButton homeButton = new JButton("Home");
 		homeButton.setBackground(Color.WHITE);
@@ -223,7 +233,7 @@ public class MovieGUI {
 		gbc_homeButton.anchor = GridBagConstraints.WEST;
 		gbc_homeButton.insets = new Insets(0, 20, 20, 5);
 		gbc_homeButton.gridx = 0;
-		gbc_homeButton.gridy = 7;
+		gbc_homeButton.gridy = 10;
 		frame.getContentPane().add(homeButton, gbc_homeButton);
 		
 		JButton cartButton = new JButton("Add to Cart");
@@ -234,7 +244,7 @@ public class MovieGUI {
 		GridBagConstraints gbc_cartButton = new GridBagConstraints();
 		gbc_cartButton.insets = new Insets(0, 0, 20, 20);
 		gbc_cartButton.gridx = 10;
-		gbc_cartButton.gridy = 7;
+		gbc_cartButton.gridy = 10;
 		frame.getContentPane().add(cartButton, gbc_cartButton);
 		
 	}
@@ -276,16 +286,14 @@ public class MovieGUI {
 	        }
 	        
 
-			if(selected!=true) {
-				JOptionPane.showMessageDialog(frame, "Choose a time and try again.");
+			if(selected != true) {
+				JOptionPane.showMessageDialog(frame, "Choose a showtime and try again.");
 			}
-			else if(accountCreated==false)
-			{
+			else if(accountCreated == false) {
 				SignInGUI newSignUpWindow = new SignInGUI();
 				newSignUpWindow.NewScreen();
 			}
-			else
-			{
+			else {
 				TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
 				Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
 				TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
