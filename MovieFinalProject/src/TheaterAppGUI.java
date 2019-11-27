@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -29,8 +30,9 @@ public class TheaterAppGUI {
 	public String sortOption;
 	public String chooseOption;
 	public JComboBox sortComboBox;
-	public JComboBox movieComboBox;
+	public JComboBox<String> movieComboBox;
 	public CheckoutGUI newCheckoutWindow;
+	private JPanel moviePanel;
 	
 	public static Customer customer;
 	
@@ -49,15 +51,15 @@ public class TheaterAppGUI {
 	
 	private String[] showtimes = {"6:00", "6:30", "7:00", "7:30"};	//Can adjust showtimes, just have it like this for now
 	
-	public Movie movie1 = new Movie("JOKER", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie1_Joker.jpg")),13.09);
-	public Movie movie2 = new Movie("Midsommar", "Thriller", "R", showtimes, new ImageIcon(getClass().getResource("Movie2_Midsommar.jpg")),10.02);
-	public Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon(getClass().getResource("Movie3_OnceUpon.jpg")),9.15);
-	public Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon(getClass().getResource("Movie4_LionKing.jpg")),13.03);
-	public Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon(getClass().getResource("Movie5_Avengers.jpg")),12.03);
-	public Movie movie6 = new Movie("Frozen 2", "Fantasy", "PG", showtimes, new ImageIcon(getClass().getResource("Movie6_Frozen2.jpg")), 13.03);
+	public Movie movie1 = new Movie("JOKER", "Drama", "R", showtimes, new ImageIcon("movie-data/Movie1_Joker.jpg"),13.09);
+	public Movie movie2 = new Movie("Midsommar", "Thriller", "R", showtimes, new ImageIcon("movie-data/Movie2_Midsommar.jpg"),10.02);
+	public Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon("movie-data/Movie3_OnceUpon.jpg"),9.15);
+	public Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon("movie-data/Movie4_LionKing.jpg"),13.03);
+	public Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon("movie-data/Movie5_Avengers.jpg"),12.03);
+	public Movie movie6 = new Movie("Frozen 2", "Fantasy", "PG", showtimes, new ImageIcon("movie-data/Movie6_Frozen2.jpg"), 13.03);
 	
 	Movie[] movies = {movie1, movie2, movie3, movie4, movie5, movie6};
-	public Collection<Movie> movieCollection = new LinkedList<Movie>(); // We want to use a Collection so we can use the sorting methods
+	public Collection<Movie> movieCollection; // We want to use a Collection so we can use the sorting methods
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -73,12 +75,9 @@ public class TheaterAppGUI {
 	}
 	
 	public TheaterAppGUI()  {
-		movieCollection.add(movie1);
-		movieCollection.add(movie2);
-		movieCollection.add(movie3);
-		movieCollection.add(movie4);
-		movieCollection.add(movie5);
-		movieCollection.add(movie6);
+		movieCollection = new LinkedList<Movie>(Arrays.asList(movies));
+		//TODO: Utilize file storage
+		
 		initialize(); 
 	}
 		
@@ -150,7 +149,7 @@ public class TheaterAppGUI {
 		frame.getContentPane().add(nowShowingLabel, gbc_nowShowingLabel); 
 		
 		String sortComboBoxStrings[] = {CARD1, CARD2, CARD3, CARD4, CARD5,CARD6,CARD7,CARD8};		//This is combo box for sorting methods, not functional right now
-		sortComboBox = new JComboBox(sortComboBoxStrings);
+		sortComboBox = new JComboBox<String>(sortComboBoxStrings);
 		sortComboBox.setBackground(Color.WHITE);
 		sortComboBox.setFont(new Font("Helvetica", Font.ITALIC + Font.BOLD, 15));
 		sortComboBox.setEditable(false);
@@ -184,7 +183,7 @@ public class TheaterAppGUI {
 		gbc_moviesLabel.gridy = 6;
 		frame.getContentPane().add(moviesLabel, gbc_moviesLabel);
 		
-		movieComboBox = new JComboBox();
+		movieComboBox = new JComboBox<String>();
 		movieComboBox.setBackground(Color.WHITE);
 		movieComboBox.setFont(new Font("Helvetica", Font.ITALIC + Font.BOLD, 15));
 		movieComboBox.setEditable(false);
@@ -208,7 +207,8 @@ public class TheaterAppGUI {
 		chooseButton.addActionListener(new MovieListener());
 		frame.getContentPane().add(chooseButton, gbc_chooseButton);
 		
-		JPanel moviePanel = new JPanel();
+		
+		moviePanel = new JPanel();
 		moviePanel.setLayout(new GridBagLayout());
 //		GridBagConstraints gbc_moviePanel = new GridBagConstraints();
 //		gbc_moviePanel.gridwidth = 7;
@@ -217,37 +217,7 @@ public class TheaterAppGUI {
 //		gbc_moviePanel.gridx = 1;
 //		gbc_moviePanel.gridy = 7;
 //		frame.getContentPane().add(moviePanel, gbc_moviePanel);
-		
-		
-		JLabel movie1 = new JLabel();
-		ImageIcon movie1Icon = new ImageIcon(new ImageIcon(getClass().getResource("Movie1_Joker.jpg")).getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH));
-		movie1.setIcon(movie1Icon);
-		moviePanel.add(movie1);
-		
-		JLabel movie2 = new JLabel();
-		ImageIcon movie2Icon = new ImageIcon(new ImageIcon(getClass().getResource("Movie2_Midsommar.jpg")).getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH));
-		movie2.setIcon(movie2Icon);
-		moviePanel.add(movie2);
-		
-		JLabel movie3 = new JLabel();
-		ImageIcon movie3Icon = new ImageIcon(new ImageIcon(getClass().getResource("Movie3_OnceUpon.jpg")).getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH));
-		movie3.setIcon(movie3Icon);
-		moviePanel.add(movie3);
-		
-		JLabel movie4 = new JLabel();
-		ImageIcon movie4Icon = new ImageIcon(new ImageIcon(getClass().getResource("Movie4_LionKing.jpg")).getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH));
-		movie4.setIcon(movie4Icon);
-		moviePanel.add(movie4);
-		
-		JLabel movie5 = new JLabel();
-		ImageIcon movie5Icon = new ImageIcon(new ImageIcon(getClass().getResource("Movie5_Avengers.jpg")).getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH));
-		movie5.setIcon(movie5Icon);
-		moviePanel.add(movie5);
-		
-		JLabel movie6 = new JLabel();
-		ImageIcon movie6Icon = new ImageIcon(new ImageIcon(getClass().getResource("Movie6_Frozen2.jpg")).getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH));
-		movie6.setIcon(movie6Icon);
-		moviePanel.add(movie6);
+		setMovieDisplay(movieCollection);
 		
 		JScrollPane movieScrollPane = new JScrollPane(moviePanel);
 		movieScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -275,24 +245,33 @@ public class TheaterAppGUI {
 		frame.getContentPane().add(checkoutButton, gbc_checkoutButton);
 		
 	}
+	
+	private void setMovieDisplay(Collection<Movie> displayedMovies) {
+		moviePanel.removeAll();
+		movieComboBox.removeAllItems();
+		for (Movie movie : displayedMovies) {
+			JLabel movieLbl = new JLabel();
+			movieLbl.setIcon(new ImageIcon(movie.getPoster().getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH)));
+			moviePanel.add(movieLbl);
+			
+			movieComboBox.addItem(movie.getTitle());
+		}
+		movieComboBox.revalidate();
+		moviePanel.revalidate();
+	}
 
 	private class SearchListener implements ActionListener 
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			boolean found=false;
 			String movieTitleSearch = searchTextField.getText();
 			
-			for(int i=0;i<movies.length;i++) {
-				if(movieTitleSearch.equalsIgnoreCase(movies[i].getTitle())) {
-					MovieGUI newMovieWindow = new MovieGUI(movies[i]);
-					newMovieWindow.NewScreen(movies[i]);
-					found=true;
-					break;
-				}
-			}
-			if(found == false) {
+			LinkedList<Movie> matches = 
+					new LinkedList<Movie>(Movie.searchTitles(movieCollection, searchTextField.getText()));
+			if(matches.isEmpty()) {
 				JOptionPane.showMessageDialog(frame, "No results for <"+ movieTitleSearch +">- Please try again");
+			} else {
+				setMovieDisplay(matches);
 			}
 		}
 	}
@@ -301,62 +280,36 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			sortOption=(String)sortComboBox.getSelectedItem();
+			sortOption = (String) sortComboBox.getSelectedItem();
+			Collection<Movie> sortedCollection = movieCollection;
+			
 			movieComboBox.removeAllItems(); //clears the JComboBox when the sort button is clicked
 			if(sortOption.equals(CARD1)) {
-				Collection<Movie> sortCollection = movie1.sortByTitle(movieCollection);	
-				for (Movie s : sortCollection) {
-					movieComboBox.addItem(s.getTitle());
-				}	
+				sortedCollection = Movie.sortByTitle(movieCollection);
 			}
 			else if(sortOption.equals(CARD2)){
-				Collection<Movie> sortCollection = movie1.filterGenres(movieCollection, sortOption);
-				for (Movie s : sortCollection) {
-					movieComboBox.addItem(s.getTitle());
-				}	
-				
+				sortedCollection = Movie.filterGenres(movieCollection, sortOption);
 			}
 			else if(sortOption.equals(CARD3)){
-				Collection<Movie> sortCollection = movie1.filterGenres(movieCollection, sortOption);
-				for (Movie s : sortCollection) {
-					movieComboBox.addItem(s.getTitle());
-				}	
-				
+				sortedCollection = Movie.filterGenres(movieCollection, sortOption);
 			}
 			else if(sortOption.equals(CARD4)){
-				Collection<Movie> sortCollection = movie1.filterGenres(movieCollection, sortOption);
-				for (Movie s : sortCollection) {
-					movieComboBox.addItem(s.getTitle());
-				}	
-				
+				sortedCollection = Movie.filterGenres(movieCollection, sortOption);
 			}
 			else if(sortOption.equals(CARD5)){
-				Collection<Movie> sortCollection = movie1.filterGenres(movieCollection, sortOption);
-				for (Movie s : sortCollection) {
-					movieComboBox.addItem(s.getTitle());
-				}	
-				
+				sortedCollection = Movie.filterGenres(movieCollection, sortOption);
 			}
 			else if(sortOption.equals(CARD6)){
-				Collection<Movie> sortCollection = movie1.filterRatings(movieCollection, sortOption);
-				for (Movie s : sortCollection) {
-					movieComboBox.addItem(s.getTitle());
-				}	
-				
+				sortedCollection = Movie.filterRatings(movieCollection, sortOption);
 			}
 			else if(sortOption.equals(CARD7)){
-				Collection<Movie> sortCollection = movie1.filterRatings(movieCollection, sortOption);
-				for (Movie s : sortCollection) {
-					movieComboBox.addItem(s.getTitle());
-				}	
-				
+				sortedCollection = Movie.filterRatings(movieCollection, sortOption);
 			}
 			else if(sortOption.equals(CARD8)){
-				Collection<Movie> sortCollection = movie1.filterRatings(movieCollection, sortOption);
-				for (Movie s : sortCollection) {
-					movieComboBox.addItem(s.getTitle());
-				}	
+				sortedCollection = Movie.filterRatings(movieCollection, sortOption);
 			}
+			
+			setMovieDisplay(sortedCollection);
 		}
 	}
 	
@@ -368,27 +321,27 @@ public class TheaterAppGUI {
 			try {
 			if(chooseOption.equals(movie1.getTitle())){
 				MovieGUI newMovieWindow = new MovieGUI(movies[0]);
-				newMovieWindow.NewScreen(movies[0]);
+				MovieGUI.NewScreen(movies[0]);
 			}
 			else if(chooseOption.equals(movie2.getTitle())) {
 				MovieGUI newMovieWindow = new MovieGUI(movies[1]);
-				newMovieWindow.NewScreen(movies[1]);
+				MovieGUI.NewScreen(movies[1]);
 			}
 			else if(chooseOption.equals(movie3.getTitle())) {
 				MovieGUI newMovieWindow = new MovieGUI(movies[2]);
-				newMovieWindow.NewScreen(movies[2]);
+				MovieGUI.NewScreen(movies[2]);
 			}
 			else if(chooseOption.equals(movie4.getTitle())) {
 				MovieGUI newMovieWindow = new MovieGUI(movies[3]);
-				newMovieWindow.NewScreen(movies[3]);
+				MovieGUI.NewScreen(movies[3]);
 			}
 			else if(chooseOption.equals(movie5.getTitle())) {
 				MovieGUI newMovieWindow = new MovieGUI(movies[4]);
-				newMovieWindow.NewScreen(movies[4]);
+				MovieGUI.NewScreen(movies[4]);
 			}
 			else if(chooseOption.equals(movie6.getTitle())) {
 				MovieGUI newMovieWindow = new MovieGUI(movies[5]);
-				newMovieWindow.NewScreen(movies[5]);
+				MovieGUI.NewScreen(movies[5]);
 			}
 			else {
 				JOptionPane.showMessageDialog(frame, "Please select a movie first!");
@@ -404,14 +357,14 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			newCheckoutWindow.ticketString=""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
+			CheckoutGUI.ticketString=""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
 			newCheckoutWindow = new CheckoutGUI();
 			try {
 			Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
 			while(iterator.hasNext()){
-				newCheckoutWindow.ticketString=newCheckoutWindow.ticketString+iterator.next().getMovie().getTitle()+"\n";
+				CheckoutGUI.ticketString=CheckoutGUI.ticketString+iterator.next().getMovie().getTitle()+"\n";
 			}
-			newCheckoutWindow.NewScreen();
+			CheckoutGUI.NewScreen();
 			}
 			catch(NullPointerException e1) {
 				JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.");

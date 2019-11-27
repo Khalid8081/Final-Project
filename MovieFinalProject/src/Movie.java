@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,7 +8,7 @@ import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 
-public class Movie {
+public class Movie implements Serializable {
 	private String title;
 	private String genre;
 	private String mpaaRating;
@@ -91,6 +92,26 @@ public class Movie {
 		return movieList;
 	}
 	
+	/*Search through a collection of movies by title
+	 * Parameters:
+	 * 	Collection<Movie> movies
+	 * 		- a collection of movies to be searched
+	 * 	String target
+	 * 		- the sequence to be found
+	 * 
+	 * Returns a collection of movies. Each movie contains an instance of the 
+	 * 	target string
+	 */
+	public static Collection<Movie> searchTitles(Collection<Movie> movies, String target) {
+		Collection<Movie> targets = new LinkedList<Movie>();
+
+		for (Movie movie : movies) 
+			if (movie.title.toLowerCase().contains(target.toLowerCase()))
+				targets.add(movie);
+		
+		return targets;
+	}
+	
 	/*Create a collection of movies with only the given genres
 	 * Parameters:
 	 * 	Collection<Movie> movies	- the collection of movies to be searched
@@ -102,17 +123,12 @@ public class Movie {
 	 * NOTE: the genres can be chosen in the gui using check boxes
 	 */
 	public static Collection<Movie> filterGenres(Collection<Movie> movies, String...genres) {
-		Iterator<Movie> list;
 		Collection<Movie> selectedMovies = new LinkedList<Movie>();
 		
-		for (String acceptableGenre : genres) {
-			list = movies.iterator();
-			while (list.hasNext()) {
-				Movie movie = list.next();
+		for (String acceptableGenre : genres)
+			for (Movie movie : movies) 
 				if (movie.genre.equals(acceptableGenre))
 					selectedMovies.add(movie);
-			}
-		}
 		
 		return selectedMovies;
 	}
@@ -129,17 +145,12 @@ public class Movie {
 	 * NOTE: the ratings can be chosen from the gui using check boxes
 	 */
 	public static Collection<Movie> filterRatings(Collection<Movie> movies, String...ratings) {
-		Iterator<Movie> list;
 		Collection<Movie> selectedMovies = new LinkedList<Movie>();
 		
-		for (String acceptableRating : ratings) {
-			list = movies.iterator();
-			while (list.hasNext()) {
-				Movie movie = list.next();
+		for (String acceptableRating : ratings)
+			for (Movie movie : movies) 
 				if (movie.mpaaRating.equals(acceptableRating))
 					selectedMovies.add(movie);
-			}
-		}
 		
 		return selectedMovies;	
 	}
