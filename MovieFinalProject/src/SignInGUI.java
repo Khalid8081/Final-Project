@@ -5,6 +5,8 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -142,11 +144,14 @@ public class SignInGUI {
 			String firstName = firstNameTextField.getText();
 			String lastName = lastNameTextField.getText();
 			String phoneNumber = phoneNumberTextField.getText();
-		
-			TheaterAppGUI.customer = new Customer(firstName, lastName, phoneNumber, 1000); 
-			MovieGUI.accountCreated=true;
-			frame.dispose();
-			
+			if(firstName.isEmpty() == true || lastName.isEmpty() == true || phoneNumber.isEmpty() == true) {
+				JOptionPane.showMessageDialog(frame, "Please enter your information.");
+			} else {
+				TheaterAppGUI.customer = new Customer(firstName, lastName, phoneNumber, 1000); 
+				MovieGUI.accountCreated=true;
+				frame.dispose();
+				JOptionPane.showMessageDialog(frame, "You are now signed in! Please add ticket to your cart.");
+			}
 		}
 	}
 
