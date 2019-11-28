@@ -10,7 +10,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -49,16 +48,6 @@ public class TheaterAppGUI {
 	
 	private JTextField searchTextField;
 	
-	private String[] showtimes = {"6:00", "6:30", "7:00", "7:30"};	//Can adjust showtimes, just have it like this for now
-	
-	public Movie movie1 = new Movie("JOKER", "Drama", "R", showtimes, new ImageIcon("movie-data/Movie1_Joker.jpg"),13.09);
-	public Movie movie2 = new Movie("Midsommar", "Thriller", "R", showtimes, new ImageIcon("movie-data/Movie2_Midsommar.jpg"),10.02);
-	public Movie movie3 = new Movie("Once Upon a Time in Hollywood", "Drama", "R", showtimes, new ImageIcon("movie-data/Movie3_OnceUpon.jpg"),9.15);
-	public Movie movie4 = new Movie("Lion King", "Adventure", "PG", showtimes, new ImageIcon("movie-data/Movie4_LionKing.jpg"),13.03);
-	public Movie movie5 = new Movie("Avengers: Endgame", "Fantasy", "PG-13", showtimes, new ImageIcon("movie-data/Movie5_Avengers.jpg"),12.03);
-	public Movie movie6 = new Movie("Frozen 2", "Fantasy", "PG", showtimes, new ImageIcon("movie-data/Movie6_Frozen2.jpg"), 13.03);
-	
-	Movie[] movies = {movie1, movie2, movie3, movie4, movie5, movie6};
 	public Collection<Movie> movieCollection; // We want to use a Collection so we can use the sorting methods
 	
 	public static void main(String[] args) {
@@ -75,8 +64,11 @@ public class TheaterAppGUI {
 	}
 	
 	public TheaterAppGUI()  {
-		movieCollection = new LinkedList<Movie>(Arrays.asList(movies));
-		//TODO: Utilize file storage
+		try {
+			movieCollection = MovieBuilder.readMovies();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		initialize(); 
 	}
@@ -284,6 +276,7 @@ public class TheaterAppGUI {
 		
 		movieComboBox.revalidate();
 		moviePanel.revalidate();
+		moviePanel.repaint();
 	}
 	
 	private class SearchListener implements ActionListener 

@@ -33,7 +33,7 @@ public class MovieGUI {
 
 	public static boolean accountCreated=false;
 	public ButtonGroup showtimesButtons = new ButtonGroup();
-	public JComboBox seatsComboBox;
+	public JComboBox<String> seatsComboBox;
 	public Movie selectedMovie;
 	public AbstractButton button;
 	public boolean selected;

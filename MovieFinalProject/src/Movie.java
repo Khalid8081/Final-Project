@@ -3,12 +3,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 
 public class Movie implements Serializable {
+	public static final long serialVersionUID = 129857L;
+	
 	private String title;
 	private String genre;
 	private String mpaaRating;

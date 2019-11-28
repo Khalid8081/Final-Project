@@ -172,7 +172,7 @@ public class CheckoutGUI {
 		public void actionPerformed(ActionEvent e) 
 		{
 			//Needs to be implemented. Something we talked about in class was maybe indexing the user's tickets.
-			String ticketToBeRemoved = removeTextField.getText(); //Does not have to be String
+//			String ticketToBeRemoved = removeTextField.getText(); //Does not have to be String
 			
 		}
 	}
@@ -198,7 +198,7 @@ public class CheckoutGUI {
 				JOptionPane.showMessageDialog(frame, "Your cart is empty!");
 			}
 			else {
-				Iterator<Ticket> iterator= (Iterator) TheaterAppGUI.customer.getCustomerTickets().iterator();
+				Iterator<Ticket> iterator= TheaterAppGUI.customer.getCustomerTickets().iterator();
 				while(iterator.hasNext()){
 					subtotal=subtotal+iterator.next().getPrice();
 				}
