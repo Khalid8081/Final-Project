@@ -58,20 +58,13 @@ public class MovieGUI {
 	}
 
 	public MovieGUI(Movie movie) {
-		selectedMovie=movie;
+		selectedMovie = movie;
 		initialize(movie);
 	}
 
-	private void initialize(Movie movie) {
-		frame = new JFrame();
-		frame.setTitle(movie.getTitle());
-		frame.setBounds(100, 100, 1447, 774);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
+	public JPanel initialize(Movie movie) {
+		
+		JPanel panel = new JPanel(new GridBagLayout());
 		
 		JPanel posterPanel = new JPanel();
 		GridBagConstraints gbc_posterPanel = new GridBagConstraints();
@@ -80,7 +73,7 @@ public class MovieGUI {
 		gbc_posterPanel.gridy = 1;
 		gbc_posterPanel.gridheight = 2;
 		gbc_posterPanel.fill = GridBagConstraints.VERTICAL;
-		frame.getContentPane().add(posterPanel, gbc_posterPanel);
+		panel.add(posterPanel, gbc_posterPanel);
 		
 		JLabel movieLabel = new JLabel();
 		movieLabel.setBorder(BorderFactory.createEmptyBorder());
@@ -97,14 +90,13 @@ public class MovieGUI {
 		gbc_infoPanel.fill = GridBagConstraints.BOTH;
 		gbc_infoPanel.gridx = 2;
 		gbc_infoPanel.gridy = 1;
-		frame.getContentPane().add(infoPanel, gbc_infoPanel);
+		panel.add(infoPanel, gbc_infoPanel);
 		GridBagLayout gbl_infoPanel = new GridBagLayout();
 		gbl_infoPanel.columnWidths = new int[]{175, 66, 66, 66, 66, 92, 47, 47, 47, 0};
 		gbl_infoPanel.rowHeights = new int[]{39, 23, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_infoPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_infoPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		infoPanel.setLayout(gbl_infoPanel);
-		
 		
 		JLabel movieTitleLabel = new JLabel(movie.getTitle());
 		GridBagConstraints gbc_movieTitleLabel = new GridBagConstraints();
@@ -119,12 +111,22 @@ public class MovieGUI {
 		movieTitleLabel.setFont(new Font("HelveticaNeue", Font.BOLD, 45));
 		movieTitleLabel.setForeground(Color.BLACK);
 		
+		JLabel priceLabel = new JLabel("Price: $" + movie.getPrice());
+		GridBagConstraints gbc_priceLabel = new GridBagConstraints();
+		gbc_priceLabel.anchor = GridBagConstraints.WEST;
+		gbc_priceLabel.gridx = 0;
+		gbc_priceLabel.gridy = 2;
+		infoPanel.add(priceLabel, gbc_priceLabel);
+		priceLabel.setBackground(Color.WHITE);
+		priceLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
+		priceLabel.setForeground(Color.BLACK);
+		
 		JLabel movieGenreLabel = new JLabel("Genre: " + movie.getGenre());
 		GridBagConstraints gbc_movieGenreLabel = new GridBagConstraints();
 		gbc_movieGenreLabel.anchor = GridBagConstraints.WEST;
 		gbc_movieGenreLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_movieGenreLabel.gridx = 0;
-		gbc_movieGenreLabel.gridy = 5;
+		gbc_movieGenreLabel.gridy = 3;
 		infoPanel.add(movieGenreLabel, gbc_movieGenreLabel);
 		movieGenreLabel.setBackground(Color.WHITE);
 		movieGenreLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
@@ -135,7 +137,7 @@ public class MovieGUI {
 		gbc_movieMPAALabel.anchor = GridBagConstraints.WEST;
 		gbc_movieMPAALabel.insets = new Insets(0, 0, 5, 5);
 		gbc_movieMPAALabel.gridx = 0;
-		gbc_movieMPAALabel.gridy = 6;
+		gbc_movieMPAALabel.gridy = 4;
 		infoPanel.add(movieMPAALabel, gbc_movieMPAALabel);
 		movieMPAALabel.setBackground(Color.WHITE);
 		movieMPAALabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
@@ -146,7 +148,7 @@ public class MovieGUI {
 		gbc_showtimesLabel.anchor = GridBagConstraints.WEST;
 		gbc_showtimesLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimesLabel.gridx = 0;
-		gbc_showtimesLabel.gridy = 7;
+		gbc_showtimesLabel.gridy = 5;
 		infoPanel.add(showtimesLabel, gbc_showtimesLabel);
 		showtimesLabel.setBackground(Color.WHITE);
 		showtimesLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
@@ -157,7 +159,7 @@ public class MovieGUI {
 		gbc_showtimes1Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes1Button.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimes1Button.gridx = 1;
-		gbc_showtimes1Button.gridy = 7;
+		gbc_showtimes1Button.gridy = 5;
 		infoPanel.add(showtimes1Button, gbc_showtimes1Button);
 		showtimes1Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes1Button);
@@ -167,7 +169,7 @@ public class MovieGUI {
 		gbc_showtimes2Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes2Button.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimes2Button.gridx = 2;
-		gbc_showtimes2Button.gridy = 7;
+		gbc_showtimes2Button.gridy = 5;
 		infoPanel.add(showtimes2Button, gbc_showtimes2Button);
 		showtimes2Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes2Button);
@@ -177,7 +179,7 @@ public class MovieGUI {
 		gbc_showtimes3Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes3Button.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimes3Button.gridx = 3;
-		gbc_showtimes3Button.gridy = 7;
+		gbc_showtimes3Button.gridy = 5;
 		infoPanel.add(showtimes3Button, gbc_showtimes3Button);
 		showtimes3Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes3Button);
@@ -187,7 +189,7 @@ public class MovieGUI {
 		gbc_showtimes4Button.anchor = GridBagConstraints.WEST;
 		gbc_showtimes4Button.insets = new Insets(0, 0, 5, 5);
 		gbc_showtimes4Button.gridx = 4;
-		gbc_showtimes4Button.gridy = 7;
+		gbc_showtimes4Button.gridy = 5;
 		infoPanel.add(showtimes4Button, gbc_showtimes4Button);
 		showtimes4Button.setForeground(Color.BLACK);
 		showtimesButtons.add(showtimes4Button);
@@ -197,7 +199,7 @@ public class MovieGUI {
 		gbc_seatsLabel.anchor = GridBagConstraints.WEST;
 		gbc_seatsLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_seatsLabel.gridx = 0;
-		gbc_seatsLabel.gridy = 8;
+		gbc_seatsLabel.gridy = 6;
 		infoPanel.add(seatsLabel, gbc_seatsLabel);
 		seatsLabel.setBackground(Color.WHITE);
 		seatsLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
@@ -208,33 +210,11 @@ public class MovieGUI {
 		gbc_seatsComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_seatsComboBox.anchor = GridBagConstraints.WEST;
 		gbc_seatsComboBox.gridx = 1;
-		gbc_seatsComboBox.gridy = 8;
+		gbc_seatsComboBox.gridy = 6;
 		infoPanel.add(seatsComboBox, gbc_seatsComboBox);
 		seatsComboBox.setBackground(Color.WHITE);
 		seatsComboBox.setFont(new Font("Helvetica", Font.ITALIC + Font.BOLD, 15));
 		seatsComboBox.setEditable(false);
-		
-		JLabel priceLabel = new JLabel("Price: $" + movie.getPrice());
-		GridBagConstraints gbc_priceLabel = new GridBagConstraints();
-		gbc_priceLabel.anchor = GridBagConstraints.WEST;
-		gbc_priceLabel.gridx = 0;
-		gbc_priceLabel.gridy = 4;
-		infoPanel.add(priceLabel, gbc_priceLabel);
-		priceLabel.setBackground(Color.WHITE);
-		priceLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
-		priceLabel.setForeground(Color.BLACK);
-		
-		JButton homeButton = new JButton("Home");
-		homeButton.setBackground(Color.WHITE);
-		homeButton.setForeground(Color.BLACK);
-		homeButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
-		homeButton.addActionListener(new HomeListener());
-		GridBagConstraints gbc_homeButton = new GridBagConstraints();
-		gbc_homeButton.anchor = GridBagConstraints.WEST;
-		gbc_homeButton.insets = new Insets(0, 20, 20, 5);
-		gbc_homeButton.gridx = 0;
-		gbc_homeButton.gridy = 10;
-		frame.getContentPane().add(homeButton, gbc_homeButton);
 		
 		JButton cartButton = new JButton("Add to Cart");
 		cartButton.setBackground(Color.WHITE);
@@ -242,29 +222,22 @@ public class MovieGUI {
 		cartButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
 		cartButton.addActionListener(new CartListener());
 		GridBagConstraints gbc_cartButton = new GridBagConstraints();
-		gbc_cartButton.insets = new Insets(0, 0, 20, 20);
-		gbc_cartButton.gridx = 10;
-		gbc_cartButton.gridy = 10;
-		frame.getContentPane().add(cartButton, gbc_cartButton);
+		gbc_cartButton.insets = new Insets(250, 20, 20, 5);
+		gbc_cartButton.gridx = 6;
+		gbc_cartButton.gridy = 15;
+		infoPanel.add(cartButton, gbc_cartButton);
 		
-	}
-	
-	private class HomeListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e) 
-		{
-			frame.dispose();
-		}
+		return panel;
 	}
 	 
 	private class CartListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			Date movieTime=null;
+			Date movieTime = null;
 			DateFormat dateformat;
 			String selectedShowTime;
-			String seat= (String)seatsComboBox.getSelectedItem();
+			String seat= (String) seatsComboBox.getSelectedItem();
 			Double price= selectedMovie.getPrice();
 			
 	        for (Enumeration<AbstractButton> buttons = showtimesButtons.getElements(); buttons.hasMoreElements();) {
@@ -272,12 +245,12 @@ public class MovieGUI {
 
 	            if (button.isSelected()) {
 	            	 
-	            	selected=true;
+	            	selected = true;
 	            	selectedShowTime = button.getText();
 	            	dateformat = new SimpleDateFormat("hh:mm a");
 	            	
 	            	try {
-						movieTime= dateformat.parse(selectedShowTime);
+						movieTime = dateformat.parse(selectedShowTime);
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 					}
