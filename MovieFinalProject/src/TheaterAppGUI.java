@@ -29,7 +29,7 @@ public class TheaterAppGUI {
 	public JFrame frame;
 	public String sortOption;
 	public String chooseOption;
-	public JComboBox sortComboBox;
+	public JComboBox<String> sortComboBox;
 	public JComboBox<String> movieComboBox;
 	public CheckoutGUI newCheckoutWindow;
 	private JPanel moviePanel;
@@ -124,6 +124,7 @@ public class TheaterAppGUI {
 		gbc_searchTextField.gridy = 2;
 		frame.getContentPane().add(searchTextField, gbc_searchTextField);
 		searchTextField.setColumns(10);
+		searchTextField.addActionListener(new SearchListener());
 		
 		JButton enterButton = new JButton("Enter");
 		enterButton.setBackground(Color.WHITE);
@@ -268,6 +269,7 @@ public class TheaterAppGUI {
 			
 			LinkedList<Movie> matches = 
 					new LinkedList<Movie>(Movie.searchTitles(movieCollection, searchTextField.getText()));
+			
 			if(matches.isEmpty()) {
 				JOptionPane.showMessageDialog(frame, "No results for <"+ movieTitleSearch +">- Please try again");
 			} else {
@@ -320,27 +322,21 @@ public class TheaterAppGUI {
 			chooseOption= (String)movieComboBox.getSelectedItem();
 			try {
 			if(chooseOption.equals(movie1.getTitle())){
-				MovieGUI newMovieWindow = new MovieGUI(movies[0]);
 				MovieGUI.NewScreen(movies[0]);
 			}
 			else if(chooseOption.equals(movie2.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[1]);
 				MovieGUI.NewScreen(movies[1]);
 			}
 			else if(chooseOption.equals(movie3.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[2]);
 				MovieGUI.NewScreen(movies[2]);
 			}
 			else if(chooseOption.equals(movie4.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[3]);
 				MovieGUI.NewScreen(movies[3]);
 			}
 			else if(chooseOption.equals(movie5.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[4]);
 				MovieGUI.NewScreen(movies[4]);
 			}
 			else if(chooseOption.equals(movie6.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[5]);
 				MovieGUI.NewScreen(movies[5]);
 			}
 			else {
@@ -360,9 +356,9 @@ public class TheaterAppGUI {
 			CheckoutGUI.ticketString=""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
 			newCheckoutWindow = new CheckoutGUI();
 			try {
-			Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
+			Iterator<Ticket> iterator= TheaterAppGUI.customer.getCustomerTickets().iterator();
 			while(iterator.hasNext()){
-				CheckoutGUI.ticketString=CheckoutGUI.ticketString+iterator.next().getMovie().getTitle()+"\n";
+				CheckoutGUI.ticketString += iterator.next().getMovie().getTitle()+"\n";
 			}
 			CheckoutGUI.NewScreen();
 			}
