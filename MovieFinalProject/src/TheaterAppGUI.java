@@ -271,6 +271,7 @@ public class TheaterAppGUI {
 		}
 		movieComboBox.revalidate();
 		moviePanel.revalidate();
+		moviePanel.repaint();
 	}
 
 	private void setMovieDisplayCheckout() {
@@ -343,51 +344,12 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-<<<<<<< HEAD
-			chooseOption= (String)movieComboBox.getSelectedItem();
-			try {
-			if(chooseOption.equals(movie1.getTitle())){
-				MovieGUI.NewScreen(movies[0]);
-			}
-			else if(chooseOption.equals(movie2.getTitle())) {
-				MovieGUI.NewScreen(movies[1]);
-			}
-			else if(chooseOption.equals(movie3.getTitle())) {
-				MovieGUI.NewScreen(movies[2]);
-			}
-			else if(chooseOption.equals(movie4.getTitle())) {
-				MovieGUI.NewScreen(movies[3]);
-			}
-			else if(chooseOption.equals(movie5.getTitle())) {
-				MovieGUI.NewScreen(movies[4]);
-			}
-			else if(chooseOption.equals(movie6.getTitle())) {
-				MovieGUI.NewScreen(movies[5]);
-=======
 			chooseOption = (String) movieComboBox.getSelectedItem();
-			Collection<Movie> choosenCollection = movieCollection;
+			Collection<Movie> chosenCollection = movieCollection;
 			
-			if(chooseOption.equals(movie1.getTitle())) {
-				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
-			}
-			else if(chooseOption.equals(movie2.getTitle())){
-				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
-			}
-			else if(chooseOption.equals(movie3.getTitle())){
-				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
->>>>>>> 763691dbb6e46bbc19fd0af48ef822773d2bb15d
-			}
-			else if(chooseOption.equals(movie4.getTitle())){
-				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
-			}
-			else if(chooseOption.equals(movie5.getTitle())){
-				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
-			}
-			else if(chooseOption.equals(movie6.getTitle())){
-				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
-			}
+			chosenCollection = Movie.searchTitles(chosenCollection, chooseOption);
 			
-			setMovieDisplay(choosenCollection);
+			setMovieDisplay(chosenCollection);
 		}
 	}
 	
