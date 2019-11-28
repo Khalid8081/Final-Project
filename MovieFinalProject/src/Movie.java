@@ -26,6 +26,7 @@ public class Movie implements Serializable {
 		setPoster(poster);
 		setPrice(price);
 	}
+	
 	public double getPrice() {
 		return price;
 	}
@@ -37,6 +38,7 @@ public class Movie implements Serializable {
 	public String getTitle() {
 		return title;
 	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -44,6 +46,7 @@ public class Movie implements Serializable {
 	public String getGenre() {
 		return genre;
 	}
+	
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
@@ -51,6 +54,7 @@ public class Movie implements Serializable {
 	public String getMpaaRating() {
 		return mpaaRating;
 	}
+	
 	public void setMpaaRating(String mpaaRating) {
 		this.mpaaRating = mpaaRating;
 	}
@@ -58,6 +62,7 @@ public class Movie implements Serializable {
 	public String[] getShowTimes() {
 		return showTimes;
 	}
+	
 	public void setShowTimes(String[] showTimes) {
 		this.showTimes = showTimes;
 	}
@@ -65,11 +70,10 @@ public class Movie implements Serializable {
 	public ImageIcon getPoster() {
 		return poster;
 	}
+	
 	public void setPoster(ImageIcon poster) {
 		this.poster = poster;
 	}
-	
-	
 	
 	/*Sort collection of movies alphabetically
 	 * Parameters:
