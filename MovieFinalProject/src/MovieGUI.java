@@ -205,7 +205,7 @@ public class MovieGUI {
 		seatsLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
 		seatsLabel.setForeground(Color.BLACK);
 		
-		seatsComboBox = new JComboBox(seats);
+		seatsComboBox = new JComboBox<String>(seats);
 		GridBagConstraints gbc_seatsComboBox = new GridBagConstraints();
 		gbc_seatsComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_seatsComboBox.anchor = GridBagConstraints.WEST;
