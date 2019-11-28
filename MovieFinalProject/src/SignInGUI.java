@@ -24,7 +24,7 @@ public class SignInGUI {
 	private JTextField lastNameTextField;
 	private JTextField phoneNumberTextField;
 
-	public static void NewScreen() {
+	public void NewScreen() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
