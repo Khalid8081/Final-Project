@@ -36,10 +36,14 @@ public class MovieBuilder extends JPanel {
 	private static final String GENRE = "genre";
 	private static final String SHOWTIME = "showtime";
 	private static final String POSTER = "poster";
+	private static final String SEAT = "seat";
+	private static final String COLUMNS = "Columns";
+	private static final String ROWS = "Rows";
 
 	private JPanel infoPanel;
 	private JButton addMovieButton;
 	private ImageIcon poster;
+	private int seatRows, seatCols;
 	
 	public MovieBuilder() {
 		
@@ -109,7 +113,7 @@ public class MovieBuilder extends JPanel {
 		gbc_movieTitleText.insets = new Insets(0, 0, 5, 5);
 		gbc_movieTitleText.gridx = 1;
 		gbc_movieTitleText.gridy = 1;
-		gbc_movieTitleText.gridwidth = 8;
+		gbc_movieTitleText.gridwidth = 6;
 		gbc_movieTitleText.fill = GridBagConstraints.HORIZONTAL;
 		infoPanel.add(movieTitleText, gbc_movieTitleText);
 		movieTitleText.setBackground(Color.WHITE);
@@ -190,7 +194,7 @@ public class MovieBuilder extends JPanel {
 		addGenreButton.setContentAreaFilled(false);
 		addGenreButton.setBorder(null);
 		infoPanel.add(addGenreButton, gbc_addGenreButton);
-		addGenreButton.addActionListener(new AddDataListener(GENRE));
+		addGenreButton.addActionListener(new AddTextFieldListener(GENRE));
 		
 		JLabel showtimesLabel = new JLabel("Showtimes:");
 		GridBagConstraints gbc_showtimesLabel = new GridBagConstraints();
@@ -223,7 +227,40 @@ public class MovieBuilder extends JPanel {
 		addShowtimeButton.setContentAreaFilled(false);
 		addShowtimeButton.setBorder(null);
 		infoPanel.add(addShowtimeButton, gbc_addShowtimeButton);
-		addShowtimeButton.addActionListener(new AddDataListener(SHOWTIME));
+		addShowtimeButton.addActionListener(new AddTextFieldListener(SHOWTIME));
+		
+		JLabel seatsLabel = new JLabel("Seats:");
+		GridBagConstraints gbc_seatsLabel = new GridBagConstraints();
+		gbc_seatsLabel.anchor = GridBagConstraints.WEST;
+		gbc_seatsLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_seatsLabel.gridx = 0;
+		gbc_seatsLabel.gridy = 6;
+		infoPanel.add(seatsLabel, gbc_seatsLabel);
+		seatsLabel.setBackground(Color.WHITE);
+		seatsLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
+		seatsLabel.setForeground(Color.BLACK);
+		
+		JTextField seatRowsText = new JTextField(5);
+		seatRowsText.setToolTipText(ROWS);
+		seatRowsText.setName(SEAT + ROWS);
+		GridBagConstraints gbc_seatRowsText = new GridBagConstraints();
+		gbc_seatRowsText.gridx = 1;
+		gbc_seatRowsText.gridy = 6;
+		infoPanel.add(seatRowsText, gbc_seatRowsText);
+		seatRowsText.setBackground(Color.WHITE);
+		seatRowsText.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
+		seatRowsText.setForeground(Color.BLACK);
+		
+		JTextField seatColsText = new JTextField(5);
+		seatColsText.setToolTipText(COLUMNS);
+		seatColsText.setName(SEAT + COLUMNS);
+		GridBagConstraints gbc_seatColsText = new GridBagConstraints();
+		gbc_seatColsText.gridx = 2;
+		gbc_seatColsText.gridy = 6;
+		infoPanel.add(seatColsText, gbc_seatColsText);
+		seatColsText.setBackground(Color.WHITE);
+		seatColsText.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
+		seatColsText.setForeground(Color.BLACK);
 		
 		addMovieButton = new JButton("Add Movie");
 		addMovieButton.setBackground(Color.WHITE);
@@ -248,10 +285,12 @@ public class MovieBuilder extends JPanel {
 			Component[] components = infoPanel.getComponents();
 			
 			String title = null;
-			String genre = null;
+			LinkedList<String> genreList = new LinkedList<String>();
 			String mpaaRating = null;
 			LinkedList<String> timesList = new LinkedList<String>();
 			double price = 0.0;
+			int seatRows = 0;
+			int seatCols = 0;
 			
 			for (Component comp : components) {
 				if (comp.getClass() == JTextField.class) {
@@ -264,15 +303,26 @@ public class MovieBuilder extends JPanel {
 					if (field.getName().contentEquals(MPAA_RATING))
 						mpaaRating = text;
 					if (field.getName().contains(GENRE))
-						genre = text;
+						genreList.add(text);
 					if (field.getName().contains(SHOWTIME))
 						timesList.add(text);
+					if (field.getName().contains(SEAT)) {
+						if (field.getToolTipText().contentEquals(ROWS))
+							seatRows = Integer.parseInt(field.getText());
+						if (field.getToolTipText().contentEquals(COLUMNS))
+							seatCols = Integer.parseInt(field.getText());
+					}
 				}
 			}
 
 			String[] times = new String[timesList.toArray().length];
 			timesList.toArray(times);
-			movie = new Movie(title, genre, mpaaRating, times, poster, price);
+			
+			String[] genres = new String[genreList.toArray().length];
+			genreList.toArray(genres);
+			
+			ImageIcon moviePoster = new ImageIcon(poster.getImage());
+			movie = new Movie(title, genres, mpaaRating, times, moviePoster, price, seatRows, seatCols);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -280,10 +330,10 @@ public class MovieBuilder extends JPanel {
 		return movie;
 	}
 	
-	private class AddDataListener implements ActionListener {
+	private class AddTextFieldListener implements ActionListener {
 		private String type;
 		
-		public AddDataListener(String type) {
+		public AddTextFieldListener(String type) {
 			super();
 			this.type = type;
 		}
@@ -316,15 +366,20 @@ public class MovieBuilder extends JPanel {
 		Collection<Movie> movies = null;
 		
 		try {
-			FileInputStream file = new FileInputStream(dataFile);
+			FileInputStream file = new FileInputStream(backupDataFile);
 			ObjectInputStream in = new ObjectInputStream(file);
 		
 			movies = (Collection<Movie>) in.readObject();
 
 			in.close();
 			file.close();
+			
+			String[] showtimes = {"6:00 pm", "6:30 pm", "7:00 pm", "7:30 pm"};
+			for (Movie movie : movies) {
+				movie.setShowTimes(showtimes);
+			}
 		} catch (Exception e) {
-			//Do Nothing
+			System.out.println("Can't Read Movies");
 		}
 		
 		return movies;
@@ -349,7 +404,8 @@ public class MovieBuilder extends JPanel {
 			filein.close();
 			fileout.close();
 		} catch (Exception e) {
-			//Do Nothing
+			System.out.println("Can't Write Movies");
+			e.printStackTrace();
 		} 
 	}
 }

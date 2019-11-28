@@ -11,22 +11,28 @@ public class Movie implements Serializable {
 	public static final long serialVersionUID = -8547026694153616901L;
 	
 	private String title;
-	private String genre;
+	private String[] genres;
 	private String mpaaRating;
 	private Double price;
 	private String[] showTimes;
 	private ImageIcon poster;
-	//seats
-//	private String[] seats;
-//	private boolean[] seatsFilled;
+	private Seat[][] seats;
 	
-	public Movie(String title, String genre, String mpaaRating, String[] times, ImageIcon poster, double price) {
+	public Movie(String title, String[] genres, String mpaaRating, String[] times, ImageIcon poster, double price, int seatRows, int seatCols) {
 		setTitle(title);
-		setGenre(genre);
+		setGenres(genres);
 		setMpaaRating(mpaaRating);
 		setShowTimes(times);
 		setPoster(poster);
 		setPrice(price);
+		
+		seats = new Seat[seatRows][seatCols];
+		for (int row = 0; row < seatRows; row++) {
+			char colID = 'A';
+			for (int col = 0; col < seatCols; col++, colID++) {
+				seats[row][col] = new Seat("" + (row+1) + colID);
+			}
+		}
 	}
 	
 	public double getPrice() {
@@ -45,12 +51,12 @@ public class Movie implements Serializable {
 		this.title = title;
 	}
 
-	public String getGenre() {
-		return genre;
+	public String[] getGenres() {
+		return genres;
 	}
 	
-	public void setGenre(String genre) {
-		this.genre = genre;
+	public void setGenres(String[] genres) {
+		this.genres = genres;
 	}
 
 	public String getMpaaRating() {
@@ -75,6 +81,40 @@ public class Movie implements Serializable {
 	
 	public void setPoster(ImageIcon poster) {
 		this.poster = poster;
+	}
+	
+	public void setSeats(Seat[][] seats) {
+		this.seats = seats;
+	}
+	public Seat[][] getSeats() {
+		return seats;
+	}
+	
+	public class Seat implements Serializable {
+		public static final long serialVersionUID = -8547026694153616902L;
+		
+		private String seatName;
+		private boolean[] isTaken;
+		
+		public Seat(String seatName) {
+			System.out.println(seatName);
+			this.seatName = seatName;
+			isTaken = new boolean[showTimes.length];
+		}
+		
+		public void setSeatName(String seatName) {
+			this.seatName = seatName;
+		}
+		public String getSeatName() {
+			return seatName;
+		}
+		
+		public boolean[] isTaken() {
+			return isTaken;
+		}
+		public void setIsTaken(boolean[] isTaken) {
+			this.isTaken = isTaken;
+		}
 	}
 	
 	/*Sort collection of movies alphabetically
@@ -133,8 +173,9 @@ public class Movie implements Serializable {
 		
 		for (String acceptableGenre : genres)
 			for (Movie movie : movies) 
-				if (movie.genre.equals(acceptableGenre))
-					selectedMovies.add(movie);
+				for (String genre : movie.genres)
+					if (genre.contentEquals(acceptableGenre) && !movies.contains(movie))
+						movies.add(movie);
 		
 		return selectedMovies;
 	}

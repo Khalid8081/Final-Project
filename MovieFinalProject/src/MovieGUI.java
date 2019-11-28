@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 public class MovieGUI {
 	public static final String MOVIE_TITLE = "movie title";
 	
-	public ButtonGroup showtimesButtons = new ButtonGroup();
+	public ButtonGroup showtimeButtons;
 	public JComboBox<String> seatsComboBox;
 	public Movie selectedMovie;
 	public AbstractButton button;
@@ -41,9 +41,7 @@ public class MovieGUI {
 	private ActionListener actionListener;
 	
 	private JFrame frame;
-	private String seats [] = {"1A", "1B", "1C","1D", "2A", "2B", "2C", "2D", "3A",
-								"3B", "3C",	"3D", "4A",	"4B", "4C", "4D", "5A", "5B", "5C", "5D", "6A",			//Possibly store in Movie class? making seats another attribute to a Movie
-								"6B", "6C", "6D", "7A", "7B", "7C", "7D"};
+	
 	
 	public static void NewScreen(Movie movie) {
 		EventQueue.invokeLater(new Runnable() {
@@ -126,7 +124,11 @@ public class MovieGUI {
 		priceLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
 		priceLabel.setForeground(Color.BLACK);
 		
-		JLabel movieGenreLabel = new JLabel("Genre: " + movie.getGenre());
+		String movieGenres = "";
+		for (String genre : movie.getGenres()) {
+			movieGenres += genre + ", ";
+		}
+		JLabel movieGenreLabel = new JLabel("Genres: " + movieGenres.substring(0, movieGenres.length() - 2));
 		GridBagConstraints gbc_movieGenreLabel = new GridBagConstraints();
 		gbc_movieGenreLabel.anchor = GridBagConstraints.WEST;
 		gbc_movieGenreLabel.insets = new Insets(0, 0, 5, 5);
@@ -159,45 +161,18 @@ public class MovieGUI {
 		showtimesLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
 		showtimesLabel.setForeground(Color.BLACK);
 		
-		JRadioButton showtimes1Button = new JRadioButton("6:00 PM");    //Showtime radio buttons would then need an action listener
-		GridBagConstraints gbc_showtimes1Button = new GridBagConstraints();
-		gbc_showtimes1Button.anchor = GridBagConstraints.WEST;
-		gbc_showtimes1Button.insets = new Insets(0, 0, 5, 5);
-		gbc_showtimes1Button.gridx = 1;
-		gbc_showtimes1Button.gridy = 5;
-		infoPanel.add(showtimes1Button, gbc_showtimes1Button);
-		showtimes1Button.setForeground(Color.BLACK);
-		showtimesButtons.add(showtimes1Button);
-		
-		JRadioButton showtimes2Button = new JRadioButton("6:30 PM");
-		GridBagConstraints gbc_showtimes2Button = new GridBagConstraints();
-		gbc_showtimes2Button.anchor = GridBagConstraints.WEST;
-		gbc_showtimes2Button.insets = new Insets(0, 0, 5, 5);
-		gbc_showtimes2Button.gridx = 2;
-		gbc_showtimes2Button.gridy = 5;
-		infoPanel.add(showtimes2Button, gbc_showtimes2Button);
-		showtimes2Button.setForeground(Color.BLACK);
-		showtimesButtons.add(showtimes2Button);
-		
-		JRadioButton showtimes3Button = new JRadioButton("7:00 PM");
-		GridBagConstraints gbc_showtimes3Button = new GridBagConstraints();
-		gbc_showtimes3Button.anchor = GridBagConstraints.WEST;
-		gbc_showtimes3Button.insets = new Insets(0, 0, 5, 5);
-		gbc_showtimes3Button.gridx = 3;
-		gbc_showtimes3Button.gridy = 5;
-		infoPanel.add(showtimes3Button, gbc_showtimes3Button);
-		showtimes3Button.setForeground(Color.BLACK);
-		showtimesButtons.add(showtimes3Button);
-		
-		JRadioButton showtimes4Button = new JRadioButton("7:30 PM");
-		GridBagConstraints gbc_showtimes4Button = new GridBagConstraints();
-		gbc_showtimes4Button.anchor = GridBagConstraints.WEST;
-		gbc_showtimes4Button.insets = new Insets(0, 0, 5, 5);
-		gbc_showtimes4Button.gridx = 4;
-		gbc_showtimes4Button.gridy = 5;
-		infoPanel.add(showtimes4Button, gbc_showtimes4Button);
-		showtimes4Button.setForeground(Color.BLACK);
-		showtimesButtons.add(showtimes4Button);
+		showtimeButtons = new ButtonGroup();
+		for (int i = 0; i < movie.getShowTimes().length; i++) {
+			JRadioButton showtimesButton = new JRadioButton(movie.getShowTimes()[i]);    
+			GridBagConstraints gbc_showtimesButton = new GridBagConstraints();
+			gbc_showtimesButton.anchor = GridBagConstraints.WEST;
+			gbc_showtimesButton.insets = new Insets(0, 0, 5, 5);
+			gbc_showtimesButton.gridx = i + 1;
+			gbc_showtimesButton.gridy = 5;
+			infoPanel.add(showtimesButton, gbc_showtimesButton);
+			showtimesButton.setForeground(Color.BLACK);
+			showtimeButtons.add(showtimesButton);
+		}
 		
 		JLabel seatsLabel = new JLabel("Seats:");
 		GridBagConstraints gbc_seatsLabel = new GridBagConstraints();
@@ -210,7 +185,15 @@ public class MovieGUI {
 		seatsLabel.setFont(new Font("HelveticaNeue", Font.PLAIN, 18));
 		seatsLabel.setForeground(Color.BLACK);
 		
-		seatsComboBox = new JComboBox<String>(seats);
+		Movie.Seat[][] seats = movie.getSeats();
+		String[] seatNames = new String[seats.length * seats[0].length];
+		for (int row = 0; row < seats.length; row++) {
+			for (int col = 0; col < seats[0].length; col++) {
+				if (!seats[row][col].isTaken()[0])
+					seatNames[row * seats[0].length + col] = seats[row][col].getSeatName();
+			}
+		}
+		seatsComboBox = new JComboBox<String>(seatNames);
 		GridBagConstraints gbc_seatsComboBox = new GridBagConstraints();
 		gbc_seatsComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_seatsComboBox.anchor = GridBagConstraints.WEST;
@@ -259,20 +242,34 @@ public class MovieGUI {
 			Date movieTime = null;
 			DateFormat dateformat;
 			String selectedShowTime;
-			String seat= (String) seatsComboBox.getSelectedItem();
+			String seat = (String) seatsComboBox.getSelectedItem();
 			Double price= selectedMovie.getPrice();
 			
-	        for (Enumeration<AbstractButton> buttons = showtimesButtons.getElements(); buttons.hasMoreElements();) {
+	        for (Enumeration<AbstractButton> buttons = showtimeButtons.getElements(); buttons.hasMoreElements();) {
 	        	button = buttons.nextElement();
 
 	            if (button.isSelected()) {
-	            	 
+	            	
 	            	selected = true;
 	            	selectedShowTime = button.getText();
 	            	dateformat = new SimpleDateFormat("hh:mm a");
 	            	
 	            	try {
 						movieTime = dateformat.parse(selectedShowTime);
+						
+						int showtimeIndex = 0;
+						//TODO: Implement after implementing gui option to switch showtime seat visibility
+//						for (int i = 0; i < selectedMovie.getShowTimes().length; i++)
+//							if (selectedMovie.getShowTimes()[i].contentEquals(button.getText()))
+//								showtimeIndex = i;
+						
+						for (Movie.Seat[] movieSeats : selectedMovie.getSeats()) {
+							for (Movie.Seat movieSeat : movieSeats) {
+								if (movieSeat.getSeatName().contentEquals(seat))
+									movieSeat.isTaken()[0] = true;
+							}
+						}
+								
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 					}

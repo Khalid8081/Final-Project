@@ -65,11 +65,10 @@ public class TheaterAppGUI {
 	}
 	
 	public TheaterAppGUI()  {
-		try {
-			movies = MovieBuilder.readMovies();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		movies = MovieBuilder.readMovies();
+
+		if (movies == null)
+			movies = new LinkedList<Movie>();
 		
 		initialize(); 
 	}
@@ -300,6 +299,8 @@ public class TheaterAppGUI {
 		moviePanel.removeAll();
 		movieComboBox.removeAllItems();
 		for (Movie movie : movies) {
+			if (movie != null) System.out.println(movie.getTitle());
+			else if (movie.getPoster() == null) System.out.println("Null Poster");
 			JLabel moviePosterLabel = new JLabel();
 			moviePosterLabel.setIcon(new ImageIcon(movie.getPoster().getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH)));
 			moviePanel.add(moviePosterLabel);
@@ -448,7 +449,7 @@ public class TheaterAppGUI {
 			
 				setMovieDisplayHome();
 			} else {
-				//TODO: Display error somewhere
+				System.out.println("Null Movie");
 			}
 		}
 	}
@@ -469,6 +470,7 @@ public class TheaterAppGUI {
 						target = movie;
 				}
 				movies.remove(target);
+				
 				MovieBuilder.writeMovies(movies);
 				setMovieDisplay(movies);
 			}
