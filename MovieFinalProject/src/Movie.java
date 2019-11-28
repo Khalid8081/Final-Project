@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 
 public class Movie implements Serializable {
-	public static final long serialVersionUID = 129857L;
+	public static final long serialVersionUID = -8547026694153616901L;
 	
 	private String title;
 	private String genre;
@@ -17,7 +17,8 @@ public class Movie implements Serializable {
 	private String[] showTimes;
 	private ImageIcon poster;
 	//seats
-	 
+//	private String[] seats;
+//	private boolean[] seatsFilled;
 	
 	public Movie(String title, String genre, String mpaaRating, String[] times, ImageIcon poster, double price) {
 		setTitle(title);

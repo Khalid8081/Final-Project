@@ -48,7 +48,7 @@ public class TheaterAppGUI {
 	
 	private JTextField searchTextField;
 	
-	public Collection<Movie> movieCollection; // We want to use a Collection so we can use the sorting methods
+	public Collection<Movie> movies; 
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -65,7 +65,7 @@ public class TheaterAppGUI {
 	
 	public TheaterAppGUI()  {
 		try {
-			movieCollection = MovieBuilder.readMovies();
+			movies = MovieBuilder.readMovies();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -141,7 +141,7 @@ public class TheaterAppGUI {
 		gbc_nowShowingLabel.gridy = 3;
 		frame.getContentPane().add(nowShowingLabel, gbc_nowShowingLabel); 
 		
-		String sortComboBoxStrings[] = {CARD1, CARD2, CARD3, CARD4, CARD5,CARD6,CARD7,CARD8};		//This is combo box for sorting methods, not functional right now
+		String sortComboBoxStrings[] = {CARD1, CARD2, CARD3, CARD4, CARD5,CARD6,CARD7,CARD8};
 		sortComboBox = new JComboBox<String>(sortComboBoxStrings);
 		sortComboBox.setBackground(Color.WHITE);
 		sortComboBox.setFont(new Font("Helvetica", Font.ITALIC + Font.BOLD, 15));
@@ -202,7 +202,7 @@ public class TheaterAppGUI {
 		
 		moviePanel = new JPanel();
 		moviePanel.setLayout(new GridBagLayout());
-		setMovieDisplayHome(movieCollection);
+		setMovieDisplayHome();
 		
 		JScrollPane movieScrollPane = new JScrollPane(moviePanel);
 		movieScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -237,12 +237,41 @@ public class TheaterAppGUI {
 		gbc_checkoutButton.gridy = 8;
 		frame.getContentPane().add(checkoutButton, gbc_checkoutButton);
 		
+		JButton newMovieButton = new JButton("New Movie");
+		newMovieButton.setBackground(Color.WHITE);
+		newMovieButton.setForeground(Color.BLACK);
+		newMovieButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		newMovieButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setMovieDisplayAddNew();
+			}
+		});
+		GridBagConstraints gbc_newMovieButton = new GridBagConstraints();
+		gbc_newMovieButton.insets = new Insets(5, 20, 10, 5);
+		gbc_newMovieButton.gridx = 6;
+		gbc_newMovieButton.gridy = 1;
+		frame.getContentPane().add(newMovieButton, gbc_newMovieButton);
 	}
 	
-	public void setMovieDisplayHome(Collection<Movie> displayedMovies) { //Home movie display with all movie posters
+	public void setMovieDisplayAddNew() {
 		moviePanel.removeAll();
 		movieComboBox.removeAllItems();
-		for (Movie movie : displayedMovies) {
+		
+		MovieBuilder builder = new MovieBuilder();
+		builder.addActionListener(new NewMovieListener());
+		
+		moviePanel.add(builder);
+		
+		movieComboBox.revalidate();
+		moviePanel.revalidate();
+		moviePanel.repaint();
+	}
+	
+	public void setMovieDisplayHome() { //Home movie display with all movie posters
+		moviePanel.removeAll();
+		movieComboBox.removeAllItems();
+		for (Movie movie : movies) {
 			JLabel moviePosterLabel = new JLabel();
 			moviePosterLabel.setIcon(new ImageIcon(movie.getPoster().getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH)));
 			moviePanel.add(moviePosterLabel);
@@ -286,7 +315,7 @@ public class TheaterAppGUI {
 			String movieTitleSearch = searchTextField.getText();
 			
 			LinkedList<Movie> matches = 
-					new LinkedList<Movie>(Movie.searchTitles(movieCollection, searchTextField.getText()));
+					new LinkedList<Movie>(Movie.searchTitles(movies, searchTextField.getText()));
 			
 			if(matches.isEmpty()) {
 				JOptionPane.showMessageDialog(frame, "No results for "+ movieTitleSearch +". Please try again");
@@ -301,32 +330,32 @@ public class TheaterAppGUI {
 		public void actionPerformed(ActionEvent e) 
 		{
 			sortOption = (String) sortComboBox.getSelectedItem();
-			Collection<Movie> sortedCollection = movieCollection;
+			Collection<Movie> sortedCollection = movies;
 			
 			movieComboBox.removeAllItems(); 
 			if(sortOption.equals(CARD1)) {
-				sortedCollection = Movie.sortByTitle(movieCollection);
+				sortedCollection = Movie.sortByTitle(movies);
 			}
 			else if(sortOption.equals(CARD2)){
-				sortedCollection = Movie.filterGenres(movieCollection, sortOption);
+				sortedCollection = Movie.filterGenres(movies, sortOption);
 			}
 			else if(sortOption.equals(CARD3)){
-				sortedCollection = Movie.filterGenres(movieCollection, sortOption);
+				sortedCollection = Movie.filterGenres(movies, sortOption);
 			}
 			else if(sortOption.equals(CARD4)){
-				sortedCollection = Movie.filterGenres(movieCollection, sortOption);
+				sortedCollection = Movie.filterGenres(movies, sortOption);
 			}
 			else if(sortOption.equals(CARD5)){
-				sortedCollection = Movie.filterGenres(movieCollection, sortOption);
+				sortedCollection = Movie.filterGenres(movies, sortOption);
 			}
 			else if(sortOption.equals(CARD6)){
-				sortedCollection = Movie.filterRatings(movieCollection, sortOption);
+				sortedCollection = Movie.filterRatings(movies, sortOption);
 			}
 			else if(sortOption.equals(CARD7)){
-				sortedCollection = Movie.filterRatings(movieCollection, sortOption);
+				sortedCollection = Movie.filterRatings(movies, sortOption);
 			}
 			else if(sortOption.equals(CARD8)){
-				sortedCollection = Movie.filterRatings(movieCollection, sortOption);
+				sortedCollection = Movie.filterRatings(movies, sortOption);
 			}
 			
 			setMovieDisplay(sortedCollection);
@@ -338,7 +367,7 @@ public class TheaterAppGUI {
 		public void actionPerformed(ActionEvent e) 
 		{
 			chooseOption = (String) movieComboBox.getSelectedItem();
-			Collection<Movie> chosenCollection = movieCollection;
+			Collection<Movie> chosenCollection = movies;
 			
 			chosenCollection = Movie.searchTitles(chosenCollection, chooseOption);
 			
@@ -350,7 +379,7 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			setMovieDisplayHome(movieCollection);
+			setMovieDisplayHome();
 		}
 	}
 	
@@ -368,6 +397,29 @@ public class TheaterAppGUI {
 			}
 			catch(NullPointerException e1) {
 				JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.");
+			}
+		}
+	}
+	
+	public class NewMovieListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton source = (JButton) e.getSource();
+			JPanel infoPanel = (JPanel) source.getParent();
+			MovieBuilder builder = (MovieBuilder) infoPanel.getParent();
+			Movie newMovie = builder.getMovie();
+			
+			if (newMovie != null) {
+				movies.add(newMovie);
+				try {
+//					MovieBuilder.writeMovies(movies);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			
+				setMovieDisplayHome();
+			} else {
+				//TODO: Display error somewhere
 			}
 		}
 	}

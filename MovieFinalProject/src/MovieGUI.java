@@ -111,7 +111,7 @@ public class MovieGUI {
 		movieTitleLabel.setFont(new Font("HelveticaNeue", Font.BOLD, 45));
 		movieTitleLabel.setForeground(Color.BLACK);
 		
-		JLabel priceLabel = new JLabel("Price: $" + movie.getPrice());
+		JLabel priceLabel = new JLabel("Price: $" + String.format("%2.2f", movie.getPrice()));
 		GridBagConstraints gbc_priceLabel = new GridBagConstraints();
 		gbc_priceLabel.anchor = GridBagConstraints.WEST;
 		gbc_priceLabel.gridx = 0;
