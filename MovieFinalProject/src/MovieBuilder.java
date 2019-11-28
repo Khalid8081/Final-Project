@@ -15,7 +15,6 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -58,7 +57,6 @@ public class MovieBuilder extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser("movie-data");
-				File file = null;
 				
 				int returnVal = chooser.showOpenDialog(new JFrame("Choose File"));
 				if (returnVal == JFileChooser.APPROVE_OPTION) {

@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -251,7 +252,34 @@ public class TheaterAppGUI {
 		gbc_newMovieButton.insets = new Insets(5, 20, 10, 5);
 		gbc_newMovieButton.gridx = 6;
 		gbc_newMovieButton.gridy = 1;
-		frame.getContentPane().add(newMovieButton, gbc_newMovieButton);
+		
+		JButton signInButton = new JButton("Sign In");
+		signInButton.setBackground(Color.WHITE);
+		signInButton.setForeground(Color.BLACK);
+		signInButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		signInButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (customer == null) {
+					SignInGUI.NewScreen();
+					return;
+				}
+				
+				
+				
+				frame.getContentPane().remove(signInButton);
+				
+				if (customer.isAdmin())
+					frame.getContentPane().add(newMovieButton, gbc_newMovieButton);
+				frame.revalidate();
+				frame.repaint();
+			}
+		});
+		GridBagConstraints gbc_signInButton = new GridBagConstraints();
+		gbc_signInButton.insets = new Insets(5, 20, 10, 5);
+		gbc_signInButton.gridx = 6;
+		gbc_signInButton.gridy = 1;
+		frame.getContentPane().add(signInButton, gbc_signInButton);
 	}
 	
 	public void setMovieDisplayAddNew() {
@@ -285,7 +313,8 @@ public class TheaterAppGUI {
 		moviePanel.removeAll();
 		movieComboBox.removeAllItems();
 		for (Movie movie : displayedMovies) {
-			MovieGUI newDisplay = new MovieGUI(movie); //Calls MovieGUI which then returns a panel with movie info
+			MovieGUI newDisplay = new MovieGUI(movie); 
+			newDisplay.addActionListener(new MovieGUIListener());
 			JPanel panel = newDisplay.initialize(movie);
 			moviePanel.add(panel);
 			movieComboBox.addItem(movie.getTitle());
@@ -412,7 +441,7 @@ public class TheaterAppGUI {
 			if (newMovie != null) {
 				movies.add(newMovie);
 				try {
-//					MovieBuilder.writeMovies(movies);
+					MovieBuilder.writeMovies(movies);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -420,6 +449,28 @@ public class TheaterAppGUI {
 				setMovieDisplayHome();
 			} else {
 				//TODO: Display error somewhere
+			}
+		}
+	}
+	
+	public class MovieGUIListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JPanel panel = ((JPanel) ((JButton) e.getSource()).getParent());
+			String movieTitle = null;
+			for (Component comp : panel.getComponents()) {
+				if (comp.getName() != null && comp.getName().contentEquals(MovieGUI.MOVIE_TITLE))
+					movieTitle = ((JLabel) comp).getText();
+			}
+			if (movieTitle != null) {
+				Movie target = null;
+				for (Movie movie : movies) {
+					if (movie.getTitle().contentEquals(movieTitle))
+						target = movie;
+				}
+				movies.remove(target);
+				MovieBuilder.writeMovies(movies);
+				setMovieDisplay(movies);
 			}
 		}
 	}

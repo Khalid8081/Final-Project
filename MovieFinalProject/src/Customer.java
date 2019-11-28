@@ -5,6 +5,7 @@ public class Customer {
 	private String lastName;
 	private String phoneNumber;
 	private double balance;
+	private boolean isAdmin;
 	private PriorityQueue<Ticket> customerTickets;
     
 	public Customer(String firstName, String lastName, String phoneNumber, double balance) {
@@ -41,7 +42,16 @@ public class Customer {
 	public void setPhoneNumber(String phoneNumber) {
 		if(phoneNumber!=null || phoneNumber!="") {
 			this.phoneNumber = phoneNumber;
+			if (phoneNumber.contentEquals("Admin"))
+				setIsAdmin(true);
 		}
+	}
+	
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+	public void setIsAdmin(boolean isAdmin ) {
+		this.isAdmin = isAdmin;
 	}
 	
 	public double getBalance() {

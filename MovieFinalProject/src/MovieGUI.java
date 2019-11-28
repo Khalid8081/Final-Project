@@ -30,14 +30,15 @@ import javax.swing.JPanel;
 
 
 public class MovieGUI {
-
-	public static boolean accountCreated=false;
+	public static final String MOVIE_TITLE = "movie title";
+	
 	public ButtonGroup showtimesButtons = new ButtonGroup();
 	public JComboBox<String> seatsComboBox;
 	public Movie selectedMovie;
 	public AbstractButton button;
 	public boolean selected;
 	
+	private ActionListener actionListener;
 	
 	private JFrame frame;
 	private String seats [] = {"1A", "1B", "1C","1D", "2A", "2B", "2C", "2D", "3A",
@@ -57,9 +58,12 @@ public class MovieGUI {
 		});
 	}
 
+	public void addActionListener(ActionListener l) {
+		actionListener = l;
+	}
+
 	public MovieGUI(Movie movie) {
 		selectedMovie = movie;
-		initialize(movie);
 	}
 
 	public JPanel initialize(Movie movie) {
@@ -99,6 +103,7 @@ public class MovieGUI {
 		infoPanel.setLayout(gbl_infoPanel);
 		
 		JLabel movieTitleLabel = new JLabel(movie.getTitle());
+		movieTitleLabel.setName(MOVIE_TITLE);
 		GridBagConstraints gbc_movieTitleLabel = new GridBagConstraints();
 		gbc_movieTitleLabel.anchor = GridBagConstraints.WEST;
 		gbc_movieTitleLabel.insets = new Insets(0, 0, 5, 5);
@@ -227,6 +232,19 @@ public class MovieGUI {
 		gbc_cartButton.gridy = 15;
 		infoPanel.add(cartButton, gbc_cartButton);
 		
+		JButton removeButton = new JButton("Remove Movie");
+		removeButton.setBackground(Color.WHITE);
+		removeButton.setForeground(Color.BLACK);
+		removeButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		removeButton.addActionListener(actionListener);
+		GridBagConstraints gbc_removeButton = new GridBagConstraints();
+		gbc_removeButton.insets = new Insets(250, 20, 20, 5);
+		gbc_removeButton.gridx = 0;
+		gbc_removeButton.gridy = 15;
+		gbc_removeButton.gridwidth = 2;
+		if (TheaterAppGUI.customer != null && TheaterAppGUI.customer.isAdmin())
+			infoPanel.add(removeButton, gbc_removeButton);
+		
 		return panel;
 	}
 	 
@@ -234,6 +252,10 @@ public class MovieGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
+			if(TheaterAppGUI.customer == null) {
+				SignInGUI.NewScreen();
+			}
+			
 			Date movieTime = null;
 			DateFormat dateformat;
 			String selectedShowTime;
@@ -261,12 +283,7 @@ public class MovieGUI {
 
 			if(selected != true) {
 				JOptionPane.showMessageDialog(frame, "Choose a showtime and try again.");
-			}
-			else if(accountCreated == false) {
-				SignInGUI newSignUpWindow = new SignInGUI();
-				newSignUpWindow.NewScreen();
-			}
-			else {
+			} else {
 				TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
 				Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
 				TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection

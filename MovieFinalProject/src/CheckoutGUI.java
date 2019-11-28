@@ -189,10 +189,8 @@ public class CheckoutGUI {
 			double taxes = 0.0;
 			
 			//ticketTextArea
-			if(MovieGUI.accountCreated == false) {
-				SignInGUI newSignUpWindow = new SignInGUI();
-				newSignUpWindow.NewScreen();
-				MovieGUI.accountCreated = true;
+			if(TheaterAppGUI.customer == null) {
+				SignInGUI.NewScreen();
 			}
 			else if(TheaterAppGUI.customer.getCustomerTickets().isEmpty()) {
 				JOptionPane.showMessageDialog(frame, "Your cart is empty!");

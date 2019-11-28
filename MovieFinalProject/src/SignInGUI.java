@@ -24,7 +24,7 @@ public class SignInGUI {
 	private JTextField lastNameTextField;
 	private JTextField phoneNumberTextField;
 
-	public void NewScreen() {
+	public static void NewScreen() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -148,9 +148,8 @@ public class SignInGUI {
 				JOptionPane.showMessageDialog(frame, "Please enter your information.");
 			} else {
 				TheaterAppGUI.customer = new Customer(firstName, lastName, phoneNumber, 1000); 
-				MovieGUI.accountCreated=true;
 				frame.dispose();
-				JOptionPane.showMessageDialog(frame, "You are now signed in! Please add ticket to your cart.");
+				JOptionPane.showMessageDialog(frame, "You are now signed in!");
 			}
 		}
 	}
