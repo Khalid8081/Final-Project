@@ -32,7 +32,7 @@ public class TheaterAppGUI {
 	public JComboBox sortComboBox;
 	public JComboBox<String> movieComboBox;
 	public CheckoutGUI newCheckoutWindow;
-	private JPanel moviePanel;
+	public JPanel moviePanel;
 	
 	public static Customer customer;
 	
@@ -204,24 +204,15 @@ public class TheaterAppGUI {
 		gbc_chooseButton.insets = new Insets(0, 0, 5, 5);
 		gbc_chooseButton.gridx = 3;
 		gbc_chooseButton.gridy = 6;
-		chooseButton.addActionListener(new MovieListener());
+		chooseButton.addActionListener(new ChooseListener());
 		frame.getContentPane().add(chooseButton, gbc_chooseButton);
-		
 		
 		moviePanel = new JPanel();
 		moviePanel.setLayout(new GridBagLayout());
-//		GridBagConstraints gbc_moviePanel = new GridBagConstraints();
-//		gbc_moviePanel.gridwidth = 7;
-//		gbc_moviePanel.insets = new Insets(0, 0, 5, 5);
-//		gbc_moviePanel.fill = GridBagConstraints.BOTH;
-//		gbc_moviePanel.gridx = 1;
-//		gbc_moviePanel.gridy = 7;
-//		frame.getContentPane().add(moviePanel, gbc_moviePanel);
-		setMovieDisplay(movieCollection);
+		setMovieDisplayHome(movieCollection);
 		
 		JScrollPane movieScrollPane = new JScrollPane(moviePanel);
 		movieScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
 		GridBagConstraints gbc_movieScrollPane = new GridBagConstraints();
 		gbc_movieScrollPane.gridwidth = 7;
 		gbc_movieScrollPane.insets = new Insets(0, 0, 5, 5);
@@ -229,9 +220,18 @@ public class TheaterAppGUI {
 		gbc_movieScrollPane.gridx = 1;
 		gbc_movieScrollPane.gridy = 7;
 		frame.getContentPane().add(movieScrollPane, gbc_movieScrollPane);
-		
-		
-		//Another movie panel containing posters for movies coming soon
+				
+		JButton homeButton = new JButton("Home");
+		homeButton.setBackground(Color.WHITE);
+		homeButton.setForeground(Color.BLACK);
+		homeButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		homeButton.addActionListener(new HomeListener());
+		GridBagConstraints gbc_homeButton = new GridBagConstraints();
+		gbc_homeButton.anchor = GridBagConstraints.WEST;
+		gbc_homeButton.insets = new Insets(5, 20, 10, 5);
+		gbc_homeButton.gridx = 1;
+		gbc_homeButton.gridy = 8;
+		frame.getContentPane().add(homeButton, gbc_homeButton);
 		
 		JButton checkoutButton = new JButton("Checkout");
 		checkoutButton.setBackground(Color.WHITE);
@@ -246,20 +246,44 @@ public class TheaterAppGUI {
 		
 	}
 	
-	private void setMovieDisplay(Collection<Movie> displayedMovies) {
+	public void setMovieDisplayHome(Collection<Movie> displayedMovies) { //Home movie display with all movie posters
 		moviePanel.removeAll();
 		movieComboBox.removeAllItems();
 		for (Movie movie : displayedMovies) {
-			JLabel movieLbl = new JLabel();
-			movieLbl.setIcon(new ImageIcon(movie.getPoster().getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH)));
-			moviePanel.add(movieLbl);
-			
+			JLabel moviePosterLabel = new JLabel();
+			moviePosterLabel.setIcon(new ImageIcon(movie.getPoster().getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH)));
+			moviePanel.add(moviePosterLabel);
+			movieComboBox.addItem(movie.getTitle());
+		}
+		movieComboBox.revalidate();
+		moviePanel.revalidate();
+	}
+	
+	private void setMovieDisplay(Collection <Movie> displayedMovies) { //Movie display of selected movie
+		moviePanel.removeAll();
+		movieComboBox.removeAllItems();
+		for (Movie movie : displayedMovies) {
+			MovieGUI newDisplay = new MovieGUI(movie); //Calls MovieGUI which then returns a panel with movie info
+			JPanel panel = newDisplay.initialize(movie);
+			moviePanel.add(panel);
 			movieComboBox.addItem(movie.getTitle());
 		}
 		movieComboBox.revalidate();
 		moviePanel.revalidate();
 	}
 
+	private void setMovieDisplayCheckout() {
+		moviePanel.removeAll();
+		movieComboBox.removeAllItems();
+		
+		CheckoutGUI newDisplay = new CheckoutGUI(); 
+		JPanel checkoutPanel = newDisplay.initialize();
+		moviePanel.add(checkoutPanel);
+		
+		movieComboBox.revalidate();
+		moviePanel.revalidate();
+	}
+	
 	private class SearchListener implements ActionListener 
 	{
 		public void actionPerformed(ActionEvent e) 
@@ -269,7 +293,7 @@ public class TheaterAppGUI {
 			LinkedList<Movie> matches = 
 					new LinkedList<Movie>(Movie.searchTitles(movieCollection, searchTextField.getText()));
 			if(matches.isEmpty()) {
-				JOptionPane.showMessageDialog(frame, "No results for <"+ movieTitleSearch +">- Please try again");
+				JOptionPane.showMessageDialog(frame, "No results for "+ movieTitleSearch +". Please try again");
 			} else {
 				setMovieDisplay(matches);
 			}
@@ -283,7 +307,7 @@ public class TheaterAppGUI {
 			sortOption = (String) sortComboBox.getSelectedItem();
 			Collection<Movie> sortedCollection = movieCollection;
 			
-			movieComboBox.removeAllItems(); //clears the JComboBox when the sort button is clicked
+			movieComboBox.removeAllItems(); 
 			if(sortOption.equals(CARD1)) {
 				sortedCollection = Movie.sortByTitle(movieCollection);
 			}
@@ -313,43 +337,41 @@ public class TheaterAppGUI {
 		}
 	}
 	
-	private class MovieListener implements ActionListener 
+	private class ChooseListener implements ActionListener 
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			chooseOption= (String)movieComboBox.getSelectedItem();
-			try {
-			if(chooseOption.equals(movie1.getTitle())){
-				MovieGUI newMovieWindow = new MovieGUI(movies[0]);
-				MovieGUI.NewScreen(movies[0]);
+			chooseOption = (String) movieComboBox.getSelectedItem();
+			Collection<Movie> choosenCollection = movieCollection;
+			
+			if(chooseOption.equals(movie1.getTitle())) {
+				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
 			}
-			else if(chooseOption.equals(movie2.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[1]);
-				MovieGUI.NewScreen(movies[1]);
+			else if(chooseOption.equals(movie2.getTitle())){
+				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
 			}
-			else if(chooseOption.equals(movie3.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[2]);
-				MovieGUI.NewScreen(movies[2]);
+			else if(chooseOption.equals(movie3.getTitle())){
+				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
 			}
-			else if(chooseOption.equals(movie4.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[3]);
-				MovieGUI.NewScreen(movies[3]);
+			else if(chooseOption.equals(movie4.getTitle())){
+				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
 			}
-			else if(chooseOption.equals(movie5.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[4]);
-				MovieGUI.NewScreen(movies[4]);
+			else if(chooseOption.equals(movie5.getTitle())){
+				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
 			}
-			else if(chooseOption.equals(movie6.getTitle())) {
-				MovieGUI newMovieWindow = new MovieGUI(movies[5]);
-				MovieGUI.NewScreen(movies[5]);
+			else if(chooseOption.equals(movie6.getTitle())){
+				choosenCollection = Movie.searchTitles(movieCollection, chooseOption);
 			}
-			else {
-				JOptionPane.showMessageDialog(frame, "Please select a movie first!");
-			}
-			}
-			catch(NullPointerException e2) {
-				JOptionPane.showMessageDialog(frame, "Please select a movie first!");
-			}
+			
+			setMovieDisplay(choosenCollection);
+		}
+	}
+	
+	private class HomeListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) 
+		{
+			setMovieDisplayHome(movieCollection);
 		}
 	}
 	
@@ -357,14 +379,13 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			CheckoutGUI.ticketString=""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
-			newCheckoutWindow = new CheckoutGUI();
+			CheckoutGUI.ticketString= ""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
 			try {
 			Iterator<Ticket> iterator= (Iterator)TheaterAppGUI.customer.getCustomerTickets().iterator();
 			while(iterator.hasNext()){
 				CheckoutGUI.ticketString=CheckoutGUI.ticketString+iterator.next().getMovie().getTitle()+"\n";
 			}
-			CheckoutGUI.NewScreen();
+			setMovieDisplayCheckout();
 			}
 			catch(NullPointerException e1) {
 				JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.");
