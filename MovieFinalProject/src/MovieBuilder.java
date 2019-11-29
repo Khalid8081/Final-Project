@@ -373,11 +373,6 @@ public class MovieBuilder extends JPanel {
 
 			in.close();
 			file.close();
-			
-			String[] showtimes = {"6:00 pm", "6:30 pm", "7:00 pm", "7:30 pm"};
-			for (Movie movie : movies) {
-				movie.setShowTimes(showtimes);
-			}
 		} catch (Exception e) {
 			System.out.println("Can't Read Movies");
 		}
