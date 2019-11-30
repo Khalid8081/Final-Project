@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 
 public class Movie implements Serializable {
 	public static final long serialVersionUID = -8547026694153616901L;
+	public static final int posterWidth = 382;
+	public static final int posterHeight = 576;
 	
 	private String title;
 	private String[] genres;
@@ -97,7 +99,6 @@ public class Movie implements Serializable {
 		private boolean[] isTaken;
 		
 		public Seat(String seatName) {
-			System.out.println(seatName);
 			this.seatName = seatName;
 			isTaken = new boolean[showTimes.length];
 		}
@@ -126,8 +127,7 @@ public class Movie implements Serializable {
 	public static Collection<Movie> sortByTitle(Collection<Movie> movies) {
 		Collection<Movie> movieList = new ArrayList<Movie>(movies);
 		
-		//Use Collections.sort method to sort the list of movies by title
-		//Instantiate a comparator to pass the method of comparison
+		//TODO: Replace Collections.sort with personal sorting algorithm
 		Collections.sort((ArrayList<Movie>) movieList, new Comparator<Movie>() {
 			@Override
 			public int compare(Movie o1, Movie o2) {
@@ -200,5 +200,44 @@ public class Movie implements Serializable {
 					selectedMovies.add(movie);
 		
 		return selectedMovies;	
+	}
+	
+	@Override
+	public String toString() {
+		String out = "";
+		
+		String title = this.title;
+		out += title + '\n';
+		
+		String genres = "";
+		for (String genre : this.genres) {
+			genres += genre + '|';
+		}
+		genres = genres.substring(0, genres.length() - 1);
+		out += genres + '\n';
+		
+		String mpaaRating = this.mpaaRating;
+		out += mpaaRating + '\n';
+		
+		String price = Double.toString(this.price);
+		out += price + '\n';
+		
+		String showTimes = "";
+		for (String showTime : this.showTimes) {
+			showTimes += showTime + '|';
+		}
+		showTimes = showTimes.substring(0, showTimes.length() - 1);
+		out += showTimes + '\n';
+		
+		String seats = "";
+		for (int row = 0; row < this.seats.length; row++) {
+			for (int col = 0; col < this.seats[row].length; col++) {
+				seats += this.seats[row][col].getSeatName() + '|';
+			}
+			seats = seats.substring(0, seats.length() - 1) + '\n';
+		}
+		out += seats;
+		
+		return out;
 	}
 }

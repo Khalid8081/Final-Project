@@ -257,7 +257,7 @@ public class MovieGUI {
 	            	try {
 						movieTime = dateformat.parse(selectedShowTime);
 						
-						int showtimeIndex = 0;
+//						int showtimeIndex = 0;
 						//TODO: Implement after implementing gui option to switch showtime seat visibility
 //						for (int i = 0; i < selectedMovie.getShowTimes().length; i++)
 //							if (selectedMovie.getShowTimes()[i].contentEquals(button.getText()))

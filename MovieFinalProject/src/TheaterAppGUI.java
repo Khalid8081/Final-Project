@@ -66,7 +66,6 @@ public class TheaterAppGUI {
 	
 	public TheaterAppGUI()  {
 		movies = MovieBuilder.readMovies();
-
 		if (movies == null)
 			movies = new LinkedList<Movie>();
 		
@@ -264,8 +263,6 @@ public class TheaterAppGUI {
 					return;
 				}
 				
-				
-				
 				frame.getContentPane().remove(signInButton);
 				
 				if (customer.isAdmin())
@@ -299,8 +296,6 @@ public class TheaterAppGUI {
 		moviePanel.removeAll();
 		movieComboBox.removeAllItems();
 		for (Movie movie : movies) {
-			if (movie != null) System.out.println(movie.getTitle());
-			else if (movie.getPoster() == null) System.out.println("Null Poster");
 			JLabel moviePosterLabel = new JLabel();
 			moviePosterLabel.setIcon(new ImageIcon(movie.getPoster().getImage().getScaledInstance(264, 396, Image.SCALE_SMOOTH)));
 			moviePanel.add(moviePosterLabel);
@@ -397,9 +392,9 @@ public class TheaterAppGUI {
 		public void actionPerformed(ActionEvent e) 
 		{
 			chooseOption = (String) movieComboBox.getSelectedItem();
-			Collection<Movie> chosenCollection = movies;
+			Collection<Movie> chosenCollection;
 			
-			chosenCollection = Movie.searchTitles(chosenCollection, chooseOption);
+			chosenCollection = Movie.searchTitles(movies, chooseOption);
 			
 			setMovieDisplay(chosenCollection);
 		}
@@ -441,6 +436,7 @@ public class TheaterAppGUI {
 			
 			if (newMovie != null) {
 				movies.add(newMovie);
+				movies = Movie.sortByTitle(movies);
 				try {
 					MovieBuilder.writeMovies(movies);
 				} catch (Exception e1) {

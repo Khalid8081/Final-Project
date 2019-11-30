@@ -43,7 +43,6 @@ public class MovieBuilder extends JPanel {
 	private JPanel infoPanel;
 	private JButton addMovieButton;
 	private ImageIcon poster;
-	private int seatRows, seatCols;
 	
 	public MovieBuilder() {
 		
@@ -366,7 +365,7 @@ public class MovieBuilder extends JPanel {
 		Collection<Movie> movies = null;
 		
 		try {
-			FileInputStream file = new FileInputStream(backupDataFile);
+			FileInputStream file = new FileInputStream(dataFile);
 			ObjectInputStream in = new ObjectInputStream(file);
 		
 			movies = (Collection<Movie>) in.readObject();
@@ -375,6 +374,7 @@ public class MovieBuilder extends JPanel {
 			file.close();
 		} catch (Exception e) {
 			System.out.println("Can't Read Movies");
+			e.printStackTrace();
 		}
 		
 		return movies;
