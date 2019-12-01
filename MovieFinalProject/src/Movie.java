@@ -20,7 +20,13 @@ public class Movie implements Serializable {
 	private ImageIcon poster;
 	private Seat[][] seats;
 	
+	public Movie(String title, String[] genres, String mpaaRating, String[] times, String posterFilename, double price, int seatRows, int seatCols) {
+		this(title, genres, mpaaRating, times, new ImageIcon(), price, seatRows, seatCols);
+		poster = new ImageIcon(posterFilename);
+	}
 	public Movie(String title, String[] genres, String mpaaRating, String[] times, ImageIcon poster, double price, int seatRows, int seatCols) {
+		super();
+		
 		setTitle(title);
 		setGenres(genres);
 		setMpaaRating(mpaaRating);
@@ -200,44 +206,5 @@ public class Movie implements Serializable {
 					selectedMovies.add(movie);
 		
 		return selectedMovies;	
-	}
-	
-	@Override
-	public String toString() {
-		String out = "";
-		
-		String title = this.title;
-		out += title + '\n';
-		
-		String genres = "";
-		for (String genre : this.genres) {
-			genres += genre + '|';
-		}
-		genres = genres.substring(0, genres.length() - 1);
-		out += genres + '\n';
-		
-		String mpaaRating = this.mpaaRating;
-		out += mpaaRating + '\n';
-		
-		String price = Double.toString(this.price);
-		out += price + '\n';
-		
-		String showTimes = "";
-		for (String showTime : this.showTimes) {
-			showTimes += showTime + '|';
-		}
-		showTimes = showTimes.substring(0, showTimes.length() - 1);
-		out += showTimes + '\n';
-		
-		String seats = "";
-		for (int row = 0; row < this.seats.length; row++) {
-			for (int col = 0; col < this.seats[row].length; col++) {
-				seats += this.seats[row][col].getSeatName() + '|';
-			}
-			seats = seats.substring(0, seats.length() - 1) + '\n';
-		}
-		out += seats;
-		
-		return out;
 	}
 }

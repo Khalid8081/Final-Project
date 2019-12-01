@@ -1,20 +1,23 @@
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -25,10 +28,9 @@ import javax.swing.JTextField;
 
 public class MovieBuilder extends JPanel {
 	private static final long serialVersionUID = 1890L;
-	private static final File dataFile = new File("movie-data/MovieCollection");
-	private static final File backupDataFile = new File("movie-data/MovieCollection_Backup");
-	private static final String emptyIconFile = "movie-data/emptyIcon.png";
-	private static final ImageIcon addDataIcon = new ImageIcon((new ImageIcon(emptyIconFile)).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+	private static final File dataFile = new File("movie-data/movies");
+	private static final String emptyIconFilename = "movie-data/emptyIcon.png";
+	private static final ImageIcon addDataIcon = new ImageIcon((new ImageIcon(emptyIconFilename)).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 	
 	private static final String TITLE = "title";
 	private static final String PRICE = "price";
@@ -39,16 +41,17 @@ public class MovieBuilder extends JPanel {
 	private static final String SEAT = "seat";
 	private static final String COLUMNS = "Columns";
 	private static final String ROWS = "Rows";
-
-	private JPanel infoPanel;
-	private JButton addMovieButton;
-	private ImageIcon poster;
+	private static final String ADD_MOVIE = "add_movie";
 	
-	public MovieBuilder() {
-		
+	private JPanel infoPanel;
+	private ImageIcon poster;
+	private JButton addMovieButton;
+	
+	public MovieBuilder() {	
+		super();
 		this.setLayout(new GridBagLayout());
 		
-		ImageIcon noPosterIcon = new ImageIcon(emptyIconFile);
+		ImageIcon noPosterIcon = new ImageIcon(emptyIconFilename);
 		noPosterIcon.setImage(noPosterIcon.getImage().getScaledInstance(382, 382, Image.SCALE_SMOOTH));
 		
 		JButton posterButton = new JButton(noPosterIcon);
@@ -262,6 +265,7 @@ public class MovieBuilder extends JPanel {
 		seatColsText.setForeground(Color.BLACK);
 		
 		addMovieButton = new JButton("Add Movie");
+		addMovieButton.setName(ADD_MOVIE);
 		addMovieButton.setBackground(Color.WHITE);
 		addMovieButton.setForeground(Color.BLACK);
 		addMovieButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
@@ -320,8 +324,7 @@ public class MovieBuilder extends JPanel {
 			String[] genres = new String[genreList.toArray().length];
 			genreList.toArray(genres);
 			
-			ImageIcon moviePoster = new ImageIcon(poster.getImage());
-			movie = new Movie(title, genres, mpaaRating, times, moviePoster, price, seatRows, seatCols);
+			movie = new Movie(title, genres, mpaaRating, times, poster, price, seatRows, seatCols);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -360,47 +363,187 @@ public class MovieBuilder extends JPanel {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
+//	public static Collection<Movie> readMovies() {
+//		Collection<Movie> movies = null;
+//		
+//		try {
+//			FileInputStream file = new FileInputStream(dataFile);
+//			ObjectInputStream in = new ObjectInputStream(file);
+//		
+//			movies = (Collection<Movie>) in.readObject();
+//
+//			in.close();
+//			file.close();
+//		} catch (Exception e) {
+//			System.out.println("Can't Read Movies");
+//			e.printStackTrace();
+//		}
+//		
+//		writeMovieTxt(movies);
+//		movies = readMovieTxt();
+//		return movies;
+//	}
+	
 	public static Collection<Movie> readMovies() {
-		Collection<Movie> movies = null;
+		Collection<Movie> movies = new LinkedList<Movie>();
+		Scanner reader;
 		
 		try {
-			FileInputStream file = new FileInputStream(dataFile);
-			ObjectInputStream in = new ObjectInputStream(file);
-		
-			movies = (Collection<Movie>) in.readObject();
-
-			in.close();
-			file.close();
+			reader = new Scanner(dataFile);
 		} catch (Exception e) {
-			System.out.println("Can't Read Movies");
 			e.printStackTrace();
+			return null;
 		}
+		
+		final int TITLE = 0;
+		final int GENRES = 1;
+		final int MPAA_RATING = 2;
+		final int SHOWTIMES = 3;
+		final int POSTER_FILENAME = 4;
+		final int PRICE = 5;
+		final int SEATS = 6;
+		
+		final int MOVIE_TXT_LENGTH = 7;
+		
+		while (reader.hasNextLine()) {
+			String[] input = new String[MOVIE_TXT_LENGTH];
+			for (int line = 0; line < MOVIE_TXT_LENGTH; line++)
+				input[line] = reader.nextLine();
+			
+			String title = input[TITLE];
+			
+			LinkedList<String> genreList = new LinkedList<String>();
+			int first = 0;
+			for (int last = 0; last < input[GENRES].length(); last++) {
+				if (input[GENRES].charAt(last) == '|') {
+					genreList.add(input[GENRES].substring(first, last));
+					first = ++last;
+				}
+			}
+			genreList.add(input[GENRES].substring(first));
+			String[] genres = new String[0];
+			genres = genreList.toArray(genres);
+			
+			String mpaaRating = input[MPAA_RATING];
+			
+			LinkedList<String> showtimeList = new LinkedList<String>();
+			first = 0;
+			for (int last = 0; last < input[SHOWTIMES].length(); last++) {
+				if (input[SHOWTIMES].charAt(last) == '|') {
+					showtimeList.add(input[SHOWTIMES].substring(first, last));
+					first = ++last;
+				}
+			}
+			showtimeList.add(input[SHOWTIMES].substring(first));
+			String[] showTimes = new String[0];
+			showTimes = showtimeList.toArray(showTimes);
+			
+			String posterFilename = input[POSTER_FILENAME];
+			
+			double price = Double.parseDouble(input[PRICE]);
+			
+			int delim = 0;
+			for (int ch = 0; ch < input[SEATS].length(); ch++)
+				if (input[SEATS].charAt(ch) == '|')
+					delim = ch;
+			int rows = Integer.parseInt(input[SEATS].substring(0, delim++));
+			int cols = Integer.parseInt(input[SEATS].substring(delim));
+			
+			movies.add(new Movie(title, genres, mpaaRating, showTimes, posterFilename, price, rows, cols));
+			
+			if (reader.hasNextLine())
+				reader.nextLine();
+		}
+		
+		reader.close();
 		
 		return movies;
 	}
 	
 	public static void writeMovies(Collection<Movie> movies) {
-		try {
-			FileOutputStream file = new FileOutputStream(dataFile);
-			ObjectOutputStream out = new ObjectOutputStream(file);
+		PrintWriter out;
 		
-			out.writeObject(movies);
-
-			out.close();
-			file.close();
-			
-			//If the stream was written properly, back it up
-			FileInputStream filein = new FileInputStream(dataFile);
-			FileOutputStream fileout = new FileOutputStream(backupDataFile);
-			
-			fileout.write(filein.readAllBytes());
-			
-			filein.close();
-			fileout.close();
+		
+		
+		try {
+			out = new PrintWriter(new FileOutputStream(dataFile));
 		} catch (Exception e) {
-			System.out.println("Can't Write Movies");
 			e.printStackTrace();
-		} 
+			return;
+		}
+		
+		for (Movie movie : movies) {
+			out.println(movie.getTitle());
+	
+			String genres = "";
+			for (String genre : movie.getGenres()) {
+				genres += genre + '|';
+			}
+			genres = genres.substring(0, genres.length() - 1);
+			out.println(genres);
+	
+			out.println(movie.getMpaaRating());
+			
+			String showTimes = "";
+			for (String showTime : movie.getShowTimes()) {
+				showTimes += showTime + '|';
+			}
+			showTimes = showTimes.substring(0, showTimes.length() - 1);
+			out.println(showTimes);
+			
+			String filename = "movie-data/" + movie.getTitle().replace(':', '-') + "_poster.jpg";
+			out.println(filename);
+	
+			out.println(Double.toString(movie.getPrice()));
+	
+			String seats = "";
+			seats += movie.getSeats().length + "|";
+			seats += movie.getSeats()[0].length;
+			out.println(seats);
+			
+			out.println();
+			
+			
+			Image img = movie.getPoster().getImage();
+			BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_BGR);
+
+			Graphics2D g2 = bi.createGraphics();
+			g2.drawImage(img, 0, 0, null);
+			g2.dispose();
+			File output;
+			try {
+				output = new File(filename);
+				ImageIO.write(bi, "jpg", output);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		out.close();
 	}
+	
+//	public static void writeMovies(Collection<Movie> movies) {
+//		try {
+//			FileOutputStream file = new FileOutputStream(dataFile);
+//			ObjectOutputStream out = new ObjectOutputStream(file);
+//		
+//			out.writeObject(movies);
+//
+//			out.close();
+//			file.close();
+//			
+//			//If the stream was written properly, back it up
+//			FileInputStream filein = new FileInputStream(dataFile);
+//			FileOutputStream fileout = new FileOutputStream(backupDataFile);
+//			
+//			fileout.write(filein.readAllBytes());
+//			
+//			filein.close();
+//			fileout.close();
+//		} catch (Exception e) {
+//			System.out.println("Can't Write Movies");
+//			e.printStackTrace();
+//		} 
+//	}
 }
