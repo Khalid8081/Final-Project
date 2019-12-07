@@ -240,12 +240,12 @@ public class MovieGUI {
 			if(TheaterAppGUI.customer == null) {
 				SignInGUI.NewScreen();
 			}
-			
+			else {
 			Date movieTime = null;
 			DateFormat dateformat;
 			String selectedShowTime;
 			String seat = (String) seatsComboBox.getSelectedItem();
-			Double price= selectedMovie.getPrice();
+			double price= selectedMovie.getPrice();
 			
 	        for (Enumeration<AbstractButton> buttons = showtimeButtons.getElements(); buttons.hasMoreElements();) {
 	        	button = buttons.nextElement();
@@ -272,23 +272,25 @@ public class MovieGUI {
 							}
 						}
 								
-					} catch (ParseException e1) {
+					} catch (ParseException e1) 
+	            	{
 						e1.printStackTrace();
 					}
 	            	
 	            }
 	        }
 	        
-
 			if(selected != true) {
 				JOptionPane.showMessageDialog(frame, "Choose a showtime and try again.");
-			} else {
+			} else { 
 				TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
 				Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
+				//adding is here
 				TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
 				JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!");
-
+ 
 			}
+		}
 		}
 	}
 

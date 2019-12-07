@@ -37,7 +37,7 @@ public class CheckoutGUI {
 				try {
 					CheckoutGUI window = new CheckoutGUI();
 					window.frame.setVisible(true);
-				} catch (Exception e) {
+				} catch (Exception e) { 
 					e.printStackTrace();
 				}
 			}
@@ -192,13 +192,15 @@ public class CheckoutGUI {
 			if(TheaterAppGUI.customer == null) {
 				SignInGUI.NewScreen();
 			}
-			else if(TheaterAppGUI.customer.getCustomerTickets().isEmpty()) {
+			else if(TheaterAppGUI.customer.getCustomerTickets().getHead()==null) {
 				JOptionPane.showMessageDialog(frame, "Your cart is empty!");
 			}
-			else {
-				Iterator<Ticket> iterator= TheaterAppGUI.customer.getCustomerTickets().iterator();
-				while(iterator.hasNext()){
-					subtotal=subtotal+iterator.next().getPrice();
+			else { 
+				TicketNode cursor = TheaterAppGUI.customer.getCustomerTickets().getHead();
+				
+				while (cursor != null) {
+					subtotal=subtotal+cursor.getTicket().getMovie().getPrice();
+					cursor = cursor.getNext();
 				}
 				
 				taxes = subtotal*TAX_RATE;

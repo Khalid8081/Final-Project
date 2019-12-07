@@ -40,7 +40,7 @@ public class SignInGUI {
 	
 	public SignInGUI() {
 		initialize();
-	}
+	} 
 
 	
 	private void initialize() {

@@ -15,7 +15,7 @@ public class Movie implements Serializable {
 	private String title;
 	private String[] genres;
 	private String mpaaRating;
-	private Double price;
+	private double price;
 	private String[] showTimes;
 	private ImageIcon poster;
 	private Seat[][] seats;
@@ -25,7 +25,7 @@ public class Movie implements Serializable {
 		poster = new ImageIcon(posterFilename);
 	}
 	public Movie(String title, String[] genres, String mpaaRating, String[] times, ImageIcon poster, double price, int seatRows, int seatCols) {
-		super();
+		super(); 
 		
 		setTitle(title);
 		setGenres(genres);

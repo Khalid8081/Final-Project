@@ -6,17 +6,16 @@ public class Customer {
 	private String phoneNumber;
 	private double balance;
 	private boolean isAdmin;
-	private PriorityQueue<Ticket> customerTickets;
+	private TicketList customerTickets;
     
 	public Customer(String firstName, String lastName, String phoneNumber, double balance) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPhoneNumber(phoneNumber);
 		setBalance(balance);
-		customerTickets = new PriorityQueue<Ticket>();
+		customerTickets = new TicketList();
 	}
-	
-	//Need total, tax, and subtotal methods for Customer's tickets
+
 
 	public String getFirstName() {
 		return firstName;
@@ -35,7 +34,7 @@ public class Customer {
 			this.lastName = lastName;
 		}
 	}
-
+ 
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -64,11 +63,11 @@ public class Customer {
 		}
 	}
 
-	public PriorityQueue<Ticket> getCustomerTickets() {
+	public TicketList getCustomerTickets() {
 		return customerTickets;
 	}
 
-	public void setCustomerTickets(PriorityQueue<Ticket> customerTickets) {
+	public void setCustomerTickets(TicketList customerTickets) {
 		this.customerTickets = customerTickets;
 	}
 

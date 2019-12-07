@@ -416,18 +416,27 @@ public class TheaterAppGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			CheckoutGUI.ticketString= ""; //resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
+			CheckoutGUI.ticketString= "";//resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
 			try {
-			Iterator<Ticket> iterator= TheaterAppGUI.customer.getCustomerTickets().iterator();
-			while(iterator.hasNext()){
-				CheckoutGUI.ticketString += iterator.next().getMovie().getTitle()+"\n";
+				TicketNode cursor = customer.getCustomerTickets().getHead();
+				
+				if(cursor==null) {
+					JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.");
+				}
+				else {
+					while (cursor != null) {
+						CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle() + "\n";
+						cursor = cursor.getNext();
+					}
+					
+					CheckoutGUI.ticketString +="\n}";
+					setMovieDisplayCheckout();
+				}
 			}
-			setMovieDisplayCheckout();
-			}
-			catch(NullPointerException e1) {
+			catch(NullPointerException e2) {
 				JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.");
 			}
-		}
+		} 
 	}
 	
 	public class NewMovieListener implements ActionListener {
