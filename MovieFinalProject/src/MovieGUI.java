@@ -173,7 +173,7 @@ public class MovieGUI {
 			showtimesButton.setForeground(Color.BLACK);
 			showtimeButtons.add(showtimesButton);
 		}
-		
+	
 		JLabel seatsLabel = new JLabel("Seats:");
 		GridBagConstraints gbc_seatsLabel = new GridBagConstraints();
 		gbc_seatsLabel.anchor = GridBagConstraints.WEST;
@@ -208,6 +208,8 @@ public class MovieGUI {
 		cartButton.setBackground(Color.WHITE);
 		cartButton.setForeground(Color.BLACK);
 		cartButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		ImageIcon ticketsIcon = new ImageIcon("movie-data/Tickets_Icon.png");
+		cartButton.setIcon(ticketsIcon);
 		cartButton.addActionListener(new CartListener());
 		GridBagConstraints gbc_cartButton = new GridBagConstraints();
 		gbc_cartButton.insets = new Insets(250, 20, 20, 5);

@@ -84,11 +84,13 @@ public class TheaterAppGUI {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		frame.getContentPane().setLayout(gridBagLayout);
-		
+				
 		JLabel movieTheaterLabel = new JLabel("MOVIE THEATER");
 		movieTheaterLabel.setBackground(Color.WHITE);
 		movieTheaterLabel.setFont(new Font("HelveticaNeue", Font.BOLD, 18));
 		movieTheaterLabel.setForeground(Color.BLACK);
+		ImageIcon titleIcon = new ImageIcon("movie-data/Title_Icon.png");
+		movieTheaterLabel.setIcon(titleIcon);		
 		GridBagConstraints gbc_movieTheaterLabel = new GridBagConstraints();
 		gbc_movieTheaterLabel.anchor = GridBagConstraints.WEST;
 		gbc_movieTheaterLabel.insets = new Insets(20, 20, 25, 25);
@@ -217,6 +219,8 @@ public class TheaterAppGUI {
 		homeButton.setBackground(Color.WHITE);
 		homeButton.setForeground(Color.BLACK);
 		homeButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		ImageIcon homeIcon = new ImageIcon("movie-data/Home_Icon.png");
+		homeButton.setIcon(homeIcon);
 		homeButton.addActionListener(new HomeListener());
 		GridBagConstraints gbc_homeButton = new GridBagConstraints();
 		gbc_homeButton.anchor = GridBagConstraints.WEST;
