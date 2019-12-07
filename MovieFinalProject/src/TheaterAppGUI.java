@@ -429,7 +429,7 @@ public class TheaterAppGUI {
 						cursor = cursor.getNext();
 					}
 					
-					CheckoutGUI.ticketString +="\n}";
+					CheckoutGUI.ticketString +="\n";
 					setMovieDisplayCheckout();
 				}
 			}
