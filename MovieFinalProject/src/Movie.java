@@ -180,8 +180,8 @@ public class Movie implements Serializable {
 		for (String acceptableGenre : genres)
 			for (Movie movie : movies) 
 				for (String genre : movie.genres)
-					if (genre.contentEquals(acceptableGenre) && !movies.contains(movie))
-						movies.add(movie);
+					if (genre.contentEquals(acceptableGenre) && movies.contains(movie))
+						selectedMovies.add(movie);
 		
 		return selectedMovies;
 	}
