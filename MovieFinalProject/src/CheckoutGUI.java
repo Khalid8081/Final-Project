@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.GridBagLayout;
@@ -56,6 +57,9 @@ public class CheckoutGUI {
 		ticketsLabel.setBackground(Color.WHITE);
 		ticketsLabel.setForeground(Color.BLACK);
 		ticketsLabel.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		ImageIcon checkoutIcon = new ImageIcon("movie-data/Checkout_Icon.png");
+		ticketsLabel.setIcon(checkoutIcon);
+		//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
 		GridBagConstraints gbc_ticketsLabel = new GridBagConstraints();
 		gbc_ticketsLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_ticketsLabel.gridx = 0;
@@ -155,15 +159,16 @@ public class CheckoutGUI {
 		payButton.setBackground(Color.WHITE);
 		payButton.setForeground(Color.BLACK);
 		payButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		ImageIcon payIcon = new ImageIcon("movie-data/Pay_Icon.png");
+		payButton.setIcon(payIcon);
+		//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
 		payButton.addActionListener(new PayListener());
 		GridBagConstraints gbc_payButton = new GridBagConstraints();
 		gbc_payButton.insets = new Insets(0, 0, 20, 20);
 		gbc_payButton.gridx = 10;
 		gbc_payButton.gridy = 9;
 		panel.add(payButton, gbc_payButton);
-		 
 		ticketTextArea.setText(ticketString);
-		
 		return panel;
 	}
 	
@@ -181,19 +186,23 @@ public class CheckoutGUI {
 	{
 		public void actionPerformed(ActionEvent e) 
 		{
-			//To clear the text Areas
 			totalTextArea.setText("");
 			subtotalTextArea.setText("");
 			double total = 0.0;
 			double subtotal = 0.0;
 			double taxes = 0.0;
-			
-			//ticketTextArea
+			ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
+			//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
+			ImageIcon alertIcon = new ImageIcon("movie-data/Alert_Icon.png");
+			//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
+			ImageIcon successIcon = new ImageIcon("movie-data/Success_Icon.png");
+			//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
+		
 			if(TheaterAppGUI.customer == null) {
 				SignInGUI.NewScreen();
 			}
 			else if(TheaterAppGUI.customer.getCustomerTickets().getHead()==null) {
-				JOptionPane.showMessageDialog(frame, "Your cart is empty!");
+				JOptionPane.showMessageDialog(frame, "Your cart is empty!", "Empty Cart", JOptionPane.PLAIN_MESSAGE, errorIcon);
 			}
 			else { 
 				TicketNode cursor = TheaterAppGUI.customer.getCustomerTickets().getHead();
@@ -203,19 +212,19 @@ public class CheckoutGUI {
 					cursor = cursor.getNext();
 				}
 				
-				taxes = subtotal*TAX_RATE;
-				total =  subtotal+taxes;
+				taxes = subtotal * TAX_RATE;
+				total =  subtotal + taxes;
 				//The total,subtotal and tax will need to be formatted to look nicer on the gui.
 				totalTextArea.setText(""+total);
 				subtotalTextArea.setText(""+subtotal);
 				taxTextArea.setText(""+taxes);
 				
 				if(TheaterAppGUI.customer.getBalance()<total) {
-					JOptionPane.showMessageDialog(frame, "Your balance is low!"+ ticketString);
+					JOptionPane.showMessageDialog(frame, "Your balance is low!"+ ticketString, "Low Balance", JOptionPane.PLAIN_MESSAGE, alertIcon);
 				}
 				else {
 					TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-total);
-					JOptionPane.showMessageDialog(frame, "Tickets purchased successful!");
+					JOptionPane.showMessageDialog(frame, "Tickets were purchased successfully!", "Ticket Success", JOptionPane.PLAIN_MESSAGE, successIcon);
 				}
 			}
 		}

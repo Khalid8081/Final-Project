@@ -36,6 +36,8 @@ public class TheaterAppGUI {
 	
 	public static Customer customer;
 	
+	private static final Color NEW_TEAL = new Color(51,135,181);
+	private static final Color NEW_ORANGE = new Color(252,97,3);
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 1050;
 	private static final String CARD1 = "A-Z";
@@ -76,7 +78,7 @@ public class TheaterAppGUI {
 		frame = new JFrame();
 		frame.setTitle("Movie Theater");
 		frame.setSize(WIDTH, HEIGHT);
-		frame.setBackground(Color.WHITE);
+		frame.setBackground(NEW_TEAL);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 148, 0, 0, 52, 0, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -91,6 +93,7 @@ public class TheaterAppGUI {
 		movieTheaterLabel.setForeground(Color.BLACK);
 		ImageIcon titleIcon = new ImageIcon("movie-data/Title_Icon.png");
 		movieTheaterLabel.setIcon(titleIcon);		
+		//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
 		GridBagConstraints gbc_movieTheaterLabel = new GridBagConstraints();
 		gbc_movieTheaterLabel.anchor = GridBagConstraints.WEST;
 		gbc_movieTheaterLabel.insets = new Insets(20, 20, 25, 25);
@@ -203,6 +206,7 @@ public class TheaterAppGUI {
 		
 		moviePanel = new JPanel();
 		moviePanel.setLayout(new GridBagLayout());
+		moviePanel.setBackground(NEW_TEAL);
 		setMovieDisplayHome();
 		
 		JScrollPane movieScrollPane = new JScrollPane(moviePanel);
@@ -221,6 +225,7 @@ public class TheaterAppGUI {
 		homeButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
 		ImageIcon homeIcon = new ImageIcon("movie-data/Home_Icon.png");
 		homeButton.setIcon(homeIcon);
+		//Icon made by [https://www.flaticon.com/authors/dimi-kazak] from www.flaticon.com
 		homeButton.addActionListener(new HomeListener());
 		GridBagConstraints gbc_homeButton = new GridBagConstraints();
 		gbc_homeButton.anchor = GridBagConstraints.WEST;
@@ -233,6 +238,9 @@ public class TheaterAppGUI {
 		checkoutButton.setBackground(Color.WHITE);
 		checkoutButton.setForeground(Color.BLACK);
 		checkoutButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		ImageIcon checkoutIcon = new ImageIcon("movie-data/Checkout_Icon.png");
+		checkoutButton.setIcon(checkoutIcon);
+		//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
 		checkoutButton.addActionListener(new CheckoutListener());
 		GridBagConstraints gbc_checkoutButton = new GridBagConstraints();
 		gbc_checkoutButton.insets = new Insets(5, 20, 10, 5);
@@ -259,6 +267,9 @@ public class TheaterAppGUI {
 		signInButton.setBackground(Color.WHITE);
 		signInButton.setForeground(Color.BLACK);
 		signInButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
+		ImageIcon signInIcon = new ImageIcon("movie-data/SignIn_Icon.png");
+		signInButton.setIcon(signInIcon);	
+		//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
 		signInButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -296,7 +307,7 @@ public class TheaterAppGUI {
 		moviePanel.repaint();
 	}
 	
-	public void setMovieDisplayHome() { //Home movie display with all movie posters
+	public void setMovieDisplayHome() { 
 		moviePanel.removeAll();
 		movieComboBox.removeAllItems();
 		for (Movie movie : movies) {
@@ -309,7 +320,7 @@ public class TheaterAppGUI {
 		moviePanel.revalidate();
 	}
 	
-	private void setMovieDisplay(Collection <Movie> displayedMovies) { //Movie display of selected movie
+	private void setMovieDisplay(Collection <Movie> displayedMovies) { 
 		moviePanel.removeAll();
 		movieComboBox.removeAllItems();
 		for (Movie movie : displayedMovies) {
@@ -339,6 +350,9 @@ public class TheaterAppGUI {
 	
 	private class SearchListener implements ActionListener 
 	{
+		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
+		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
+
 		public void actionPerformed(ActionEvent e) 
 		{
 			String movieTitleSearch = searchTextField.getText();
@@ -347,7 +361,7 @@ public class TheaterAppGUI {
 					new LinkedList<Movie>(Movie.searchTitles(movies, searchTextField.getText()));
 			
 			if(matches.isEmpty()) {
-				JOptionPane.showMessageDialog(frame, "No results for "+ movieTitleSearch +". Please try again");
+				JOptionPane.showMessageDialog(frame, "No results for "+ movieTitleSearch +".", "Movie Not Found", JOptionPane.PLAIN_MESSAGE, errorIcon);
 			} else {
 				setMovieDisplay(matches);
 			}
@@ -414,6 +428,9 @@ public class TheaterAppGUI {
 	
 	private class CheckoutListener implements ActionListener
 	{
+		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
+		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
+		
 		public void actionPerformed(ActionEvent e) 
 		{
 			CheckoutGUI.ticketString= "";//resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
@@ -421,7 +438,7 @@ public class TheaterAppGUI {
 				TicketNode cursor = customer.getCustomerTickets().getHead();
 				
 				if(cursor==null) {
-					JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.");
+					JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.", "Empty Cart", JOptionPane.PLAIN_MESSAGE, errorIcon);
 				}
 				else {
 					while (cursor != null) {
@@ -434,7 +451,7 @@ public class TheaterAppGUI {
 				}
 			}
 			catch(NullPointerException e2) {
-				JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.");
+				JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.", "Empty Cart", JOptionPane.PLAIN_MESSAGE, errorIcon);
 			}
 		} 
 	}

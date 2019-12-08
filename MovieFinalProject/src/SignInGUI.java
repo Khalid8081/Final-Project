@@ -13,8 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
-
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class SignInGUI {
@@ -23,6 +22,7 @@ public class SignInGUI {
 	private JTextField firstNameTextField;
 	private JTextField lastNameTextField;
 	private JTextField phoneNumberTextField;
+	private static final Color NEW_TEAL = new Color(51,135,181);
 
 	public static void NewScreen() {
 		EventQueue.invokeLater(new Runnable() {
@@ -42,11 +42,11 @@ public class SignInGUI {
 		initialize();
 	} 
 
-	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Sign In/Sign Up");
 		frame.setBounds(100, 100, 400, 274);
+		frame.setBackground(NEW_TEAL);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
@@ -58,8 +58,11 @@ public class SignInGUI {
 		signInLabel.setBackground(Color.WHITE);
 		signInLabel.setFont(new Font("HelveticaNeue", Font.BOLD, 18));
 		signInLabel.setForeground(Color.BLACK);
+		ImageIcon signInIcon = new ImageIcon("movie-data/SignIn_Icon.png");
+		signInLabel.setIcon(signInIcon);
+		//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
 		GridBagConstraints gbc_signInLabel = new GridBagConstraints();
-		gbc_signInLabel.insets = new Insets(0, 0, 35, 5);
+		gbc_signInLabel.insets = new Insets(20, 0, 15, 0);
 		gbc_signInLabel.gridx = 1;
 		gbc_signInLabel.gridy = 0;
 		frame.getContentPane().add(signInLabel, gbc_signInLabel);
@@ -139,17 +142,22 @@ public class SignInGUI {
 	
 	private class SignInListener implements ActionListener
 	{
+		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
+		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
+		ImageIcon successIcon = new ImageIcon("movie-data/Success_Icon.png");
+		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
+		
 		public void actionPerformed(ActionEvent e) 
 		{
 			String firstName = firstNameTextField.getText();
 			String lastName = lastNameTextField.getText();
 			String phoneNumber = phoneNumberTextField.getText();
 			if(firstName.isEmpty() == true || lastName.isEmpty() == true || phoneNumber.isEmpty() == true) {
-				JOptionPane.showMessageDialog(frame, "Please enter your information.");
+				JOptionPane.showMessageDialog(frame, "Please enter your information.", "Sign In/Sign Up", JOptionPane.PLAIN_MESSAGE, errorIcon);
 			} else {
 				TheaterAppGUI.customer = new Customer(firstName, lastName, phoneNumber, 1000); 
 				frame.dispose();
-				JOptionPane.showMessageDialog(frame, "You are now signed in!");
+				JOptionPane.showMessageDialog(frame, "You are now signed in!", "Sign In/Sign Up", JOptionPane.PLAIN_MESSAGE, successIcon);
 			}
 		}
 	}

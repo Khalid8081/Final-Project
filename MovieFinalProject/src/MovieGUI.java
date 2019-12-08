@@ -102,6 +102,9 @@ public class MovieGUI {
 		
 		JLabel movieTitleLabel = new JLabel(movie.getTitle());
 		movieTitleLabel.setName(MOVIE_TITLE);
+		ImageIcon movieTitleIcon = new ImageIcon("movie-data/MovieTitle_Icon.png");
+		movieTitleLabel.setIcon(movieTitleIcon);
+		//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
 		GridBagConstraints gbc_movieTitleLabel = new GridBagConstraints();
 		gbc_movieTitleLabel.anchor = GridBagConstraints.WEST;
 		gbc_movieTitleLabel.insets = new Insets(0, 0, 5, 5);
@@ -210,6 +213,7 @@ public class MovieGUI {
 		cartButton.setFont(new Font("HelveticaNeue", Font.BOLD, 15));
 		ImageIcon ticketsIcon = new ImageIcon("movie-data/Tickets_Icon.png");
 		cartButton.setIcon(ticketsIcon);
+		//Icon made by [https://www.flaticon.com/authors/dimi-kazak] from www.flaticon.com
 		cartButton.addActionListener(new CartListener());
 		GridBagConstraints gbc_cartButton = new GridBagConstraints();
 		gbc_cartButton.insets = new Insets(250, 20, 20, 5);
@@ -235,6 +239,11 @@ public class MovieGUI {
 	 
 	private class CartListener implements ActionListener
 	{
+		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
+		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
+		ImageIcon successIcon = new ImageIcon("movie-data/Success_Icon.png");
+		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
+		
 		public void actionPerformed(ActionEvent e) 
 		{
 			if(TheaterAppGUI.customer == null) {
@@ -281,16 +290,15 @@ public class MovieGUI {
 	        }
 	        
 			if(selected != true) {
-				JOptionPane.showMessageDialog(frame, "Choose a showtime and try again.");
+				JOptionPane.showMessageDialog(frame, "Choose a showtime and try again.", "Add Showtime", JOptionPane.PLAIN_MESSAGE, errorIcon);
 			} else { 
 				TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
 				Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
 				//adding is here
 				TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
-				JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!");
- 
+				JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!", "Ticket Success", JOptionPane.PLAIN_MESSAGE, successIcon);
 			}
-		}
+			}
 		}
 	}
 
