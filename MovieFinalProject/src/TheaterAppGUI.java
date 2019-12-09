@@ -442,7 +442,7 @@ public class TheaterAppGUI {
 				}
 				else {
 					while (cursor != null) {
-						CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle() + "\n";
+						CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle() +" at "+cursor.getTicket().getShowtime().getHours()+":"+cursor.getTicket().getShowtime().getMinutes()+" PM "+" seat: "+cursor.getTicket().getSeat()+" Ticket ID: "+cursor.getTicket().getId()+ "\n";
 						cursor = cursor.getNext();
 					}
 					

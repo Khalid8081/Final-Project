@@ -251,52 +251,49 @@ public class MovieGUI {
 			}
 			else {
 			Date movieTime = null;
-			DateFormat dateformat;
+			DateFormat dateformat=new SimpleDateFormat("H:mm a");
 			String selectedShowTime;
 			String seat = (String) seatsComboBox.getSelectedItem();
-			double price= selectedMovie.getPrice();
-			
-	        for (Enumeration<AbstractButton> buttons = showtimeButtons.getElements(); buttons.hasMoreElements();) {
-	        	button = buttons.nextElement();
-
-	            if (button.isSelected()) {
-	            	
-	            	selected = true;
-	            	selectedShowTime = button.getText();
-	            	dateformat = new SimpleDateFormat("hh:mm a");
-	            	
-	            	try {
-						movieTime = dateformat.parse(selectedShowTime);
-						
-//						int showtimeIndex = 0;
-						//TODO: Implement after implementing gui option to switch showtime seat visibility
-//						for (int i = 0; i < selectedMovie.getShowTimes().length; i++)
-//							if (selectedMovie.getShowTimes()[i].contentEquals(button.getText()))
-//								showtimeIndex = i;
-						
-						for (Movie.Seat[] movieSeats : selectedMovie.getSeats()) {
-							for (Movie.Seat movieSeat : movieSeats) {
-								if (movieSeat.getSeatName().contentEquals(seat))
-									movieSeat.isTaken()[0] = true;
-							}
-						}
-								
-					} catch (ParseException e1) 
-	            	{
-						e1.printStackTrace();
-					}
-	            	
-	            }
+	        if(seat==null || seat.equals("")) {
+	        	JOptionPane.showMessageDialog(frame, "Invalid seat");
 	        }
-	        
-			if(selected != true) {
-				JOptionPane.showMessageDialog(frame, "Choose a showtime and try again.", "Add Showtime", JOptionPane.PLAIN_MESSAGE, errorIcon);
-			} else { 
-				TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
-				Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
-				//adding is here
-				TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
-				JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!", "Ticket Success", JOptionPane.PLAIN_MESSAGE, successIcon);
+	        else {
+				double price= selectedMovie.getPrice();
+				
+		        for (Enumeration<AbstractButton> buttons = showtimeButtons.getElements(); buttons.hasMoreElements();) {
+		        	button = buttons.nextElement();
+		
+		            if (button.isSelected()) {
+		            	
+		            	selected = true;
+		            	selectedShowTime = button.getText();
+		            	
+		            	try {
+							movieTime = dateformat.parse(selectedShowTime);
+							for (Movie.Seat[] movieSeats : selectedMovie.getSeats()) {
+								for (Movie.Seat movieSeat : movieSeats) {
+									if (movieSeat.getSeatName().contentEquals(seat))
+										movieSeat.isTaken()[0] = true;
+								}
+							}
+					      
+									
+						} catch (ParseException e1) 
+		            	{
+							e1.printStackTrace();
+						}
+		            	
+		            }
+		        }
+				if(selected != true) {
+					JOptionPane.showMessageDialog(frame, "Choose a showtime and try again.", "Add Showtime", JOptionPane.PLAIN_MESSAGE, errorIcon);
+				} else { 
+					TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
+					Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
+					//adding is here
+					TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
+					JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!", "Ticket Success", JOptionPane.PLAIN_MESSAGE, successIcon);
+				}
 			}
 			}
 		}

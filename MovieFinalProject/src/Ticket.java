@@ -1,11 +1,14 @@
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.UUID;
 
 public class Ticket implements Comparable<Ticket> {
 	
 	private	String seat;
 	private Movie movie;
 	private double price;
-	 
+	public static int idStart=1000;
+	public int id;
 	private Date showtime;
 	   
 	Ticket(String seat, Movie movie, double price, Date showtime){
@@ -13,6 +16,15 @@ public class Ticket implements Comparable<Ticket> {
 		setMovie(movie);
 		setPrice(price);
 		setShowtime(showtime);
+		
+		id=idStart;
+		idStart+=2;
+		
+		
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getSeat() {

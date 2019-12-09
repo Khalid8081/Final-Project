@@ -179,6 +179,32 @@ public class CheckoutGUI {
 			//Needs to be implemented. Something we talked about in class was maybe indexing the user's tickets.
 //			String ticketToBeRemoved = removeTextField.getText(); //Does not have to be String
 			
+			//user enters string
+			
+			//for loop 
+			
+			//if(string.equals(
+			String targetId=removeTextField.getText();
+			if(isNumeric(targetId)==true) {
+				int targetIdint= Integer.parseInt(targetId);
+				TheaterAppGUI.customer.getCustomerTickets().remove(targetIdint);
+				ticketString="";
+				TicketNode cursor=TheaterAppGUI.customer.getCustomerTickets().getHead();
+				
+				while (cursor != null) {
+					CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle()+" at "+cursor.getTicket().getShowtime().getHours()+":"+cursor.getTicket().getShowtime().getMinutes()+" PM "+" seat: "+cursor.getTicket().getSeat()+" Ticket ID: "+cursor.getTicket().getId()+ "\n";
+					cursor = cursor.getNext();
+				}
+				
+				ticketTextArea.setText(ticketString);
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(frame, "Not a number! Try again.");
+			}
+			
+			
+			
 		}
 	}
 	
@@ -229,4 +255,12 @@ public class CheckoutGUI {
 			}
 		}
 	}
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Double.parseDouble(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+		}
 }

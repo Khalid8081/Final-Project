@@ -21,14 +21,14 @@ public class TicketList {
 		}
 		count++;	
 	}
-	public boolean remove(Ticket targetTicket) {
+	public boolean remove(int targetId) {
 		TicketNode cursor;
 		TicketNode precursor;
 		
 		for(precursor = null, cursor = head; cursor != null;
 				precursor = cursor, cursor = cursor.getNext()) {
 			
-			if (cursor.getTicket().getMovie().getTitle().equals(targetTicket.getMovie().getTitle())) {
+			if (cursor.getTicket().getId()==targetId) {
 				if (precursor == null) {
 					head = head.getNext();
 				} else {
