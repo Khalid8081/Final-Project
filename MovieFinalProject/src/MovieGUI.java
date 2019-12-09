@@ -1,3 +1,12 @@
+/**
+ * Definition for class to build movie information GUI.
+ * 
+ * @authors Khalid Ahmed, Lana Berge, Ian Flickinger
+ * Assignment: Final Project
+ * Due Date: December 10, 2019
+ * Class: CSCI 2082.01
+ */
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -28,20 +37,15 @@ import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.JPanel;
 
-
 public class MovieGUI {
 	public static final String MOVIE_TITLE = "movie title";
-	
 	public ButtonGroup showtimeButtons;
 	public JComboBox<String> seatsComboBox;
 	public Movie selectedMovie;
 	public AbstractButton button;
 	public boolean selected;
-	
 	private ActionListener actionListener;
-	
 	private JFrame frame;
-	
 	
 	public static void NewScreen(Movie movie) {
 		EventQueue.invokeLater(new Runnable() {
@@ -65,9 +69,7 @@ public class MovieGUI {
 	}
 
 	public JPanel initialize(Movie movie) {
-		
 		JPanel panel = new JPanel(new GridBagLayout());
-		
 		JPanel posterPanel = new JPanel();
 		GridBagConstraints gbc_posterPanel = new GridBagConstraints();
 		gbc_posterPanel.insets = new Insets(20, 20, 20, 20);
@@ -243,9 +245,7 @@ public class MovieGUI {
 		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
 		ImageIcon successIcon = new ImageIcon("movie-data/Success_Icon.png");
 		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
-		
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			if(TheaterAppGUI.customer == null) {
 				SignInGUI.NewScreen();
 			}
@@ -282,7 +282,6 @@ public class MovieGUI {
 		            	{
 							e1.printStackTrace();
 						}
-		            	
 		            }
 		        }
 				if(selected != true) {

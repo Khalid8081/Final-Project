@@ -1,3 +1,12 @@
+/**
+ * Definition for class to build main GUI display.
+ * 
+ * @authors Khalid Ahmed, Lana Berge, Ian Flickinger
+ * Assignment: Final Project
+ * Due Date: December 10, 2019
+ * Class: CSCI 2082.01
+ */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,7 +21,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
@@ -33,11 +41,8 @@ public class TheaterAppGUI {
 	public JComboBox<String> movieComboBox;
 	public CheckoutGUI newCheckoutWindow;
 	public JPanel moviePanel;
-	
 	public static Customer customer;
-	
 	private static final Color NEW_TEAL = new Color(51,135,181);
-	private static final Color NEW_ORANGE = new Color(252,97,3);
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 1050;
 	private static final String CARD1 = "A-Z";
@@ -48,9 +53,7 @@ public class TheaterAppGUI {
 	private static final String CARD6 = "R";
 	private static final String CARD7 = "PG";
 	private static final String CARD8 = "PG-13";
-	
 	private JTextField searchTextField;
-	
 	public Collection<Movie> movies; 
 	
 	public static void main(String[] args) {
@@ -87,7 +90,7 @@ public class TheaterAppGUI {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		frame.getContentPane().setLayout(gridBagLayout);
 				
-		JLabel movieTheaterLabel = new JLabel("MOVIE THEATER");
+		JLabel movieTheaterLabel = new JLabel("CINESEARCH - THE MOVIE THEATER");
 		movieTheaterLabel.setBackground(Color.WHITE);
 		movieTheaterLabel.setFont(new Font("HelveticaNeue", Font.BOLD, 18));
 		movieTheaterLabel.setForeground(Color.BLACK);
@@ -338,11 +341,9 @@ public class TheaterAppGUI {
 	private void setMovieDisplayCheckout() {
 		moviePanel.removeAll();
 		movieComboBox.removeAllItems();
-		
 		CheckoutGUI newDisplay = new CheckoutGUI(); 
 		JPanel checkoutPanel = newDisplay.initialize();
 		moviePanel.add(checkoutPanel);
-		
 		movieComboBox.revalidate();
 		moviePanel.revalidate();
 		moviePanel.repaint();
@@ -352,14 +353,10 @@ public class TheaterAppGUI {
 	{
 		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
 		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
-
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			String movieTitleSearch = searchTextField.getText();
-			
 			LinkedList<Movie> matches = 
 					new LinkedList<Movie>(Movie.searchTitles(movies, searchTextField.getText()));
-			
 			if(matches.isEmpty()) {
 				JOptionPane.showMessageDialog(frame, "No results for "+ movieTitleSearch +".", "Movie Not Found", JOptionPane.PLAIN_MESSAGE, errorIcon);
 			} else {
@@ -370,11 +367,9 @@ public class TheaterAppGUI {
 	
 	private class SortListener implements ActionListener 
 	{
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			sortOption = (String) sortComboBox.getSelectedItem();
 			Collection<Movie> sortedCollection = movies;
-			
 			movieComboBox.removeAllItems(); 
 			if(sortOption.equals(CARD1)) {
 				sortedCollection = Movie.sortByTitle(movies);
@@ -400,28 +395,23 @@ public class TheaterAppGUI {
 			else if(sortOption.equals(CARD8)){
 				sortedCollection = Movie.filterRatings(movies, sortOption);
 			}
-			
 			setMovieDisplay(sortedCollection);
 		}
 	}
 	
 	private class ChooseListener implements ActionListener 
 	{
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			chooseOption = (String) movieComboBox.getSelectedItem();
 			Collection<Movie> chosenCollection;
-			
 			chosenCollection = Movie.searchTitles(movies, chooseOption);
-			
 			setMovieDisplay(chosenCollection);
 		}
 	}
 	
 	private class HomeListener implements ActionListener
 	{
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			setMovieDisplayHome();
 		}
 	}
@@ -430,9 +420,7 @@ public class TheaterAppGUI {
 	{
 		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
 		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
-		
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			CheckoutGUI.ticketString= "";//resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
 			try {
 				TicketNode cursor = customer.getCustomerTickets().getHead();
@@ -442,7 +430,7 @@ public class TheaterAppGUI {
 				}
 				else {
 					while (cursor != null) {
-						CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle() +" at "+cursor.getTicket().getShowtime().getHours()+":"+cursor.getTicket().getShowtime().getMinutes()+" PM "+" seat: "+cursor.getTicket().getSeat()+" Ticket ID: "+cursor.getTicket().getId()+ "\n";
+						CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle() +" at "+cursor.getTicket().getShowTime().getHours()+":"+cursor.getTicket().getShowTime().getMinutes()+" PM "+" seat: "+cursor.getTicket().getSeat()+" Ticket ID: "+cursor.getTicket().getId()+ "\n";
 						cursor = cursor.getNext();
 					}
 					

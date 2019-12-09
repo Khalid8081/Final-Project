@@ -1,3 +1,12 @@
+/**
+ * Definition for class to build Checkout GUI.
+ * 
+ * @authors Khalid Ahmed, Lana Berge, Ian Flickinger
+ * Assignment: Final Project
+ * Due Date: December 10, 2019
+ * Class: CSCI 2082.01
+ */
+
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -29,7 +38,7 @@ public class CheckoutGUI {
 	public JTextArea taxTextArea;
 	public JTextArea subtotalTextArea;
 	public JTextArea ticketTextArea;
-	public static String ticketString=""; //Will be used for the ticket textArea //Look at TheaterAppGUI's checkout listener for more
+	public static String ticketString = ""; 
 	private JTextField removeTextField;
 
 	public static void NewScreen() {
@@ -50,7 +59,6 @@ public class CheckoutGUI {
 	}
 
 	public JPanel initialize() {
-		
 		JPanel panel = new JPanel(new GridBagLayout());
 		
 		JLabel ticketsLabel = new JLabel("Your Tickets:");
@@ -174,8 +182,7 @@ public class CheckoutGUI {
 	
 	private class RemoveListener implements ActionListener
 	{
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			//Needs to be implemented. Something we talked about in class was maybe indexing the user's tickets.
 //			String ticketToBeRemoved = removeTextField.getText(); //Does not have to be String
 			
@@ -192,7 +199,7 @@ public class CheckoutGUI {
 				TicketNode cursor=TheaterAppGUI.customer.getCustomerTickets().getHead();
 				
 				while (cursor != null) {
-					CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle()+" at "+cursor.getTicket().getShowtime().getHours()+":"+cursor.getTicket().getShowtime().getMinutes()+" PM "+" seat: "+cursor.getTicket().getSeat()+" Ticket ID: "+cursor.getTicket().getId()+ "\n";
+					CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle()+" at "+cursor.getTicket().getShowTime().getHours()+":"+cursor.getTicket().getShowTime().getMinutes()+" PM "+" seat: "+cursor.getTicket().getSeat()+" Ticket ID: "+cursor.getTicket().getId()+ "\n";
 					cursor = cursor.getNext();
 				}
 				
@@ -202,16 +209,12 @@ public class CheckoutGUI {
 			else {
 				JOptionPane.showMessageDialog(frame, "Not a number! Try again.");
 			}
-			
-			
-			
 		}
 	}
 	
 	private class PayListener implements ActionListener
 	{
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			totalTextArea.setText("");
 			subtotalTextArea.setText("");
 			double total = 0.0;
@@ -223,7 +226,6 @@ public class CheckoutGUI {
 			//Icon made by [https://www.flaticon.com/authors/freepik] from www.flaticon.com
 			ImageIcon successIcon = new ImageIcon("movie-data/Success_Icon.png");
 			//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
-		
 			if(TheaterAppGUI.customer == null) {
 				SignInGUI.NewScreen();
 			}
@@ -237,7 +239,6 @@ public class CheckoutGUI {
 					subtotal=subtotal+cursor.getTicket().getMovie().getPrice();
 					cursor = cursor.getNext();
 				}
-				
 				taxes = subtotal * TAX_RATE;
 				total =  subtotal + taxes;
 				//The total,subtotal and tax will need to be formatted to look nicer on the gui.
@@ -255,6 +256,7 @@ public class CheckoutGUI {
 			}
 		}
 	}
+	
 	public static boolean isNumeric(String str) { 
 		  try {  
 		    Double.parseDouble(str);  

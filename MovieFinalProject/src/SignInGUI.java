@@ -1,3 +1,12 @@
+/**
+ * Definition for class to build sign in/sign up GUI window.
+ * 
+ * @authors Khalid Ahmed, Lana Berge, Ian Flickinger
+ * Assignment: Final Project
+ * Due Date: December 10, 2019
+ * Class: CSCI 2082.01
+ */
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -17,7 +26,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class SignInGUI {
-
 	private JFrame frame;
 	private JTextField firstNameTextField;
 	private JTextField lastNameTextField;
@@ -37,14 +45,13 @@ public class SignInGUI {
 		});
 	}
 
-	
 	public SignInGUI() {
 		initialize();
 	} 
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setTitle("Sign In/Sign Up");
+		frame.setTitle("Sign In / Sign Up");
 		frame.setBounds(100, 100, 400, 274);
 		frame.setBackground(NEW_TEAL);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -137,7 +144,6 @@ public class SignInGUI {
 		gbc_enterButton.gridy = 5;
 		enterButton.addActionListener(new SignInListener());
 		frame.getContentPane().add(enterButton, gbc_enterButton);
-		
 	}
 	
 	private class SignInListener implements ActionListener
@@ -146,20 +152,17 @@ public class SignInGUI {
 		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
 		ImageIcon successIcon = new ImageIcon("movie-data/Success_Icon.png");
 		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
-		
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			String firstName = firstNameTextField.getText();
 			String lastName = lastNameTextField.getText();
 			String phoneNumber = phoneNumberTextField.getText();
 			if(firstName.isEmpty() == true || lastName.isEmpty() == true || phoneNumber.isEmpty() == true) {
-				JOptionPane.showMessageDialog(frame, "Please enter your information.", "Sign In/Sign Up", JOptionPane.PLAIN_MESSAGE, errorIcon);
+				JOptionPane.showMessageDialog(frame, "Please enter your information.", "Sign In / Sign Up", JOptionPane.PLAIN_MESSAGE, errorIcon);
 			} else {
 				TheaterAppGUI.customer = new Customer(firstName, lastName, phoneNumber, 1000); 
 				frame.dispose();
-				JOptionPane.showMessageDialog(frame, "You are now signed in!", "Sign In/Sign Up", JOptionPane.PLAIN_MESSAGE, successIcon);
+				JOptionPane.showMessageDialog(frame, "You are now signed in!", "Sign In / Sign Up", JOptionPane.PLAIN_MESSAGE, successIcon);
 			}
 		}
 	}
-
 }
