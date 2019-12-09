@@ -1,3 +1,12 @@
+/**
+ * Definition for class to create file of now showing movies.
+ * 
+ * @authors Khalid Ahmed, Lana Berge, Ian Flickinger
+ * Assignment: Final Project
+ * Due Date: December 10, 2019
+ * Class: CSCI 2082.01
+ */
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -31,7 +40,6 @@ public class MovieBuilder extends JPanel {
 	private static final File dataFile = new File("movie-data/movies");
 	private static final String emptyIconFilename = "movie-data/emptyIcon.png";
 	private static final ImageIcon addDataIcon = new ImageIcon((new ImageIcon(emptyIconFilename)).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-	
 	private static final String TITLE = "title";
 	private static final String PRICE = "price";
 	private static final String MPAA_RATING = "mpaa_rating";
@@ -42,7 +50,6 @@ public class MovieBuilder extends JPanel {
 	private static final String COLUMNS = "Columns";
 	private static final String ROWS = "Rows";
 	private static final String ADD_MOVIE = "add_movie";
-	
 	private JPanel infoPanel;
 	private ImageIcon poster;
 	private JButton addMovieButton;
@@ -50,7 +57,6 @@ public class MovieBuilder extends JPanel {
 	public MovieBuilder() {	
 		super();
 		this.setLayout(new GridBagLayout());
-		
 		ImageIcon noPosterIcon = new ImageIcon(emptyIconFilename);
 		noPosterIcon.setImage(noPosterIcon.getImage().getScaledInstance(382, 382, Image.SCALE_SMOOTH));
 		
@@ -63,13 +69,11 @@ public class MovieBuilder extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser("movie-data");
-				
 				int returnVal = chooser.showOpenDialog(new JFrame("Choose File"));
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					poster = new ImageIcon(chooser.getSelectedFile().getAbsolutePath());
 					posterButton.setIcon(new ImageIcon(poster.getImage().getScaledInstance(382, 576, Image.SCALE_SMOOTH)));
 				}
-				
 				chooser.setVisible(true);
 			}
 		});
@@ -283,7 +287,6 @@ public class MovieBuilder extends JPanel {
 	
 	public Movie getMovie() {
 		Movie movie = null;
-		
 		try {
 			Component[] components = infoPanel.getComponents();
 			
@@ -295,7 +298,7 @@ public class MovieBuilder extends JPanel {
 			int seatRows = 0;
 			int seatCols = 0;
 			
-			for (Component comp : components) {
+			for(Component comp : components) {
 				if (comp.getClass() == JTextField.class) {
 					JTextField field = (JTextField) comp;
 					String text = field.getText();
@@ -328,13 +331,11 @@ public class MovieBuilder extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return movie;
 	}
 	
 	private class AddTextFieldListener implements ActionListener {
 		private String type;
-		
 		public AddTextFieldListener(String type) {
 			super();
 			this.type = type;
@@ -388,14 +389,12 @@ public class MovieBuilder extends JPanel {
 	public static Collection<Movie> readMovies() {
 		Collection<Movie> movies = new LinkedList<Movie>();
 		Scanner reader;
-		
 		try {
 			reader = new Scanner(dataFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		
 		final int TITLE = 0;
 		final int GENRES = 1;
 		final int MPAA_RATING = 2;
@@ -403,7 +402,6 @@ public class MovieBuilder extends JPanel {
 		final int POSTER_FILENAME = 4;
 		final int PRICE = 5;
 		final int SEATS = 6;
-		
 		final int MOVIE_TXT_LENGTH = 7;
 		
 		while (reader.hasNextLine()) {
@@ -455,24 +453,18 @@ public class MovieBuilder extends JPanel {
 			if (reader.hasNextLine())
 				reader.nextLine();
 		}
-		
 		reader.close();
-		
 		return movies;
 	}
 	
 	public static void writeMovies(Collection<Movie> movies) {
 		PrintWriter out;
-		
-		
-		
 		try {
 			out = new PrintWriter(new FileOutputStream(dataFile));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
 		}
-		
 		for (Movie movie : movies) {
 			out.println(movie.getTitle());
 	
@@ -501,9 +493,8 @@ public class MovieBuilder extends JPanel {
 			seats += movie.getSeats().length + "|";
 			seats += movie.getSeats()[0].length;
 			out.println(seats);
-			
+
 			out.println();
-			
 			
 			Image img = movie.getPoster().getImage();
 			BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_BGR);
@@ -519,7 +510,6 @@ public class MovieBuilder extends JPanel {
 				e.printStackTrace();
 			}
 		}
-		
 		out.close();
 	}
 	
