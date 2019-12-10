@@ -1,5 +1,5 @@
 /**
- * Definition for class to create file of now showing movies.
+ * Definition for class to read the movies file and make movie objects
  * 
  * @authors Khalid Ahmed, Lana Berge, Ian Flickinger
  * Assignment: Final Project
@@ -363,29 +363,11 @@ public class MovieBuilder extends JPanel {
 			infoPanel.repaint();
 		}
 	}
-	
-//	@SuppressWarnings("unchecked")
-//	public static Collection<Movie> readMovies() {
-//		Collection<Movie> movies = null;
-//		
-//		try {
-//			FileInputStream file = new FileInputStream(dataFile);
-//			ObjectInputStream in = new ObjectInputStream(file);
-//		
-//			movies = (Collection<Movie>) in.readObject();
-//
-//			in.close();
-//			file.close();
-//		} catch (Exception e) {
-//			System.out.println("Can't Read Movies");
-//			e.printStackTrace();
-//		}
-//		
-//		writeMovieTxt(movies);
-//		movies = readMovieTxt();
-//		return movies;
-//	}
-	
+
+	/**
+	 * @description: reads the movies file and makes objects of movies and adds them to a movie collection
+	 * @postcondition: makes movie objects and adds them to the movie collection
+	 */
 	public static Collection<Movie> readMovies() {
 		Collection<Movie> movies = new LinkedList<Movie>();
 		Scanner reader;
@@ -456,7 +438,10 @@ public class MovieBuilder extends JPanel {
 		reader.close();
 		return movies;
 	}
-	
+	/**
+	 * @description: method for display purposes (Not sure)
+	 * @precondition: movies must be of type Collection<Movie>
+	 */
 	public static void writeMovies(Collection<Movie> movies) {
 		PrintWriter out;
 		try {
@@ -512,28 +497,5 @@ public class MovieBuilder extends JPanel {
 		}
 		out.close();
 	}
-	
-//	public static void writeMovies(Collection<Movie> movies) {
-//		try {
-//			FileOutputStream file = new FileOutputStream(dataFile);
-//			ObjectOutputStream out = new ObjectOutputStream(file);
-//		
-//			out.writeObject(movies);
-//
-//			out.close();
-//			file.close();
-//			
-//			//If the stream was written properly, back it up
-//			FileInputStream filein = new FileInputStream(dataFile);
-//			FileOutputStream fileout = new FileOutputStream(backupDataFile);
-//			
-//			fileout.write(filein.readAllBytes());
-//			
-//			filein.close();
-//			fileout.close();
-//		} catch (Exception e) {
-//			System.out.println("Can't Write Movies");
-//			e.printStackTrace();
-//		} 
-//	}
+
 }

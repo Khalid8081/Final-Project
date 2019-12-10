@@ -183,14 +183,7 @@ public class CheckoutGUI {
 	private class RemoveListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
-			//Needs to be implemented. Something we talked about in class was maybe indexing the user's tickets.
-//			String ticketToBeRemoved = removeTextField.getText(); //Does not have to be String
-			
-			//user enters string
-			
-			//for loop 
-			
-			//if(string.equals(
+
 			String targetId=removeTextField.getText();
 			if(isNumeric(targetId)==true) {
 				int targetIdint= Integer.parseInt(targetId);
@@ -241,7 +234,6 @@ public class CheckoutGUI {
 				}
 				taxes = subtotal * TAX_RATE;
 				total =  subtotal + taxes;
-				//The total,subtotal and tax will need to be formatted to look nicer on the gui.
 				totalTextArea.setText(""+total);
 				subtotalTextArea.setText(""+subtotal);
 				taxTextArea.setText(""+taxes);
@@ -256,7 +248,12 @@ public class CheckoutGUI {
 			}
 		}
 	}
-	
+	/**
+	 * @description: checks if a string is numeric 
+	 * @precondition: str has to be of the type String
+	 * @postcondition: returns true if the string is numeric, or false if it is not.
+	 * @returns boolean
+	 */
 	public static boolean isNumeric(String str) { 
 		  try {  
 		    Double.parseDouble(str);  
