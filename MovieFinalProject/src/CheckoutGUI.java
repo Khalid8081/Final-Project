@@ -33,13 +33,13 @@ import java.util.Iterator;
 public class CheckoutGUI {
 
 	private JFrame frame;
-	public static final double TAX_RATE = .08;
-	public JTextArea totalTextArea;
-	public JTextArea taxTextArea;
-	public JTextArea subtotalTextArea;
+	public static JTextArea totalTextArea;
+	public static JTextArea taxTextArea;
+	public static JTextArea subtotalTextArea;
 	public JTextArea ticketTextArea;
 	public static String ticketString = ""; 
 	private JTextField removeTextField;
+	public static final double TAX_RATE = .08;
 
 	public static void NewScreen() {
 		EventQueue.invokeLater(new Runnable() {
@@ -103,7 +103,7 @@ public class CheckoutGUI {
 		gbc_removeButton.insets = new Insets(0, 0, 5, 5);
 		gbc_removeButton.gridx = 3;
 		gbc_removeButton.gridy = 6;
-		removeButton.addActionListener(new RemoveListener()); 	//RemoveListener() not get implemented
+		removeButton.addActionListener(new RemoveListener()); 	
 		panel.add(removeButton, gbc_removeButton);
 		
 		JLabel subtotalLabel = new JLabel("Subtotal: ");
@@ -183,7 +183,6 @@ public class CheckoutGUI {
 	private class RemoveListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
-
 			String targetId=removeTextField.getText();
 			if(isNumeric(targetId)==true) {
 				int targetIdint= Integer.parseInt(targetId);
@@ -197,6 +196,7 @@ public class CheckoutGUI {
 				}
 				
 				ticketTextArea.setText(ticketString);
+				TheaterAppGUI.setTotalDisplayCheckout();
 				
 			}
 			else {
@@ -208,8 +208,6 @@ public class CheckoutGUI {
 	private class PayListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
-			totalTextArea.setText("");
-			subtotalTextArea.setText("");
 			double total = 0.0;
 			double subtotal = 0.0;
 			double taxes = 0.0;
@@ -226,32 +224,29 @@ public class CheckoutGUI {
 				JOptionPane.showMessageDialog(frame, "Your cart is empty!", "Empty Cart", JOptionPane.PLAIN_MESSAGE, errorIcon);
 			}
 			else { 
-				TicketNode cursor = TheaterAppGUI.customer.getCustomerTickets().getHead();
-				
-				while (cursor != null) {
-					subtotal=subtotal+cursor.getTicket().getMovie().getPrice();
-					cursor = cursor.getNext();
+				TicketNode totalCursor = TheaterAppGUI.customer.getCustomerTickets().getHead();
+				while (totalCursor != null) {
+					subtotal=subtotal+totalCursor.getTicket().getMovie().getPrice();
+					totalCursor = totalCursor.getNext();
 				}
 				taxes = subtotal * TAX_RATE;
 				total =  subtotal + taxes;
-				totalTextArea.setText(""+total);
-				subtotalTextArea.setText(""+subtotal);
-				taxTextArea.setText(""+taxes);
 				
-				if(TheaterAppGUI.customer.getBalance()<total) {
+				if(TheaterAppGUI.customer.getBalance() < total) {
 					JOptionPane.showMessageDialog(frame, "Your balance is low!"+ ticketString, "Low Balance", JOptionPane.PLAIN_MESSAGE, alertIcon);
 				}
 				else {
-					TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-total);
+					TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance() - total);
 					JOptionPane.showMessageDialog(frame, "Tickets were purchased successfully!", "Ticket Success", JOptionPane.PLAIN_MESSAGE, successIcon);
 				}
 			}
 		}
 	}
 	/**
-	 * @description: checks if a string is numeric 
+	 * @description: Checks if a string is numeric 
+	 * @param str String
 	 * @precondition: str has to be of the type String
-	 * @postcondition: returns true if the string is numeric, or false if it is not.
+	 * @postcondition: Returns true if the string is numeric, or false if it is not.
 	 * @returns boolean
 	 */
 	public static boolean isNumeric(String str) { 

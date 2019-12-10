@@ -240,7 +240,7 @@ public class MovieGUI {
 	}
 	 
 	private class CartListener implements ActionListener
-	{
+	{		
 		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
 		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
 		ImageIcon successIcon = new ImageIcon("movie-data/Success_Icon.png");
@@ -254,11 +254,11 @@ public class MovieGUI {
 			DateFormat dateformat=new SimpleDateFormat("H:mm a");
 			String selectedShowTime;
 			String seat = (String) seatsComboBox.getSelectedItem();
-	        if(seat==null || seat.equals("")) {
+	        if(seat == null || seat.equals("")) {
 	        	JOptionPane.showMessageDialog(frame, "Invalid seat");
 	        }
 	        else {
-				double price= selectedMovie.getPrice();
+				double price = selectedMovie.getPrice();
 				
 		        for (Enumeration<AbstractButton> buttons = showtimeButtons.getElements(); buttons.hasMoreElements();) {
 		        	button = buttons.nextElement();
@@ -288,9 +288,9 @@ public class MovieGUI {
 					JOptionPane.showMessageDialog(frame, "Choose a showtime and try again.", "Add Showtime", JOptionPane.PLAIN_MESSAGE, errorIcon);
 				} else { 
 					TheaterAppGUI.customer.setBalance(TheaterAppGUI.customer.getBalance()-price);
-					Ticket newTicket= new Ticket(seat,selectedMovie,price, movieTime);
+					Ticket newTicket= new Ticket(seat, selectedMovie, price, movieTime);
 					//adding is here
-					TheaterAppGUI.customer.getCustomerTickets().add(newTicket); //maybe will add an equals method to the customer class that checks if there is a similar ticket within their ticket collection
+					TheaterAppGUI.customer.getCustomerTickets().add(newTicket); 
 					JOptionPane.showMessageDialog(frame, "Ticket was successfully added to cart!", "Ticket Success", JOptionPane.PLAIN_MESSAGE, successIcon);
 				}
 			}

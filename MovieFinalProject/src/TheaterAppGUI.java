@@ -42,6 +42,7 @@ public class TheaterAppGUI {
 	public CheckoutGUI newCheckoutWindow;
 	public JPanel moviePanel;
 	public static Customer customer;
+	public static final double TAX_RATE = .08;
 	private static final Color NEW_TEAL = new Color(51,135,181);
 	private static final int WIDTH = 1600;
 	private static final int HEIGHT = 1050;
@@ -349,6 +350,24 @@ public class TheaterAppGUI {
 		moviePanel.repaint();
 	}
 	
+	public static void setTotalDisplayCheckout() {
+		CheckoutGUI.totalTextArea.setText("");
+		CheckoutGUI.subtotalTextArea.setText("");
+		double total = 0.0;
+		double subtotal = 0.0;
+		double taxes = 0.0;
+		TicketNode totalCursor = TheaterAppGUI.customer.getCustomerTickets().getHead();
+		while (totalCursor != null) {
+			subtotal=subtotal+totalCursor.getTicket().getMovie().getPrice();
+			totalCursor = totalCursor.getNext();
+		}
+		taxes = subtotal * TAX_RATE;
+		total =  subtotal + taxes;
+		CheckoutGUI.totalTextArea.setText(""+total);
+		CheckoutGUI.subtotalTextArea.setText(""+subtotal);
+		CheckoutGUI.taxTextArea.setText(""+taxes);
+	}
+	
 	private class SearchListener implements ActionListener 
 	{
 		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
@@ -417,25 +436,26 @@ public class TheaterAppGUI {
 	}
 	
 	private class CheckoutListener implements ActionListener
-	{
+	{		
 		ImageIcon errorIcon = new ImageIcon("movie-data/Error_Icon.png");
 		//Icon made by [https://www.flaticon.com/authors/roundicons] from www.flaticon.com
 		public void actionPerformed(ActionEvent e) {
-			CheckoutGUI.ticketString= "";//resets the string if the user clicks the checkoutbutton again so it doesn't show a movie ticket more than once.
+			CheckoutGUI.ticketString= "";
 			try {
 				TicketNode cursor = customer.getCustomerTickets().getHead();
 				
-				if(cursor==null) {
+				if(cursor == null) {
 					JOptionPane.showMessageDialog(frame, "Cannot checkout with an empty cart! Please add tickets.", "Empty Cart", JOptionPane.PLAIN_MESSAGE, errorIcon);
 				}
 				else {
 					while (cursor != null) {
-						CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle() +" at "+cursor.getTicket().getShowTime().getHours()+":"+cursor.getTicket().getShowTime().getMinutes()+" PM "+" seat: "+cursor.getTicket().getSeat()+" Ticket ID: "+cursor.getTicket().getId()+ "\n";
+						CheckoutGUI.ticketString += cursor.getTicket().getMovie().getTitle() +" at "+cursor.getTicket().getShowTime().getHours()+":"+cursor.getTicket().getShowTime().getMinutes()+" PM "+" Seat: "+cursor.getTicket().getSeat()+" Ticket ID: "+cursor.getTicket().getId()+ "\n";
 						cursor = cursor.getNext();
 					}
 					
-					CheckoutGUI.ticketString +="\n";
+					CheckoutGUI.ticketString += "\n";
 					setMovieDisplayCheckout();
+					setTotalDisplayCheckout();
 				}
 			}
 			catch(NullPointerException e2) {
